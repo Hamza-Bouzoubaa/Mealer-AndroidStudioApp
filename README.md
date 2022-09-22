@@ -1,5 +1,46 @@
 # Project Mealer - Group 8
 
+## Login Architecture
+
+### Api (Firebase)
+
+User experience:
+`FirebaseUI seems promising for Single Sign On using oAuth`
+
+```mermaid
+stateDiagram-v2
+    direction LR
+
+    sign_in : Single Sign On
+    home : Home Screen
+
+    [*] --> sign_in
+
+    sign_in --> home
+
+    home --> [*]
+```
+
+API Architecture:
+
+```mermaid
+classDiagram
+    class MealerApi {
+        <<interface>>
+        List getRecipes()
+        bool isSignedIn()
+        bool signIn()
+    }
+
+    class FirebaseClient {
+        <<Investigate FirebaseUI for single sign on>>
+    }
+
+    MealerApi <-- FirebaseClient
+
+
+```
+
 ## Contributions
 
 <b style="color:red">Ne contribuer pas directement à main!</b>
