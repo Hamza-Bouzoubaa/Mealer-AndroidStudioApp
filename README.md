@@ -7,15 +7,15 @@
 ```mermaid
 gitGraph
     commit id: "Create project"
-    branch contributions
+    branch login-support
     commit id: "Add login"
     commit id: "Tweek login"
     checkout main
-    merge contributions tag: "Merge login PR"
-    branch contributions1
+    merge login-support tag: "Merge login PR"
+    branch firebase-support
     commit id: "Add Firebase"
     checkout main
-    merge contributions1 tag: "Merge Firebase PR"
+    merge firebase-support tag: "Merge Firebase PR"
 
 ```
 
