@@ -5,7 +5,6 @@
 ### Api (Firebase)
 
 User experience:
-`FirebaseUI seems promising for Single Sign On using oAuth`
 
 ```mermaid
 stateDiagram-v2
