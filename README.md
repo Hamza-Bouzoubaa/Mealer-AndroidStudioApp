@@ -11,33 +11,66 @@ User experience:
 stateDiagram-v2
     direction LR
 
+    check_sign_in : Check sign in status
     sign_in : Single Sign On
     home : Home Screen
+    setup_account : Setup Account
 
-    [*] --> sign_in
+    [*] --> check_sign_in
+
+    check_sign_in --> sign_in: If not signed in
+    check_sign_in --> home: If signed in
 
     sign_in --> home
 
+    home --> setup_account : If user account details missing
+    setup_account --> home
+
     home --> [*]
 ```
+
+We use `FirebaseUI` for Signle Sign On. This enables users to use multiple account providers with Mealer.
+
+Setup Account populates Firebase's `Cloud Firestore` with data.
 
 API Architecture:
 
 ```mermaid
 classDiagram
-    class MealerApi {
+    class MealerApiClient {
         <<interface>>
-        List getRecipes()
-        bool isSignedIn()
-        bool signIn()
+        User user
+
+        public User getUser()
+        public bool signIn()
     }
 
     class FirebaseClient {
-        <<Investigate FirebaseUI for single sign on>>
+        <<signleton>>
+        public FirebaseClient instance
     }
 
-    MealerApi <-- FirebaseClient
+    MealerApiClient <-- FirebaseClient
 
+    class MealerUser {
+        String firstName
+        String lastName
+        String email
+        String passwordHash
+        Byte[] profilePicture
+        Byte[] voidCheck
+        String address
+        String biography
+        String creditCard
+        MealerRole[] roles
+    }
+
+    class MealerRole {
+        <<Enumeration>>
+        CONSUMER,
+        PRODUCER,
+        ADMIN
+    }
 
 ```
 
