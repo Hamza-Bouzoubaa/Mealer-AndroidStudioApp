@@ -19,7 +19,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <HorizontalScrollView
+    <com.SEG2505_Group8.mealer.ProgressiveHorizontalScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -27,23 +27,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <com.SEG2505_Group8.mealer.PhotoCard
-                android:id="@+id/photoCard"
-
-                android:layout_height="match_parent"
-                android:layout_width="300dp" />
-
-            <com.SEG2505_Group8.mealer.PhotoCard
-                android:id="@+id/photoCard1"
-                android:layout_height="match_parent"
-                android:layout_width="300dp" />
-        </LinearLayout>
-    </HorizontalScrollView>
+    </com.SEG2505_Group8.mealer.ProgressiveHorizontalScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
