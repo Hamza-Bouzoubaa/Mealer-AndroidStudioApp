@@ -1,5 +1,7 @@
 package com.SEG2505_Group8.mealer.Datastore.Models;
 
+import java.util.Dictionary;
+
 public class MealerUser {
     /**
      * First name of user.
@@ -52,4 +54,18 @@ public class MealerUser {
      * Type of user. {@link MealerRole}
      */
     MealerRole role;
+
+    /**
+     * Ratings of a user.
+     * If CHEF, then USERs can review.
+     * If USER, then CHEFs can review.
+     */
+    int[] ratings;
+
+    /**
+     * Number of sales per dish.
+     * Key = Document Id of {@link Recipe}
+     * Value = Number of sales
+     */
+    Dictionary<String, Integer> sales;
 }
