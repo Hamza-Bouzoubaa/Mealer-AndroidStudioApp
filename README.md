@@ -1,5 +1,15 @@
 # Project Mealer - Group 8
 
+## Getting started
+
+To get started, you will need `Android Studio`. Once you've opened the project, please accept any requests to download plugins. This project currently depends on the [Save Actions](https://plugins.jetbrains.com/plugin/7642-save-actions) and [Lombok](https://plugins.jetbrains.com/plugin/6317-lombok).
+
+[Save Actions](https://plugins.jetbrains.com/plugin/7642-save-actions) ensures unified imports and code formating is applied to all contributed code.
+
+[Lombok](https://plugins.jetbrains.com/plugin/6317-lombok) creates Getters, Setters, and other tedious methods automatically through the use of `Annotations`. A quick read of the documentation can be very useful.
+
+Once your IDE is setup, see [Contributions](#contributions) for information on how to contribute to the project.
+
 ## Login Architecture
 
 ### Api (Firebase)
@@ -34,40 +44,37 @@ Setup Account populates Firebase's `Cloud Firestore` with data.
 
 API Architecture:
 
+<b style="color:red">Not all methods are implemented yet. Please add it if you need it.</b>
+
 ```mermaid
 classDiagram
-    class MealerApiClient {
-        <<interface>>
+    class MealerClient {
+        <<singleton>>
         User user
 
-        public User getUser()
-        public bool signIn()
+        public MealerUser getUser()
+        public MealerRole getRole()
     }
-
-    class FirebaseClient {
-        <<signleton>>
-        public FirebaseClient instance
-    }
-
-    MealerApiClient <-- FirebaseClient
 
     class MealerUser {
         String firstName
         String lastName
         String email
-        String passwordHash
-        Byte[] profilePicture
-        Byte[] voidCheck
+        String profilePictureUrl
+        String voidCheckUrl
         String address
         String biography
         String creditCard
-        MealerRole[] roles
+        String menuId
+        MealerRole role
+        int[] ratings
+        int totalSales
     }
 
     class MealerRole {
         <<Enumeration>>
-        CONSUMER,
-        PRODUCER,
+        USER,
+        CHEF,
         ADMIN
     }
 
@@ -96,4 +103,4 @@ Nous utilisons des [Pull Request](https://docs.github.com/en/pull-requests/colla
 
 ## Firebase
 
-Nous utilisons [Firebase](https://firebase.google.com/docs/reference/android/packages) comme base de données. Envoyer un message à quelqu'un de l'equipe pour avoir access.
+Nous utilisons [Firebase](https://firebase.google.com/docs/reference/android/packages) comme base de données. Envoyer un message à quelqu'un de l'equipe pour avoir access au projet Firebase.

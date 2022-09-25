@@ -2,8 +2,6 @@ package com.SEG2505_Group8.mealer.Datastore.Models;
 
 import com.google.firebase.firestore.IgnoreExtraProperties;
 
-import java.util.Dictionary;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -75,9 +73,8 @@ public class MealerUser {
     int[] ratings;
 
     /**
-     * Number of sales per dish.
-     * Key = Document Id of {@link Recipe}
-     * Value = Number of sales
+     * Total number of sales.
+     * More granular stats can be queried at runtime.
      */
-    Dictionary<String, Integer> sales;
+    int totalSales;
 }
