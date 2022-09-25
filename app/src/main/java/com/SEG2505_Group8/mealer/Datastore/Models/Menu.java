@@ -14,7 +14,7 @@ public class Menu {
     List<Recipe> recipes;
 
     /**
-     * Number of 0, 1, 2, 3, 4, 5 star ratings.
+     * Number of 1, 2, 3, 4, 5 star ratings.
      */
     int[] ratings;
 }
