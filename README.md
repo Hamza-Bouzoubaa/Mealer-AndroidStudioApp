@@ -42,7 +42,7 @@ We use `FirebaseUI` for Signle Sign On. This enables users to use multiple accou
 
 Setup Account populates Firebase's `Cloud Firestore` with data.
 
-API Architecture:
+Architecture:
 
 <b style="color:red">Not all methods are implemented yet. Please add it if you need it.</b>
 
@@ -78,6 +78,21 @@ classDiagram
         ADMIN
     }
 
+    class Menu {
+        String chefId
+        List~Recipe~ recipes
+        int[] ratings
+    }
+
+    class Recipe {
+        String name
+        String course
+        String[] categories
+        String[] ingredients
+        String[] allergens
+        float price
+        String description
+    }
 ```
 
 ## Contributions
