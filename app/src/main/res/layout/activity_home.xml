@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomeActivity"
+    tools:context=".UI.Activities.HomeActivity"
     android:id="@+id/relativeLayout">
-
+    Str
     <!--welcome message in text view-->
 
     <!--Button for logout from the app-->
@@ -19,7 +19,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.SEG2505_Group8.mealer.ProgressiveHorizontalScrollView
+    <com.SEG2505_Group8.mealer.UI.Components.ProgressiveHorizontalScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -27,6 +27,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-    </com.SEG2505_Group8.mealer.ProgressiveHorizontalScrollView>
+    </com.SEG2505_Group8.mealer.UI.Components.ProgressiveHorizontalScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

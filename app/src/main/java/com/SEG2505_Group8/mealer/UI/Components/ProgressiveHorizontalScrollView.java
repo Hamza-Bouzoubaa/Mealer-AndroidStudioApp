@@ -1,4 +1,4 @@
-package com.SEG2505_Group8.mealer;
+package com.SEG2505_Group8.mealer.UI.Components;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.ViewTreeObserver;
 import android.widget.HorizontalScrollView;
 import android.widget.Toast;
+
+import com.SEG2505_Group8.mealer.R;
 
 public class ProgressiveHorizontalScrollView extends HorizontalScrollView implements ViewTreeObserver.OnScrollChangedListener {
 

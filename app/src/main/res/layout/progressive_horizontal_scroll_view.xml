@@ -8,13 +8,13 @@
         android:layout_height="match_parent"
         android:orientation="horizontal">
 
-        <com.SEG2505_Group8.mealer.PhotoCard
+        <com.SEG2505_Group8.mealer.UI.Components.PhotoCard
             android:id="@+id/photoCard"
 
             android:layout_height="match_parent"
             android:layout_width="300dp" />
 
-        <com.SEG2505_Group8.mealer.PhotoCard
+        <com.SEG2505_Group8.mealer.UI.Components.PhotoCard
             android:id="@+id/photoCard1"
             android:layout_height="match_parent"
             android:layout_width="300dp" />

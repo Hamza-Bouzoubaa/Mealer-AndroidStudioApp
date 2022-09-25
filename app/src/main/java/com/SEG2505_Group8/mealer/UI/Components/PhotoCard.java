@@ -1,4 +1,4 @@
-package com.SEG2505_Group8.mealer;
+package com.SEG2505_Group8.mealer.UI.Components;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -8,6 +8,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.SEG2505_Group8.mealer.R;
 
 /**
  * Display a rounded image with subtitle.
