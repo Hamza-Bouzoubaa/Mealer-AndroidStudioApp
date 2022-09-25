@@ -1,5 +1,17 @@
 package com.SEG2505_Group8.mealer.Datastore.Models;
 
+import com.google.firebase.firestore.IgnoreExtraProperties;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@ToString
+@IgnoreExtraProperties
 public class Recipe {
     /**
      * Name of recipe.

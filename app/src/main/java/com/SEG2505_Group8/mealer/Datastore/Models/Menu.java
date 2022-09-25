@@ -1,7 +1,19 @@
 package com.SEG2505_Group8.mealer.Datastore.Models;
 
+import com.google.firebase.firestore.IgnoreExtraProperties;
+
 import java.util.List;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@ToString
+@IgnoreExtraProperties
 public class Menu {
     /**
      * Document Id of chef who created and maintains this menu.
