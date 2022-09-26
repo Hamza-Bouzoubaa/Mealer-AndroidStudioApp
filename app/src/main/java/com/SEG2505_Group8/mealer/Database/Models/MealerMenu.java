@@ -1,6 +1,6 @@
 package com.SEG2505_Group8.mealer.Database.Models;
 
-import com.SEG2505_Group8.mealer.Database.DatabaseClient;
+import com.SEG2505_Group8.mealer.Services;
 import com.google.firebase.firestore.IgnoreExtraProperties;
 
 import java.util.List;
@@ -39,6 +39,6 @@ public class MealerMenu {
     int[] ratings;
 
     public List<MealerRecipe> getRecipes() {
-        return recipeIds.stream().map(DatabaseClient.instance::getRecipe).collect(Collectors.toList());
+        return recipeIds.stream().map(Services.getDatabaseClient()::getRecipe).collect(Collectors.toList());
     }
 }

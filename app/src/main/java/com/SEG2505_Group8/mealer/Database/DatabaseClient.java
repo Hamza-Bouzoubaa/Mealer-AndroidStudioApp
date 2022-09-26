@@ -5,9 +5,7 @@ import com.SEG2505_Group8.mealer.Database.Models.MealerRecipe;
 import com.SEG2505_Group8.mealer.Database.Models.MealerUser;
 
 public interface DatabaseClient {
-
-    DatabaseClient instance = new FirebaseClient();
-
+    
     /**
      * Get {@link MealerUser} with document Id.
      *
