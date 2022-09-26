@@ -1,4 +1,4 @@
-package com.SEG2505_Group8.mealer.Datastore.Models;
+package com.SEG2505_Group8.mealer.Database.Models;
 
 import com.google.firebase.firestore.IgnoreExtraProperties;
 
@@ -13,6 +13,12 @@ import lombok.ToString;
 @ToString
 @IgnoreExtraProperties
 public class MealerUser {
+
+    /**
+     * Document Id of user.
+     */
+    String id;
+
     /**
      * First name of user.
      */

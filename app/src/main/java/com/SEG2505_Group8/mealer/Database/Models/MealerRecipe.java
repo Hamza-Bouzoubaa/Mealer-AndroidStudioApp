@@ -1,4 +1,4 @@
-package com.SEG2505_Group8.mealer.Datastore.Models;
+package com.SEG2505_Group8.mealer.Database.Models;
 
 import com.google.firebase.firestore.IgnoreExtraProperties;
 
@@ -12,7 +12,13 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 @IgnoreExtraProperties
-public class Recipe {
+public class MealerRecipe {
+
+    /**
+     * Document id of Recipe.
+     */
+    String id;
+
     /**
      * Name of recipe.
      */
