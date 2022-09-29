@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".UI.Activities.HomeActivity"
     android:id="@+id/relativeLayout">
-    Str
     <!--welcome message in text view-->
 
     <!--Button for logout from the app-->

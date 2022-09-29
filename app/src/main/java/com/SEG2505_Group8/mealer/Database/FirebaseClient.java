@@ -3,9 +3,16 @@ package com.SEG2505_Group8.mealer.Database;
 import com.SEG2505_Group8.mealer.Database.Models.MealerMenu;
 import com.SEG2505_Group8.mealer.Database.Models.MealerRecipe;
 import com.SEG2505_Group8.mealer.Database.Models.MealerUser;
+import com.SEG2505_Group8.mealer.Database.Serialize.MealerSerializer;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class FirebaseClient implements DatabaseClient {
-    
+
+    private static final String userCollectionId = "users";
+
+    private final FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+
     @Override
     public MealerUser getUser(String id) {
         return null;
@@ -37,17 +44,31 @@ public class FirebaseClient implements DatabaseClient {
     }
 
     @Override
-    public boolean updateRecipe(MealerRecipe recipe) {
-        return false;
+    public Task<Void> updateRecipe(MealerRecipe recipe) {
+        return null;
     }
 
     @Override
-    public boolean updateMenu(MealerMenu menu) {
-        return false;
+    public Task<Void> updateMenu(MealerMenu menu) {
+        return null;
     }
 
     @Override
-    public boolean updateUser(MealerUser user) {
+    public Task<Void> updateUser(MealerUser user) {
+
+        return firestore.collection(userCollectionId).document(user.getId()).set(MealerSerializer.toMap(user));
+
+    }
+
+    /**
+     * Lookup a user in the database and check if we need to ask for more data.
+     * Ex: Is there address missing?
+     *
+     * @param user
+     * @return
+     */
+    @Override
+    public boolean userDataInputRequired(MealerUser user) {
         return false;
     }
 }

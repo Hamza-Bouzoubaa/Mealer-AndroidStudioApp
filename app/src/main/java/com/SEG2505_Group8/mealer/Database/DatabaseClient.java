@@ -3,9 +3,10 @@ package com.SEG2505_Group8.mealer.Database;
 import com.SEG2505_Group8.mealer.Database.Models.MealerMenu;
 import com.SEG2505_Group8.mealer.Database.Models.MealerRecipe;
 import com.SEG2505_Group8.mealer.Database.Models.MealerUser;
+import com.google.android.gms.tasks.Task;
 
 public interface DatabaseClient {
-    
+
     /**
      * Get {@link MealerUser} with document Id.
      *
@@ -46,9 +47,11 @@ public interface DatabaseClient {
 
     MealerRecipe getRecipe(String id);
 
-    boolean updateRecipe(MealerRecipe recipe);
+    Task<Void> updateRecipe(MealerRecipe recipe);
 
-    boolean updateMenu(MealerMenu menu);
+    Task<Void> updateMenu(MealerMenu menu);
 
-    boolean updateUser(MealerUser user);
+    Task<Void> updateUser(MealerUser user);
+
+    boolean userDataInputRequired(MealerUser user);
 }
