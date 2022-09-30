@@ -9,10 +9,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.SEG2505_Group8.mealer.Database.Models.MealerRole;
+import com.SEG2505_Group8.mealer.Database.Models.MealerUser;
 import com.SEG2505_Group8.mealer.R;
+import com.SEG2505_Group8.mealer.Services;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -50,5 +54,7 @@ public class HomeActivity extends AppCompatActivity {
                         });
             }
         });
+
+        Services.getDatabaseClient().updateUser(new MealerUser(FirebaseAuth.getInstance().getCurrentUser().getUid(), "Jeremy", "Cote", "jcote034@uottawa.ca", "uOttawa Address", "100 000 000", "o", "a", "A student", "", MealerRole.USER, new int[]{0, 0, 0, 0, 0}, 0));
     }
 }

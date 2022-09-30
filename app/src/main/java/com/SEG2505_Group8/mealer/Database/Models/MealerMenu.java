@@ -1,10 +1,8 @@
 package com.SEG2505_Group8.mealer.Database.Models;
 
-import com.SEG2505_Group8.mealer.Services;
 import com.google.firebase.firestore.IgnoreExtraProperties;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,8 +35,4 @@ public class MealerMenu {
      * Number of 1, 2, 3, 4, 5 star ratings.
      */
     int[] ratings;
-
-    public List<MealerRecipe> getRecipes() {
-        return recipeIds.stream().map(Services.getDatabaseClient()::getRecipe).collect(Collectors.toList());
-    }
 }

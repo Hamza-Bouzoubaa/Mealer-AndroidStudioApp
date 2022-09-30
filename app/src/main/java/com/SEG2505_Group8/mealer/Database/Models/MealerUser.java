@@ -4,11 +4,13 @@ import com.SEG2505_Group8.mealer.Database.Serialize.MealerSerializable;
 import com.SEG2505_Group8.mealer.Database.Serialize.MealerSerializableElement;
 import com.google.firebase.firestore.IgnoreExtraProperties;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 @MealerSerializable
 @IgnoreExtraProperties
+@AllArgsConstructor
 public class MealerUser {
 
     /**
