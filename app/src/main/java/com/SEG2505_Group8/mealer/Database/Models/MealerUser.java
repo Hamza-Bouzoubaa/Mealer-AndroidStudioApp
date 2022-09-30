@@ -4,6 +4,8 @@ import com.SEG2505_Group8.mealer.Database.Serialize.MealerSerializable;
 import com.SEG2505_Group8.mealer.Database.Serialize.MealerSerializableElement;
 import com.google.firebase.firestore.IgnoreExtraProperties;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -86,7 +88,7 @@ public class MealerUser {
      * If USER, then CHEFs can review.
      */
     @MealerSerializableElement(key = "ratings")
-    int[] ratings;
+    List<Integer> ratings;
 
     /**
      * Total number of sales.

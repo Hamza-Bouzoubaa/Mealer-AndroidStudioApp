@@ -34,5 +34,5 @@ public class MealerMenu {
     /**
      * Number of 1, 2, 3, 4, 5 star ratings.
      */
-    int[] ratings;
+    List<Integer> ratings;
 }

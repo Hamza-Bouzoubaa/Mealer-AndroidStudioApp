@@ -8,7 +8,6 @@ import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.common.util.concurrent.SettableFuture;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Map;
@@ -147,7 +146,6 @@ public class FirebaseClient implements DatabaseClient {
             return future;
         }
 
-        CollectionReference ref = firestore.collection(collectionName);
         Map<String, Object> mappedData = MealerSerializer.toMap(objToSave);
 
         if (mappedData == null) {
@@ -156,7 +154,7 @@ public class FirebaseClient implements DatabaseClient {
         }
 
         executorService.submit(() -> {
-            ref.document(documentId).set(mappedData).addOnCompleteListener(task -> {
+            firestore.collection(collectionName).document(documentId).set(mappedData).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     future.set(null);
                 } else {

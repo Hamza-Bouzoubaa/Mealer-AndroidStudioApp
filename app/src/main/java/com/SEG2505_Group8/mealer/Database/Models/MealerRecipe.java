@@ -2,6 +2,8 @@ package com.SEG2505_Group8.mealer.Database.Models;
 
 import com.google.firebase.firestore.IgnoreExtraProperties;
 
+import java.util.List;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -32,17 +34,17 @@ public class MealerRecipe {
     /**
      * Ex: Canadian, Thai, Chinese
      */
-    String[] categories;
+    List<String> categories;
 
     /**
      * List of ingredients.
      */
-    String[] ingredients;
+    List<String> ingredients;
 
     /**
      * List of allergens.
      */
-    String[] allergens;
+    List<String> allergens;
 
     /**
      * Price to display. TODO: How does price localization work?
