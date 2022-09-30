@@ -3,7 +3,8 @@ package com.SEG2505_Group8.mealer.Database;
 import com.SEG2505_Group8.mealer.Database.Models.MealerMenu;
 import com.SEG2505_Group8.mealer.Database.Models.MealerRecipe;
 import com.SEG2505_Group8.mealer.Database.Models.MealerUser;
-import com.google.android.gms.tasks.Task;
+
+import java.util.concurrent.Future;
 
 public interface DatabaseClient {
 
@@ -13,14 +14,14 @@ public interface DatabaseClient {
      * @param id
      * @return
      */
-    Task<MealerUser> getUser(String id);
+    Future<MealerUser> getUser(String id);
 
     /**
      * Get {@link MealerUser} document of User who is logged in.
      *
      * @return
      */
-    Task<MealerUser> getUser();
+    Future<MealerUser> getUser();
 
     /**
      * Get {@link MealerMenu} of user with id.
@@ -28,14 +29,14 @@ public interface DatabaseClient {
      * @param id
      * @return
      */
-    Task<MealerMenu> getUserMenu(String id);
+    Future<MealerMenu> getUserMenu(String id);
 
     /**
      * Get {@link MealerMenu} of logged in user.
      *
      * @return
      */
-    Task<MealerMenu> getUserMenu();
+    Future<MealerMenu> getUserMenu();
 
     /**
      * Get {@link MealerMenu} with Document Id.
@@ -43,15 +44,15 @@ public interface DatabaseClient {
      * @param id
      * @return
      */
-    Task<MealerMenu> getMenu(String id);
+    Future<MealerMenu> getMenu(String id);
 
-    Task<MealerRecipe> getRecipe(String id);
+    Future<MealerRecipe> getRecipe(String id);
 
-    Task<Void> updateRecipe(MealerRecipe recipe);
+    Future<Void> updateRecipe(MealerRecipe recipe);
 
-    Task<Void> updateMenu(MealerMenu menu);
+    Future<Void> updateMenu(MealerMenu menu);
 
-    Task<Void> updateUser(MealerUser user);
+    Future<Void> updateUser(MealerUser user);
 
     boolean userDataInputRequired(MealerUser user);
 }
