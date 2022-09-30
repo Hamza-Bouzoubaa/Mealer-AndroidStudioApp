@@ -13,14 +13,14 @@ public interface DatabaseClient {
      * @param id
      * @return
      */
-    MealerUser getUser(String id);
+    Task<MealerUser> getUser(String id);
 
     /**
      * Get {@link MealerUser} document of User who is logged in.
      *
      * @return
      */
-    MealerUser getUser();
+    Task<MealerUser> getUser();
 
     /**
      * Get {@link MealerMenu} of user with id.
@@ -28,14 +28,14 @@ public interface DatabaseClient {
      * @param id
      * @return
      */
-    MealerMenu getUserMenu(String id);
+    Task<MealerMenu> getUserMenu(String id);
 
     /**
      * Get {@link MealerMenu} of logged in user.
      *
      * @return
      */
-    MealerMenu getUserMenu();
+    Task<MealerMenu> getUserMenu();
 
     /**
      * Get {@link MealerMenu} with Document Id.
@@ -43,9 +43,9 @@ public interface DatabaseClient {
      * @param id
      * @return
      */
-    MealerMenu getMenu(String id);
+    Task<MealerMenu> getMenu(String id);
 
-    MealerRecipe getRecipe(String id);
+    Task<MealerRecipe> getRecipe(String id);
 
     Task<Void> updateRecipe(MealerRecipe recipe);
 
