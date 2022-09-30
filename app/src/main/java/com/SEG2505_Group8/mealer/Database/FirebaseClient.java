@@ -114,15 +114,18 @@ public class FirebaseClient implements DatabaseClient {
     }
 
     /**
-     * Lookup a user in the database and check if we need to ask for more data.
+     * Lookup the user in the database and check if we need to ask for more data.
      * Ex: Is there address missing?
      *
-     * @param user
      * @return
      */
     @Override
-    public boolean userDataInputRequired(MealerUser user) {
-        return false;
+    public Future<Boolean> userInfoRequired() {
+
+        //TODO: Implement logic for user info missing fields
+        SettableFuture<Boolean> future = SettableFuture.create();
+        future.set(true);
+        return future;
     }
 
     /**

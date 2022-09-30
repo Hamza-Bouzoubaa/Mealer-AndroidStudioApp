@@ -2,13 +2,13 @@ package com.SEG2505_Group8.mealer.UI.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.SEG2505_Group8.mealer.R;
+import com.SEG2505_Group8.mealer.Services;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
 import com.firebase.ui.auth.IdpResponse;
@@ -18,16 +18,13 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity {
 
     // variable for Firebase Auth
     // see: https://www.geeksforgeeks.org/how-to-use-firebase-ui-authentication-library-in-android/
     private FirebaseAuth mFirebaseAuth;
-
-    // declaring a const int value which we
-    // will be using in Firebase auth.
-    public static final int RC_SIGN_IN = 1;
 
     // creating an auth listener for our Firebase auth
     private FirebaseAuth.AuthStateListener mAuthStateListner;
@@ -47,33 +44,59 @@ public class MainActivity extends AppCompatActivity {
     );
 
 
-    private final ActivityResultLauncher<Intent> signInLauncher = registerForActivityResult(
-            new FirebaseAuthUIActivityResultContract(),
-            new ActivityResultCallback<FirebaseAuthUIAuthenticationResult>() {
-                @Override
-                public void onActivityResult(FirebaseAuthUIAuthenticationResult result) {
-                    onSignInResult(result);
-                }
-            }
-    );
+    private ActivityResultLauncher<Intent> signInLauncher;
 
     private void onSignInResult(FirebaseAuthUIAuthenticationResult result) {
         IdpResponse response = result.getIdpResponse();
         if (result.getResultCode() == RESULT_OK) {
-            // Successfully signed in
-            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-            Toast.makeText(MainActivity.this, "User " + user.getDisplayName() + " successfully signed in. ", Toast.LENGTH_SHORT).show();
-            System.out.println();
-
-            // ...
-        } else if (response == null) {
+            tryLaunchHomeActivity();
+        } else {
             // Sign in failed. If response is null the user canceled the
             // sign-in flow using the back button. Otherwise check
             // response.getError().getErrorCode() and handle the error.
             // ...
-        } else {
-            //Error occurred
+        }
+    }
+
+    /**
+     * Launch form to collect more info about the user.
+     * Only call if the user is authenticated with Firebase Auth.
+     */
+    private void launchUserInfoFormActivity() {
+
+        // Create the UserInfoForm intent
+        Intent i = new Intent(MainActivity.this, UserInfoForm.class);
+        startActivity(i);
+
+        // Kill our current intent
+        finish();
+    }
+
+    /**
+     * Only call if the user is authenticated with Firebase Auth
+     */
+    private void launchHomeActivity() {
+
+        // Create the HomeActivity intent
+        Intent i = new Intent(MainActivity.this, HomeActivity.class);
+        startActivity(i);
+
+        // Kill our current intent
+        finish();
+    }
+
+    /**
+     * Launch home activity unless user info is required.
+     */
+    private void tryLaunchHomeActivity() {
+        try {
+            if (Services.getDatabaseClient().userInfoRequired().get()) {
+                launchUserInfoFormActivity();
+            } else {
+                launchHomeActivity();
+            }
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
         }
     }
 
@@ -81,6 +104,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        signInLauncher = registerForActivityResult(
+                new FirebaseAuthUIActivityResultContract(),
+                new ActivityResultCallback<FirebaseAuthUIAuthenticationResult>() {
+                    @Override
+                    public void onActivityResult(FirebaseAuthUIAuthenticationResult result) {
+                        onSignInResult(result);
+                    }
+                }
+        );
 
         // below line is for getting instance
         // for our firebase auth
@@ -98,18 +131,12 @@ public class MainActivity extends AppCompatActivity {
             // checking if the user
             // is null or not.
             if (user != null) {
-                // if the user is already authenticated then we will
-                // redirect our user to next screen which is our home screen.
-                // we are redirecting to new screen via an intent.
-                Intent i = new Intent(MainActivity.this, HomeActivity.class);
-                startActivity(i);
-                // we are calling finish method to kill or
-                // mainactivity which is displaying our login ui.
-                finish();
+                tryLaunchHomeActivity();
             } else {
                 // this method is called when our
                 // user is not authenticated previously.
-                startActivityForResult(
+
+                signInLauncher.launch(
                         // below line is used for getting
                         // our authentication instance.
                         AuthUI.getInstance()
@@ -138,10 +165,7 @@ public class MainActivity extends AppCompatActivity {
                                 // after setting our theme and logo
                                 // we are calling a build() method
                                 // to build our login screen.
-                                .build(),
-                        // and lastly we are passing our const
-                        // integer which is declared above.
-                        RC_SIGN_IN
+                                .build()
                 );
             }
         };

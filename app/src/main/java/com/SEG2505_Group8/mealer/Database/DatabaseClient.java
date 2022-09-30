@@ -54,5 +54,5 @@ public interface DatabaseClient {
 
     Future<Void> updateUser(MealerUser user);
 
-    boolean userDataInputRequired(MealerUser user);
+    Future<Boolean> userInfoRequired();
 }
