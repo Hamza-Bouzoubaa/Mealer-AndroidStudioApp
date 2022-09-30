@@ -3,7 +3,6 @@ package com.SEG2505_Group8.mealer.UI.Activities;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -107,11 +106,8 @@ public class MainActivity extends AppCompatActivity {
 
         signInLauncher = registerForActivityResult(
                 new FirebaseAuthUIActivityResultContract(),
-                new ActivityResultCallback<FirebaseAuthUIAuthenticationResult>() {
-                    @Override
-                    public void onActivityResult(FirebaseAuthUIAuthenticationResult result) {
-                        onSignInResult(result);
-                    }
+                result -> {
+                    onSignInResult((FirebaseAuthUIAuthenticationResult) result);
                 }
         );
 
