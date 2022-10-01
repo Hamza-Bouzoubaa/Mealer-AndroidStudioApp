@@ -1,3 +1,12 @@
 <resources>
-    <string name="app_name">Mealer</string>
+    <string name="welcome" translatable="false">Welcome</string>
+    <string name="app_name" translatable="false">Mealer</string>
+    <string name="user_info_form_first_name">First Name</string>
+    <string name="user_info_form_last_name">Last Name</string>
+    <string name="user_info_form_address">Address</string>
+    <string name="user_info_form_title">User Info</string>
+    <string name="user_info_form_email">Email</string>
+    <string name="user_info_form_credit_card">Credit Card</string>
+    <string name="user_info_form_description">Description</string>
+    <string name="user_info_form_conditions">Conditions</string>
 </resources>

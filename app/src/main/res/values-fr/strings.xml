@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="user_info_form_first_name" translatable="false">Prénom</string>
+    <string name="user_info_form_last_name">Nom</string>
+    <string name="user_info_form_address">Adress</string>
+    <string name="user_info_form_title">Informations</string>
+    <string name="user_info_form_email">Courielle</string>
+    <string name="user_info_form_credit_card">Carte de Crédit</string>
+    <string name="user_info_form_description">Description</string>
+    <string name="user_info_form_conditions">Conditions</string>
+</resources>
