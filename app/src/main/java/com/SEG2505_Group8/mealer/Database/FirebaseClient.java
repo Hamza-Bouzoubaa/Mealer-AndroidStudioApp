@@ -4,8 +4,6 @@ import com.SEG2505_Group8.mealer.Database.Models.MealerMenu;
 import com.SEG2505_Group8.mealer.Database.Models.MealerRecipe;
 import com.SEG2505_Group8.mealer.Database.Models.MealerUser;
 import com.SEG2505_Group8.mealer.Database.Serialize.MealerSerializer;
-import com.google.common.util.concurrent.ListeningExecutorService;
-import com.google.common.util.concurrent.MoreExecutors;
 import com.google.common.util.concurrent.SettableFuture;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -20,7 +18,6 @@ import java.util.concurrent.Future;
 public class FirebaseClient implements DatabaseClient {
 
     private final ExecutorService executorService = Executors.newSingleThreadExecutor();
-    private final ListeningExecutorService listeningExecutorService = MoreExecutors.listeningDecorator(executorService);
 
     private static final String userCollectionId = "users";
     private static final String menuCollectionId = "menus";
@@ -122,9 +119,20 @@ public class FirebaseClient implements DatabaseClient {
     @Override
     public Future<Boolean> userInfoRequired() {
 
-        //TODO: Implement logic for user info missing fields
+        //TODO: Implement logic for user info missing fields. We currently only check if document exists.
         SettableFuture<Boolean> future = SettableFuture.create();
+
+//        executorService.submit(() -> {
+//            firestore.collection(userCollectionId).document(FirebaseAuth.getInstance().getCurrentUser().getUid()).get().addOnCompleteListener(task -> {
+//                if (task.isSuccessful()) {
+//                    future.set(!task.getResult().exists());
+//                } else {
+//                    future.set(false);
+//                }
+//            });
+//        });
         future.set(true);
+
         return future;
     }
 

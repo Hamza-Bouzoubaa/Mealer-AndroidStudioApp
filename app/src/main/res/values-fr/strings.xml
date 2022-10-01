@@ -8,4 +8,5 @@
     <string name="user_info_form_credit_card">Carte de Crédit</string>
     <string name="user_info_form_description">Description</string>
     <string name="user_info_form_conditions">Conditions</string>
+    <string name="user_info_form_submit">SOUMETTRE</string>
 </resources>

@@ -9,4 +9,5 @@
     <string name="user_info_form_credit_card">Credit Card</string>
     <string name="user_info_form_description">Description</string>
     <string name="user_info_form_conditions">Conditions</string>
+    <string name="user_info_form_submit">SUBMIT</string>
 </resources>
