@@ -9,4 +9,8 @@
     <string name="user_info_form_description">Description</string>
     <string name="user_info_form_conditions">Conditions</string>
     <string name="user_info_form_submit">SOUMETTRE</string>
+    <string name="sign_in_header">Sign In</string>
+    <string name="welcome">Bienvenue</string>
+    <string name="sign_in_email">courielle</string>
+    <string name="sign_in_password">mot de pass</string>
 </resources>
