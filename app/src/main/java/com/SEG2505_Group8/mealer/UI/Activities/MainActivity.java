@@ -85,7 +85,9 @@ public class MainActivity extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                launchUserInfoFormActivity();
                 //TODO: add new activity << chef or client>>
+
             }
         });
 

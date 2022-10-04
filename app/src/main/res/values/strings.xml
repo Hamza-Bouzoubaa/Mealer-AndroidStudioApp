@@ -1,5 +1,5 @@
 <resources>
-    <string name="welcome" translatable="false">Welcome</string>
+    <string name="welcome">Welcome</string>
     <string name="app_name" translatable="false">Mealer</string>
     <string name="user_info_form_first_name">First Name</string>
     <string name="user_info_form_last_name">Last Name</string>
@@ -10,4 +10,7 @@
     <string name="user_info_form_description">Description</string>
     <string name="user_info_form_conditions">Conditions</string>
     <string name="user_info_form_submit">SUBMIT</string>
+    <string name="sign_in_header">Sign In</string>
+    <string name="sign_in_email">email</string>
+    <string name="sign_in_password">password</string>
 </resources>
