@@ -2,6 +2,7 @@ package com.SEG2505_Group8.mealer.UI.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -18,6 +19,9 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity {
+
+    private Button register;
+    private Button login;
 
     // variable for Firebase Auth
     // see: https://www.geeksforgeeks.org/how-to-use-firebase-ui-authentication-library-in-android/
@@ -72,6 +76,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        register = findViewById(R.id.register);
+        login = findViewById(R.id.login);
 
         mFirebaseAuth = FirebaseAuth.getInstance();
 
