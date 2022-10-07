@@ -16,4 +16,5 @@
     <string name="mealer_logo" translatable="false">MealerLogo</string>
     <string name="welcome_button">Continue</string>
     <string name="welcome_text">First steps with Mealer</string>
+    <string name="or">or</string>
 </resources>

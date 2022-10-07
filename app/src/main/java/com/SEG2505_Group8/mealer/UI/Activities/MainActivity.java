@@ -16,7 +16,6 @@ import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button register;
     private Button login;
 
     // variable for Firebase Auth
@@ -56,15 +55,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        register = findViewById(R.id.register);
         login = findViewById(R.id.login);
-
-
-        register.setOnClickListener(view -> {
-            launchActivity(UserInfoForm.class);
-            //TODO: add new activity << chef or client>>
-
-        });
 
         login.setOnClickListener(view -> {
             launchActivity(SignInActivity.class);
