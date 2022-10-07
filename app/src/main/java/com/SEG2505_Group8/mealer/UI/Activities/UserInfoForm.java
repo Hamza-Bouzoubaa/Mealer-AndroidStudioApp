@@ -89,11 +89,16 @@ public class UserInfoForm extends AppCompatActivity {
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
                         // Sign in success, update UI with the signed-in user's information
-                        FirebaseUser user = mFirebaseAuth.getCurrentUser();
-                        tryLaunchHomeActivity();
+                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                        // Create the MainActivity intent
+                        Intent i = new Intent(UserInfoForm.this, MainActivity.class);
+                        startActivity(i);
+
+                        // Kill our current intent
+                        finish();
                     } else {
                         // If sign in fails, display a message to the user.
-                        Toast.makeText(MainActivity.this, "Authentication failed.",
+                        Toast.makeText(UserInfoForm.this, "Authentication failed.",
                                 Toast.LENGTH_SHORT).show();
                         //TODO: Implement failed sign up
                     }
