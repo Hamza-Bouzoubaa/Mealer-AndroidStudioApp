@@ -13,4 +13,7 @@
     <string name="sign_in_header">Sign In</string>
     <string name="sign_in_email">email</string>
     <string name="sign_in_password">password</string>
+    <string name="mealer_logo" translatable="false">MealerLogo</string>
+    <string name="welcome_button">Continue</string>
+    <string name="welcome_text">First steps with Mealer</string>
 </resources>

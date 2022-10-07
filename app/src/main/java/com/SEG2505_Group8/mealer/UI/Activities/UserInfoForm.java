@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.SEG2505_Group8.mealer.Database.Models.MealerRole;
@@ -40,6 +41,19 @@ public class UserInfoForm extends AppCompatActivity {
         creditCard = findViewById(R.id.user_info_form_credit_card);
         description = findViewById(R.id.user_info_form_description);
         conditions = findViewById(R.id.user_info_form_conditions);
+
+        // If the user presses the back button on their phone, go back to Main
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                // Create the MainActivity intent
+                Intent i = new Intent(UserInfoForm.this, MainActivity.class);
+                startActivity(i);
+
+                // Kill our current intent
+                finish();
+            }
+        });
     }
 
     public void submitbuttonhandler(View view) {

@@ -1,38 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".UI.Activities.MainActivity">
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="200dp"
+        android:contentDescription="@string/mealer_logo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/food" />
+
+    <TextView
+        android:id="@+id/welcomeText"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/welcome_text"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/login"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
     <Button
         android:id="@+id/login"
-        android:layout_width="152dp"
-        android:layout_height="82dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="129dp"
-        android:layout_marginEnd="129dp"
-        android:layout_marginBottom="150dp"
-        android:text="LOGIN"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="30dp"
+        android:layout_marginTop="80dp"
+        android:text="@string/welcome_button"
         app:backgroundTint="#FF7A7A"
-        app:cornerRadius="@dimen/fui_wrapper_padding_horiz" />
-
-    <Button
-        android:id="@+id/register"
-        android:layout_width="152dp"
-        android:layout_height="85dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="129dp"
-        android:layout_marginEnd="129dp"
-        android:layout_marginBottom="250dp"
-        android:text="REGISTER"
-        app:backgroundTint="#FF7A7A"
-        app:cornerRadius="@dimen/fui_wrapper_padding_horiz" />
+        app:cornerRadius="@dimen/fui_wrapper_padding_horiz"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imageView" />
 
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

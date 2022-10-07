@@ -2,18 +2,13 @@ package com.SEG2505_Group8.mealer.UI.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.SEG2505_Group8.mealer.R;
 import com.SEG2505_Group8.mealer.Services;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -31,27 +26,9 @@ public class MainActivity extends AppCompatActivity {
     // creating an auth listener for our Firebase auth
     private FirebaseAuth.AuthStateListener mAuthStateListner;
 
-    /**
-     * Launch form to collect more info about the user.
-     * Only call if the user is authenticated with Firebase Auth.
-     */
-    private void launchUserInfoFormActivity() {
-
-        // Create the UserInfoForm intent
-        Intent i = new Intent(MainActivity.this, UserInfoForm.class);
-        startActivity(i);
-
-        // Kill our current intent
-        finish();
-    }
-
-    /**
-     * Only call if the user is authenticated with Firebase Auth
-     */
-    private void launchHomeActivity() {
-
-        // Create the HomeActivity intent
-        Intent i = new Intent(MainActivity.this, HomeActivity.class);
+    private void launchActivity(Class<?> activity) {
+        // Create the intent
+        Intent i = new Intent(MainActivity.this, activity);
         startActivity(i);
 
         // Kill our current intent
@@ -64,9 +41,10 @@ public class MainActivity extends AppCompatActivity {
     private void tryLaunchHomeActivity() {
         try {
             if (Services.getDatabaseClient().userInfoRequired().get()) {
-                launchUserInfoFormActivity();
+                //TODO: Implement get new user info
+                launchActivity(HomeActivity.class);
             } else {
-                launchHomeActivity();
+                launchActivity(HomeActivity.class);
             }
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
@@ -82,13 +60,14 @@ public class MainActivity extends AppCompatActivity {
         login = findViewById(R.id.login);
 
 
-        register.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                launchUserInfoFormActivity();
-                //TODO: add new activity << chef or client>>
+        register.setOnClickListener(view -> {
+            launchActivity(UserInfoForm.class);
+            //TODO: add new activity << chef or client>>
 
-            }
+        });
+
+        login.setOnClickListener(view -> {
+            launchActivity(SignInActivity.class);
         });
 
         mFirebaseAuth = FirebaseAuth.getInstance();
@@ -116,19 +95,16 @@ public class MainActivity extends AppCompatActivity {
         String password = "";
 
         mFirebaseAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            FirebaseUser user = mFirebaseAuth.getCurrentUser();
-                            tryLaunchHomeActivity();
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Toast.makeText(MainActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                            //TODO: Implement failed sign up
-                        }
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        // Sign in success, update UI with the signed-in user's information
+                        FirebaseUser user = mFirebaseAuth.getCurrentUser();
+                        tryLaunchHomeActivity();
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        Toast.makeText(MainActivity.this, "Authentication failed.",
+                                Toast.LENGTH_SHORT).show();
+                        //TODO: Implement failed sign up
                     }
                 });
     }
