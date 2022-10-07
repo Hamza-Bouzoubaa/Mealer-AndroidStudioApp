@@ -14,6 +14,7 @@
         <activity android:name=".UI.Activities.UserInfoForm" />
         <activity android:name=".UI.Activities.SignInActivity" />
         <activity android:name=".UI.Activities.HomeActivity" />
+        <activity android:name=".UI.Activities.SignInWithEmailActivity" />
         <activity
             android:name=".UI.Activities.MainActivity"
             android:exported="true">
