@@ -47,7 +47,7 @@
         android:layout_marginEnd="15dp"
         android:layout_marginBottom="30dp"
         android:layout_marginTop="80dp"
-        android:text="@string/welcome_button"
+        android:text="@string/continue_text"
         app:backgroundTint="#FF7A7A"
         app:cornerRadius="@dimen/fui_wrapper_padding_horiz"
         app:layout_constraintBottom_toBottomOf="parent"
