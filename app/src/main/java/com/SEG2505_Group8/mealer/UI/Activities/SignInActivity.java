@@ -47,6 +47,7 @@ public class SignInActivity extends AppCompatActivity {
                 } else {
                     // Create the SignInWithEmail intent
                     Intent i = new Intent(SignInActivity.this, SignInWithEmailActivity.class);
+                    i.putExtra("email", email.getText().toString());
                     startActivity(i);
 
                     // Kill our current intent

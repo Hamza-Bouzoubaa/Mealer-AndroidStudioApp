@@ -17,8 +17,7 @@
         android:text="@string/sign_in_header" />
 
     <TextView
-        android:id="@+id/sign_in_email_display"
-        android:text="email_here"
+        android:id="@+id/sign_in_with_email_email"
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:layout_marginStart="20dp"
@@ -26,7 +25,22 @@
         android:layout_marginEnd="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/sign_in_with_email_header" />
+        app:layout_constraintTop_toBottomOf="@id/sign_in_with_email_header"
+        android:text="email@email.com" />
+
+    <EditText
+        android:id="@+id/sign_in_email_password"
+        android:hint="@string/sign_in_password"
+        android:inputType="textPassword"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sign_in_with_email_email"
+        android:autofillHints="" />
 
     <Button
         android:id="@+id/sign_in_with_email_continue_button"
@@ -35,9 +49,9 @@
         android:layout_height="60dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
-        app:layout_constraintEnd_toEndOf="@id/sign_in_email_display"
-        app:layout_constraintStart_toStartOf="@id/sign_in_email_display"
-        app:layout_constraintTop_toBottomOf="@id/sign_in_email_display" />
+        app:layout_constraintEnd_toEndOf="@id/sign_in_email_password"
+        app:layout_constraintStart_toStartOf="@id/sign_in_email_password"
+        app:layout_constraintTop_toBottomOf="@id/sign_in_email_password" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
