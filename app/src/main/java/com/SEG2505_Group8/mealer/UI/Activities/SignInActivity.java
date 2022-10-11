@@ -27,28 +27,32 @@ public class SignInActivity extends AppCompatActivity {
         emailContinueButton.setOnClickListener(view -> {
             // TODO: Check if email is already associated with an account
 
-            FirebaseAuth.getInstance().fetchSignInMethodsForEmail(email.getText().toString())
-                    .addOnCompleteListener(task -> {
+            FirebaseAuth.getInstance().fetchSignInMethodsForEmail(email.getText().toString()).addOnCompleteListener(task -> {
 
-                        boolean isNewUser = task.getResult().getSignInMethods().isEmpty();
+                boolean isNewUser = true;
 
-                        if (isNewUser) {
-                            // Create the UserInfoForm intent
-                            Intent i = new Intent(SignInActivity.this, UserInfoForm.class);
-                            startActivity(i);
+                try {
+                    isNewUser = task.getResult().getSignInMethods().isEmpty();
+                } catch (Exception e) {
 
-                            // Kill our current intent
-                            finish();
-                        } else {
-                            // Create the SignInWithEmail intent
-                            Intent i = new Intent(SignInActivity.this, SignInWithEmailActivity.class);
-                            startActivity(i);
+                }
 
-                            // Kill our current intent
-                            finish();
-                        }
+                if (isNewUser) {
+                    // Create the UserInfoForm intent
+                    Intent i = new Intent(SignInActivity.this, UserInfoForm.class);
+                    startActivity(i);
 
-                    });
+                    // Kill our current intent
+                    finish();
+                } else {
+                    // Create the SignInWithEmail intent
+                    Intent i = new Intent(SignInActivity.this, SignInWithEmailActivity.class);
+                    startActivity(i);
+
+                    // Kill our current intent
+                    finish();
+                }
+            });
         });
 
         // If the user presses the back button on their phone
