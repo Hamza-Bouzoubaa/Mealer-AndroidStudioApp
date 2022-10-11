@@ -13,4 +13,7 @@
     <string name="welcome">Bienvenue</string>
     <string name="sign_in_email">courielle</string>
     <string name="sign_in_password">mot de pass</string>
+    <string name="continue_text">Continuer</string>
+    <string name="welcome_text">Premiers pas avec Mealer</string>
+    <string name="or">ou</string>
 </resources>

@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.SEG2505_Group8.mealer.Database.Models.MealerRole;
@@ -13,6 +15,7 @@ import com.SEG2505_Group8.mealer.Database.Models.MealerUser;
 import com.SEG2505_Group8.mealer.R;
 import com.SEG2505_Group8.mealer.Services;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +43,19 @@ public class UserInfoForm extends AppCompatActivity {
         creditCard = findViewById(R.id.user_info_form_credit_card);
         description = findViewById(R.id.user_info_form_description);
         conditions = findViewById(R.id.user_info_form_conditions);
+
+        // If the user presses the back button on their phone, go back to Main
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                // Create the MainActivity intent
+                Intent i = new Intent(UserInfoForm.this, MainActivity.class);
+                startActivity(i);
+
+                // Kill our current intent
+                finish();
+            }
+        });
     }
 
     public void submitbuttonhandler(View view) {
@@ -62,5 +78,30 @@ public class UserInfoForm extends AppCompatActivity {
 
         // Kill our current intent
         finish();
+    }
+
+    private void OnClickSubmitNewAccount() {
+
+        String email = "";
+        String password = "";
+
+        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        // Sign in success, update UI with the signed-in user's information
+                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                        // Create the MainActivity intent
+                        Intent i = new Intent(UserInfoForm.this, MainActivity.class);
+                        startActivity(i);
+
+                        // Kill our current intent
+                        finish();
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        Toast.makeText(UserInfoForm.this, "Authentication failed.",
+                                Toast.LENGTH_SHORT).show();
+                        //TODO: Implement failed sign up
+                    }
+                });
     }
 }
