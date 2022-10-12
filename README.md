@@ -48,27 +48,60 @@ Architecture:
 
 ```mermaid
 classDiagram
-    class MealerClient {
-        <<singleton>>
-        User user
+    MealerSerializable <|-- MealerUser
+    MealerSerializable <|-- MealerMenu
+    MealerSerializable <|-- MealerRecipe
+    MealerSerializable <|-- MealerOrder
+    MealerSerializable <|-- MealerMenu
+    MealerSerializable "1" --> "*" MealerSerializableElement
+    MealerSerializable "*" --> "1" MealerSerializer
 
-        public MealerUser getUser()
-        public MealerRole getRole()
+    MealerClient <|-- FirebaseClient
+
+    Services "1" -- "1" MealerClient
+
+    MealerOrder "1" --> "1" MealerOrderStatus
+
+    MealerUser "1" --> "*" MealerRole
+
+
+    class MealerClient {
+        <<interface>>
+        +getUser(String id) Future~MealerUser~
+        +getUser() Future~MealerUser~
+        +getUserMenu(String id) Future~MealerMenu~ 
+        +getUserMenu() Future~MealerMenu~ 
+        +getMenu(String id) Future~MealerMenu~ 
+        +getRecipe(String id) Future~MealerRecipe~ 
+        +updateRecipe(MealerRecipe recipe) Future~Void~ 
+        +updateMenu(MealerMenu menu) Future~Void~ 
+        +updateUser(MealerUser user) Future~Void~ 
+        +userInfoRequired() Future~Boolean~
+    }
+
+    class FirebaseClient {
+
+    }
+
+    class Services {
+        <<Singleton>>
+        #MealerClient database
+        +getDatabaseClient() MealerClient 
     }
 
     class MealerUser {
-        String firstName
-        String lastName
-        String email
-        String profilePictureUrl
-        String voidCheckUrl
-        String address
-        String biography
-        String creditCard
-        String menuId
-        MealerRole role
-        int[] ratings
-        int totalSales
+        #String firstName
+        #String lastName
+        #String email
+        #String profilePictureUrl
+        #String voidCheckUrl
+        #String address
+        #String biography
+        #String creditCard
+        #String menuId
+        #List~MealerRole~ role
+        #List~Integer~ ratings
+        #int totalSales
     }
 
     class MealerRole {
@@ -78,20 +111,80 @@ classDiagram
         ADMIN
     }
 
-    class Menu {
+    class MealerMenu {
         String chefId
         List~Recipe~ recipes
-        int[] ratings
+        List~Integer~ ratings
     }
 
-    class Recipe {
+    class MealerRecipe {
         String name
         String course
-        String[] categories
-        String[] ingredients
-        String[] allergens
+        List~String~ categories
+        List~String~ ingredients
+        List~String~ allergens
         float price
         String description
+    }
+
+    class MealerOrder {
+
+    }
+
+    class MealerOrderStatus {
+        <<Enumeration>>
+        IN_PROGRESS,
+        COMPLETE,
+        ACCEPTED,
+        REJECTED,
+        CANCELED
+    }
+
+    class MealerSerializable {
+        <<@Interface>>
+    }
+
+    class MealerSerializer {
+
+    }
+
+    class MealerSerializableElement {
+        <<@Interface>>
+        +key() String 
+    }
+```
+```mermaid
+classDiagram
+    class ActivityUtils {
+
+    }
+
+    class HomeActivity {
+
+    }
+
+    class MainActivity {
+
+    }
+
+    class SignInActivity {
+
+    }
+
+    class SignInWithEmailActivity {
+
+    }
+
+    class userInfoForm {
+
+    }
+
+    class PhotoCard {
+
+    }
+
+    class ProgressiveHorizontalScrollView {
+
     }
 ```
 
