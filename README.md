@@ -58,7 +58,7 @@ classDiagram
 
     MealerClient <|-- FirebaseClient
 
-    Services "1" -- "1" MealerClient
+    Services "1" --> MealerClient
 
     MealerOrder "1" --> "1" MealerOrderStatus
 
@@ -66,6 +66,20 @@ classDiagram
 
 
     class MealerClient {
+        <<interface>>
+        +getUser(String id)* Future~MealerUser~
+        +getUser()* Future~MealerUser~
+        +getUserMenu(String id)* Future~MealerMenu~ 
+        +getUserMenu()* Future~MealerMenu~ 
+        +getMenu(String id)* Future~MealerMenu~ 
+        +getRecipe(String id)* Future~MealerRecipe~ 
+        +updateRecipe(MealerRecipe recipe)* Future~Void~ 
+        +updateMenu(MealerMenu menu)* Future~Void~ 
+        +updateUser(MealerUser user)* Future~Void~ 
+        +userInfoRequired()* Future~Boolean~
+    }
+
+    class FirebaseClient {
         <<interface>>
         +getUser(String id) Future~MealerUser~
         +getUser() Future~MealerUser~
@@ -77,10 +91,6 @@ classDiagram
         +updateMenu(MealerMenu menu) Future~Void~ 
         +updateUser(MealerUser user) Future~Void~ 
         +userInfoRequired() Future~Boolean~
-    }
-
-    class FirebaseClient {
-
     }
 
     class Services {
@@ -145,7 +155,8 @@ classDiagram
     }
 
     class MealerSerializer {
-
+        +toMap(Object o)$ Map
+        +isSerializable(Object o)$ bool
     }
 
     class MealerSerializableElement {
