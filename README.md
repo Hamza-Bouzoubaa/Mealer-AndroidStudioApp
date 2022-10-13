@@ -2,11 +2,9 @@
 
 ## Getting started
 
-To get started, you will need `Android Studio`. Once you've opened the project, please accept any requests to download plugins. This project currently depends on the [Save Actions](https://plugins.jetbrains.com/plugin/7642-save-actions) and [Lombok](https://plugins.jetbrains.com/plugin/6317-lombok).
+To get started, you will need `Android Studio`. Once you've opened the project, please accept any requests to download plugins. This project currently depends on the [Save Actions](https://plugins.jetbrains.com/plugin/7642-save-actions).
 
 [Save Actions](https://plugins.jetbrains.com/plugin/7642-save-actions) ensures unified imports and code formating is applied to all contributed code.
-
-[Lombok](https://plugins.jetbrains.com/plugin/6317-lombok) creates Getters, Setters, and other tedious methods automatically through the use of `Annotations`. A quick read of the documentation can be very useful.
 
 Once your IDE is setup, see [Contributions](#contributions) for information on how to contribute to the project.
 
