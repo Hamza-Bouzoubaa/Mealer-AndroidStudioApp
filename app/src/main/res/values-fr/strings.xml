@@ -16,4 +16,5 @@
     <string name="continue_text">Continuer</string>
     <string name="welcome_text">Premiers pas avec Mealer</string>
     <string name="or">ou</string>
+    <string name="user_info_form_password">mot de pass</string>
 </resources>

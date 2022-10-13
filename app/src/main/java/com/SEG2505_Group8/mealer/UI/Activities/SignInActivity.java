@@ -34,6 +34,9 @@ public class SignInActivity extends AppCompatActivity {
 
         emailContinueButton = findViewById(R.id.sign_in_continue_button);
         emailContinueButton.setOnClickListener(view -> {
+
+            // TODO: Add Gini's field validation
+
             redirectUser(email.getText().toString());
         });
 
