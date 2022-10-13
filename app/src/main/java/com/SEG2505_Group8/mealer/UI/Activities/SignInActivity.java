@@ -2,6 +2,7 @@ package com.SEG2505_Group8.mealer.UI.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -22,8 +23,16 @@ public class SignInActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_in);
 
         email = findViewById(R.id.sign_in_email_field);
-        emailContinueButton = findViewById(R.id.sign_in_continue_button);
+        email.setOnEditorActionListener((v, actionId, event) -> {
+            boolean handled = false;
+            if (actionId == EditorInfo.IME_ACTION_GO || actionId == EditorInfo.IME_ACTION_UNSPECIFIED) {
+                emailContinueButton.callOnClick();
+                handled = true;
+            }
+            return handled;
+        });
 
+        emailContinueButton = findViewById(R.id.sign_in_continue_button);
         emailContinueButton.setOnClickListener(view -> {
             // TODO: Check if email is already associated with an account
 

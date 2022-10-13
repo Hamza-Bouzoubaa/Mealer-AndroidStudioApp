@@ -2,6 +2,7 @@ package com.SEG2505_Group8.mealer.UI.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -27,7 +28,16 @@ public class SignInWithEmailActivity extends AppCompatActivity {
 
         emailView = findViewById(R.id.sign_in_with_email_email);
         submitButton = findViewById(R.id.sign_in_with_email_continue_button);
+
         passwordField = findViewById(R.id.sign_in_email_password);
+        passwordField.setOnEditorActionListener((v, actionId, event) -> {
+            boolean handled = false;
+            if (actionId == EditorInfo.IME_ACTION_GO || actionId == EditorInfo.IME_ACTION_UNSPECIFIED) {
+                submitButton.callOnClick();
+                handled = true;
+            }
+            return handled;
+        });
 
         emailView.setText(getIntent().getStringExtra("email"));
 
