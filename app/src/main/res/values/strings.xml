@@ -1,5 +1,5 @@
 <resources>
-    <string name="welcome">Welcome</string>
+    <string name="welcome">Welcome To Mealer</string>
     <string name="app_name" translatable="false">Mealer</string>
     <string name="user_info_form_first_name">First Name</string>
     <string name="user_info_form_last_name">Last Name</string>
