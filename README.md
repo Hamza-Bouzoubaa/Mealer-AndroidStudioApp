@@ -51,8 +51,7 @@ classDiagram
     MealerSerializable <|-- MealerRecipe
     MealerSerializable <|-- MealerOrder
     MealerSerializable <|-- MealerMenu
-    MealerSerializable "1" --> "*" MealerSerializableElement
-    MealerSerializable "*" --> "1" MealerSerializer
+    MealerSerializable *-- MealerSerializableElement
 
     MealerClient <|-- FirebaseClient
 
