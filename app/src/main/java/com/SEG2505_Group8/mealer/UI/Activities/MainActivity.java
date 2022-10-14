@@ -2,10 +2,12 @@ package com.SEG2505_Group8.mealer.UI.Activities;
 
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.SEG2505_Group8.mealer.R;
+import com.SEG2505_Group8.mealer.Services;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
