@@ -2,7 +2,7 @@
 <resources>
     <color name="white">#FFFFFF</color>
 
-    <!-- First color palette idea
+    <!-- First color palette idea -->
 
     <color name="dark_purple">#4A3459</color>
     <color name="pink_m">#FF7A7A</color>
@@ -10,22 +10,22 @@
     <color name="lavender">#AC9FBF</color>
     <color name="brown">#A65C41</color>
     <color name="pink">#F28888</color>
-    -->
-    <!-- Second color palette idea
+
+    <!-- Second color palette idea -->
     <color name="blue">#172b72</color>
     <color name="light_pink">#efa1e3</color>
     <color name="dark_pink">#b862a7</color>
     <color name="light_blue">#1f3c81</color>
     <color name="dark_blue">#041d6e</color>
-    -->
+
     <!-- Mo's palette -->
 
     <color name="brown_paper">#D0895D</color>
     <color name="Peachy">#D96545 </color>
     <color name="DarkElement">#bc292c </color>
     <color name="Toasted_Orange">#bf4b2b </color>
-    <color name="brown">#ab6c44 </color>
-    <color name="lightBrown">#d1885c </color>
+    <color name="brownnn">#ab6c44 </color>
+    <color name="NotSure">#b46461 </color>
 
 
 </resources>
