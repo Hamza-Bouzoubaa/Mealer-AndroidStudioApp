@@ -105,29 +105,4 @@ public class UserInfoForm extends AppCompatActivity {
             }
         });
     }
-
-    private void OnClickSubmitNewAccount() {
-
-        String email = "";
-        String password = "";
-
-        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, task -> {
-                    if (task.isSuccessful()) {
-                        // Sign in success, update UI with the signed-in user's information
-                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                        // Create the MainActivity intent
-                        Intent i = new Intent(UserInfoForm.this, MainActivity.class);
-                        startActivity(i);
-
-                        // Kill our current intent
-                        finish();
-                    } else {
-                        // If sign in fails, display a message to the user.
-                        Toast.makeText(UserInfoForm.this, "Authentication failed.",
-                                Toast.LENGTH_SHORT).show();
-                        //TODO: Implement failed sign up
-                    }
-                });
-    }
 }

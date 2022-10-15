@@ -10,6 +10,8 @@
     <color name="secondary_on">@color/white</color>
 
     <color name="callToAction">#BC292C</color> <!-- Call to Action / Dark Element -->
+    <color name="disabled">#5A5A5A</color> <!-- Disabled -->
+
     <!-- Old colors -->
     <!--<color name="light_brown">#d1885c </color>-->
 </resources>

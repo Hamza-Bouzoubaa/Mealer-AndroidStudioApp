@@ -16,6 +16,16 @@
 
     <style name="CallToAction">
         <item name="android:backgroundTint">@color/callToAction</item>
+        <item name="android:buttonTint">@color/callToAction</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="CallToActionDarkText" parent="CallToAction">
+        <item name="android:textColor">@android:color/tab_indicator_text</item>
+    </style>
+
+    <style name="Disabled">
+        <item name="android:backgroundTint">@color/disabled</item>
         <item name="android:textColor">@color/white</item>
     </style>
 </resources>
