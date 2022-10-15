@@ -2,15 +2,14 @@
     <!-- Base application theme. -->
     <style name="Theme.Mealer" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/dark_pink</item>
-        <item name="colorPrimaryVariant">@color/light_pink</item>
-        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryVariant">@color/primary_variant</item>
+        <item name="colorOnPrimary">@color/primary_on</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/dark_purple</item>
-        <item name="colorSecondaryVariant">@color/lavender</item>
-        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorSecondary">@color/secondary</item>
+        <item name="colorSecondaryVariant">@color/secondary_variant</item>
+        <item name="colorOnSecondary">@color/secondary_on</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimary</item>
-        <!-- Customize your theme here. -->
+        <item name="android:statusBarColor" >?attr/colorPrimary</item>
     </style>
 </resources>

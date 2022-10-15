@@ -48,7 +48,7 @@
         android:layout_marginEnd="15dp"
         android:layout_marginBottom="30dp"
         android:text="@string/continue_text"
-        app:backgroundTint="@color/DarkElement"
+        style="@style/CallToAction"
         app:cornerRadius="@dimen/fui_wrapper_padding_horiz"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Active dark theme -->
+    <color name="primary">#172b72</color> <!-- Blue -->
+    <color name="primary_variant">#1f3c81</color> <!-- Light Blue -->
+    <color name="primary_on">@color/white</color>
+    <color name="secondary">#b862a7</color> <!-- Dark Pink -->
+    <color name="secondary_variant">#efa1e3</color><!-- Light Pink -->
+    <color name="secondary_on">@color/white</color>
+
+    <!-- Unused Colors -->
+    <!--<color name="dark_blue">#041d6e</color>-->
+</resources>
