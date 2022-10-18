@@ -18,4 +18,6 @@
     <string name="welcome_text">First steps with Mealer</string>
     <string name="or">or</string>
     <string name="user_info_form_password">password</string>
+    <string name="chef_info_form_title">Chef Info</string>
+    <string name="void_check">Void Check</string>
 </resources>
