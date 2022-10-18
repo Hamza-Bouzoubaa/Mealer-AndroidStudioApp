@@ -66,13 +66,13 @@ classDiagram
         <<interface>>
         +getUser(String id)* Future~MealerUser~
         +getUser()* Future~MealerUser~
-        +getUserMenu(String id)* Future~MealerMenu~ 
-        +getUserMenu()* Future~MealerMenu~ 
-        +getMenu(String id)* Future~MealerMenu~ 
-        +getRecipe(String id)* Future~MealerRecipe~ 
-        +updateRecipe(MealerRecipe recipe)* Future~Void~ 
-        +updateMenu(MealerMenu menu)* Future~Void~ 
-        +updateUser(MealerUser user)* Future~Void~ 
+        +getUserMenu(String id)* Future~MealerMenu~
+        +getUserMenu()* Future~MealerMenu~
+        +getMenu(String id)* Future~MealerMenu~
+        +getRecipe(String id)* Future~MealerRecipe~
+        +updateRecipe(MealerRecipe recipe)* Future~Void~
+        +updateMenu(MealerMenu menu)* Future~Void~
+        +updateUser(MealerUser user)* Future~Void~
         +userInfoRequired()* Future~Boolean~
     }
 
@@ -80,20 +80,20 @@ classDiagram
         <<interface>>
         +getUser(String id) Future~MealerUser~
         +getUser() Future~MealerUser~
-        +getUserMenu(String id) Future~MealerMenu~ 
-        +getUserMenu() Future~MealerMenu~ 
-        +getMenu(String id) Future~MealerMenu~ 
-        +getRecipe(String id) Future~MealerRecipe~ 
-        +updateRecipe(MealerRecipe recipe) Future~Void~ 
-        +updateMenu(MealerMenu menu) Future~Void~ 
-        +updateUser(MealerUser user) Future~Void~ 
+        +getUserMenu(String id) Future~MealerMenu~
+        +getUserMenu() Future~MealerMenu~
+        +getMenu(String id) Future~MealerMenu~
+        +getRecipe(String id) Future~MealerRecipe~
+        +updateRecipe(MealerRecipe recipe) Future~Void~
+        +updateMenu(MealerMenu menu) Future~Void~
+        +updateUser(MealerUser user) Future~Void~
         +userInfoRequired() Future~Boolean~
     }
 
     class Services {
         <<Singleton>>
         #MealerClient database
-        +getDatabaseClient() MealerClient 
+        +getDatabaseClient() MealerClient
     }
 
     class MealerUser {
@@ -158,9 +158,10 @@ classDiagram
 
     class MealerSerializableElement {
         <<@Interface>>
-        +key() String 
+        +key() String
     }
 ```
+
 ```mermaid
 classDiagram
     class ActivityUtils {

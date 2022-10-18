@@ -31,12 +31,12 @@
 
     <Button
         android:id="@+id/sign_in_continue_button"
-        android:text="@string/continue_text"
+        style="@style/CallToAction"
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
-        style="@style/CallToAction"
+        android:text="@string/continue_text"
         app:layout_constraintEnd_toEndOf="@id/sign_in_email_field"
         app:layout_constraintStart_toStartOf="@id/sign_in_email_field"
         app:layout_constraintTop_toBottomOf="@id/sign_in_email_field" />

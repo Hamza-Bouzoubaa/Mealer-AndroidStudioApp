@@ -1,16 +1,19 @@
 package com.SEG2505_Group8.mealer.Database;
 
-import com.SEG2505_Group8.mealer.Database.Callbacks.DatabaseGetCallback;
+import com.SEG2505_Group8.mealer.Database.Callbacks.DatabaseFilterCallback;
+import com.SEG2505_Group8.mealer.Database.Callbacks.DatabaseCompletionCallback;
 import com.SEG2505_Group8.mealer.Database.Callbacks.DatabaseSetCallback;
 import com.SEG2505_Group8.mealer.Database.Models.MealerMenu;
 import com.SEG2505_Group8.mealer.Database.Models.MealerRecipe;
 import com.SEG2505_Group8.mealer.Database.Models.MealerUser;
 import com.SEG2505_Group8.mealer.Database.Serialize.MealerSerializer;
-import com.google.common.util.concurrent.ListenableFuture;
+import com.google.android.gms.tasks.Task;
 import com.google.common.util.concurrent.SettableFuture;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firestore.v1.WriteResult;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
@@ -29,8 +32,7 @@ public class FirebaseDatabaseClient implements DatabaseClient {
     private final FirebaseFirestore firestore = FirebaseFirestore.getInstance();
 
     @Override
-    public Future<MealerUser> getUser(String id, DatabaseGetCallback callback) throws NullPointerException {
-
+    public Future<MealerUser> getUser(String id, DatabaseCompletionCallback callback) throws NullPointerException {
         if (id == null || id.isEmpty()) {
             id = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
         }
@@ -39,7 +41,14 @@ public class FirebaseDatabaseClient implements DatabaseClient {
     }
 
     @Override
-    public Future<MealerMenu> getUserMenu(String id, DatabaseGetCallback callback) throws NullPointerException {
+    public Future<List<MealerUser>> getUsers(DatabaseFilterCallback filter) {
+        return getModels(MealerUser.class, userCollectionId, 10, reference -> {
+            return reference;
+        });
+    }
+
+    @Override
+    public Future<MealerMenu> getUserMenu(String id, DatabaseCompletionCallback callback) throws NullPointerException {
 
         if (id == null || id.isEmpty()) {
             id = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
@@ -66,12 +75,24 @@ public class FirebaseDatabaseClient implements DatabaseClient {
     }
 
     @Override
-    public Future<MealerMenu> getMenu(String id, DatabaseGetCallback callback) {
+    public Future<List<MealerMenu>> getMenus(DatabaseFilterCallback filter) {
+        return getModels(MealerMenu.class, menuCollectionId, 10, reference -> {
+            return reference;
+        });
+    }
+
+    @Override
+    public Future<MealerMenu> getMenu(String id, DatabaseCompletionCallback callback) {
         return getModel(menuCollectionId, id, MealerMenu.class, callback);
     }
 
     @Override
-    public Future<MealerRecipe> getRecipe(String id, DatabaseGetCallback callback) {
+    public Future<List<MealerRecipe>> getRecipes(DatabaseFilterCallback filter) {
+        return getModels(MealerRecipe.class, recipeCollectionId, 10, filter);
+    }
+
+    @Override
+    public Future<MealerRecipe> getRecipe(String id, DatabaseCompletionCallback callback) {
         return getModel(recipeCollectionId, id, MealerRecipe.class, callback);
     }
 
@@ -111,6 +132,11 @@ public class FirebaseDatabaseClient implements DatabaseClient {
         return saveModel(userCollectionId, user.getId(), user, callback);
     }
 
+    @Override
+    public Future<Boolean> deleteRecipe(String id, DatabaseCompletionCallback callback) {
+        return deleteModel(recipeCollectionId, id, callback);
+    }
+
     /**
      * Lookup the user in the database and check if we need to ask for more data.
      * Ex: Is there address missing?
@@ -118,7 +144,7 @@ public class FirebaseDatabaseClient implements DatabaseClient {
      * @return
      */
     @Override
-    public Future<Boolean> userInfoRequired(DatabaseGetCallback callback) {
+    public Future<Boolean> userInfoRequired(DatabaseCompletionCallback callback) {
 
         //TODO: Implement logic for user info missing fields. We currently only check if document exists.
         SettableFuture<Boolean> future = SettableFuture.create();
@@ -134,6 +160,20 @@ public class FirebaseDatabaseClient implements DatabaseClient {
 //        });
         callback.onComplete(true);
         future.set(true);
+
+        return future;
+    }
+
+    private <T> Future<List<T>> getModels(Class<T> clazz, String collectionName, int limit, DatabaseFilterCallback filter) {
+        final SettableFuture<List<T>> future = SettableFuture.create();
+
+        filter.applyFilter(firestore.collection(collectionName)).limit(limit).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                future.set(task.getResult().toObjects(clazz));
+            } else {
+                future.set(null);
+            }
+        });
 
         return future;
     }
@@ -166,23 +206,20 @@ public class FirebaseDatabaseClient implements DatabaseClient {
             return future;
         }
 
-        executorService.submit(() -> {
-            firestore.collection(collectionName).document(documentId).set(mappedData).addOnCompleteListener(task -> {
-                callback.onComplete(task.isSuccessful());
-                if (task.isSuccessful()) {
-                    future.set(true);
-                } else {
-                    future.setException(new Exception("Failed to save data to firestore!"));
-                    future.set(false);
-                }
-            });
+        firestore.collection(collectionName).document(documentId).set(mappedData).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                future.set(true);
+            } else {
+                future.setException(new Exception("Failed to save data to firestore!"));
+                future.set(false);
+            }
         });
 
 
         return future;
     }
 
-    private <T> Future<T> getModel(String collectionId, String documentId, Class<T> clazz, DatabaseGetCallback callback) {
+    private <T> Future<T> getModel(String collectionId, String documentId, Class<T> clazz, DatabaseCompletionCallback callback) {
 
         // Create a future.
         final SettableFuture<T> future = SettableFuture.create();
@@ -201,6 +238,16 @@ public class FirebaseDatabaseClient implements DatabaseClient {
                     future.set(null);
                 }
             });
+        });
+
+        return future;
+    }
+
+    private Future<Boolean> deleteModel(String collectionId, String documentId, DatabaseCompletionCallback callback) {
+        final SettableFuture<Boolean> future = SettableFuture.create();
+
+        firestore.collection(collectionId).document(documentId).delete().addOnCompleteListener(task -> {
+            future.set(task.isSuccessful());
         });
 
         return future;
