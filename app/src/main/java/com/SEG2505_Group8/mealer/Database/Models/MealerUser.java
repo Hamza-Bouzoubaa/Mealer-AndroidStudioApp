@@ -2,8 +2,10 @@ package com.SEG2505_Group8.mealer.Database.Models;
 
 import com.SEG2505_Group8.mealer.Database.Serialize.MealerSerializable;
 import com.SEG2505_Group8.mealer.Database.Serialize.MealerSerializableElement;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.IgnoreExtraProperties;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -67,8 +69,8 @@ public class MealerUser {
     /**
      * User description.
      */
-    @MealerSerializableElement(key = "biography")
-    String biography;
+    @MealerSerializableElement(key = "description")
+    String description;
 
     /**
      * Id of menu if CHEF, empty String otherwise. Links to Document containing a CHEF's menu.
@@ -96,4 +98,29 @@ public class MealerUser {
      */
     @MealerSerializableElement(key = "totalSales")
     int totalSales;
+
+    public MealerUser(String id, String firstName, String lastName, String email, String address, String creditCard, String description) {
+
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.address = address;
+        this.creditCard = creditCard;
+        this.description = description;
+        this.menuId = "";
+        this.profilePictureUrl = "";
+        this.voidCheckUrl = "";
+        this.role = MealerRole.USER;
+        this.totalSales = 0;
+
+        // TODO: Make this cleaner
+        List<Integer> ratings = new ArrayList<>();
+        ratings.add(0);
+        ratings.add(0);
+        ratings.add(0);
+        ratings.add(0);
+        ratings.add(0);
+        this.ratings = ratings;
+    }
 }

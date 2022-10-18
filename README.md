@@ -2,11 +2,9 @@
 
 ## Getting started
 
-To get started, you will need `Android Studio`. Once you've opened the project, please accept any requests to download plugins. This project currently depends on the [Save Actions](https://plugins.jetbrains.com/plugin/7642-save-actions) and [Lombok](https://plugins.jetbrains.com/plugin/6317-lombok).
+To get started, you will need `Android Studio`. Once you've opened the project, please accept any requests to download plugins. This project currently depends on the [Save Actions](https://plugins.jetbrains.com/plugin/7642-save-actions).
 
 [Save Actions](https://plugins.jetbrains.com/plugin/7642-save-actions) ensures unified imports and code formating is applied to all contributed code.
-
-[Lombok](https://plugins.jetbrains.com/plugin/6317-lombok) creates Getters, Setters, and other tedious methods automatically through the use of `Annotations`. A quick read of the documentation can be very useful.
 
 Once your IDE is setup, see [Contributions](#contributions) for information on how to contribute to the project.
 
@@ -48,27 +46,69 @@ Architecture:
 
 ```mermaid
 classDiagram
-    class MealerClient {
-        <<singleton>>
-        User user
+    MealerSerializable <|-- MealerUser
+    MealerSerializable <|-- MealerMenu
+    MealerSerializable <|-- MealerRecipe
+    MealerSerializable <|-- MealerOrder
+    MealerSerializable <|-- MealerMenu
+    MealerSerializable *-- MealerSerializableElement
 
-        public MealerUser getUser()
-        public MealerRole getRole()
+    MealerClient <|-- FirebaseClient
+
+    Services "1" --> MealerClient
+
+    MealerOrder "1" --> "1" MealerOrderStatus
+
+    MealerUser "1" --> "*" MealerRole
+
+
+    class MealerClient {
+        <<interface>>
+        +getUser(String id)* Future~MealerUser~
+        +getUser()* Future~MealerUser~
+        +getUserMenu(String id)* Future~MealerMenu~ 
+        +getUserMenu()* Future~MealerMenu~ 
+        +getMenu(String id)* Future~MealerMenu~ 
+        +getRecipe(String id)* Future~MealerRecipe~ 
+        +updateRecipe(MealerRecipe recipe)* Future~Void~ 
+        +updateMenu(MealerMenu menu)* Future~Void~ 
+        +updateUser(MealerUser user)* Future~Void~ 
+        +userInfoRequired()* Future~Boolean~
+    }
+
+    class FirebaseClient {
+        <<interface>>
+        +getUser(String id) Future~MealerUser~
+        +getUser() Future~MealerUser~
+        +getUserMenu(String id) Future~MealerMenu~ 
+        +getUserMenu() Future~MealerMenu~ 
+        +getMenu(String id) Future~MealerMenu~ 
+        +getRecipe(String id) Future~MealerRecipe~ 
+        +updateRecipe(MealerRecipe recipe) Future~Void~ 
+        +updateMenu(MealerMenu menu) Future~Void~ 
+        +updateUser(MealerUser user) Future~Void~ 
+        +userInfoRequired() Future~Boolean~
+    }
+
+    class Services {
+        <<Singleton>>
+        #MealerClient database
+        +getDatabaseClient() MealerClient 
     }
 
     class MealerUser {
-        String firstName
-        String lastName
-        String email
-        String profilePictureUrl
-        String voidCheckUrl
-        String address
-        String biography
-        String creditCard
-        String menuId
-        MealerRole role
-        int[] ratings
-        int totalSales
+        #String firstName
+        #String lastName
+        #String email
+        #String profilePictureUrl
+        #String voidCheckUrl
+        #String address
+        #String biography
+        #String creditCard
+        #String menuId
+        #List~MealerRole~ role
+        #List~Integer~ ratings
+        #int totalSales
     }
 
     class MealerRole {
@@ -78,20 +118,81 @@ classDiagram
         ADMIN
     }
 
-    class Menu {
+    class MealerMenu {
         String chefId
         List~Recipe~ recipes
-        int[] ratings
+        List~Integer~ ratings
     }
 
-    class Recipe {
+    class MealerRecipe {
         String name
         String course
-        String[] categories
-        String[] ingredients
-        String[] allergens
+        List~String~ categories
+        List~String~ ingredients
+        List~String~ allergens
         float price
         String description
+    }
+
+    class MealerOrder {
+
+    }
+
+    class MealerOrderStatus {
+        <<Enumeration>>
+        IN_PROGRESS,
+        COMPLETE,
+        ACCEPTED,
+        REJECTED,
+        CANCELED
+    }
+
+    class MealerSerializable {
+        <<@Interface>>
+    }
+
+    class MealerSerializer {
+        +toMap(Object o)$ Map
+        +isSerializable(Object o)$ bool
+    }
+
+    class MealerSerializableElement {
+        <<@Interface>>
+        +key() String 
+    }
+```
+```mermaid
+classDiagram
+    class ActivityUtils {
+
+    }
+
+    class HomeActivity {
+
+    }
+
+    class MainActivity {
+
+    }
+
+    class SignInActivity {
+
+    }
+
+    class SignInWithEmailActivity {
+
+    }
+
+    class userInfoForm {
+
+    }
+
+    class PhotoCard {
+
+    }
+
+    class ProgressiveHorizontalScrollView {
+
     }
 ```
 

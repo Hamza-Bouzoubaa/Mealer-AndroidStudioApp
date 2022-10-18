@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,12 +23,13 @@ import java.util.List;
 
 public class UserInfoForm extends AppCompatActivity {
 
-    TextView firstName;
-    TextView lastName;
-    TextView address;
-    TextView email;
-    TextView creditCard;
-    TextView description;
+    EditText firstName;
+    EditText lastName;
+    EditText address;
+    EditText email;
+    EditText password;
+    EditText creditCard;
+    EditText description;
 
     CheckBox conditions;
 
@@ -40,6 +42,7 @@ public class UserInfoForm extends AppCompatActivity {
         lastName = findViewById(R.id.user_input_form_last_name);
         address = findViewById(R.id.user_info_form_address);
         email = findViewById(R.id.user_info_form_email);
+        password = findViewById(R.id.user_info_form_password);
         creditCard = findViewById(R.id.user_info_form_credit_card);
         description = findViewById(R.id.user_info_form_description);
         conditions = findViewById(R.id.user_info_form_conditions);
@@ -63,45 +66,43 @@ public class UserInfoForm extends AppCompatActivity {
             return;
         }
 
-        List<Integer> ratings = new ArrayList<>();
-        ratings.add(0);
-        ratings.add(0);
-        ratings.add(0);
-        ratings.add(0);
-        ratings.add(0);
-        MealerUser user = new MealerUser(FirebaseAuth.getInstance().getCurrentUser().getUid(), firstName.getText().toString(), lastName.getText().toString(), email.getText().toString(), address.getText().toString(), creditCard.getText().toString(), "", "", description.getText().toString(), "", MealerRole.USER, ratings, 0);
-        Services.getDatabaseClient().updateUser(user);
+        String validatedEmail = email.getText().toString();
+        String validatedPassword = password.getText().toString();
 
-        // Create the MainActivity intent
-        Intent i = new Intent(UserInfoForm.this, MainActivity.class);
-        startActivity(i);
+        FirebaseAuth.getInstance().createUserWithEmailAndPassword(validatedEmail, validatedPassword).addOnCompleteListener(this, task -> {
+            if (task.isSuccessful()) {
+                // Account created
 
-        // Kill our current intent
-        finish();
-    }
+                // Validate fields TODO: Add validation
+                String validatedId;
+                try {
+                    validatedId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                } catch (NullPointerException e) {
+                    // TODO: Handle invalid data in user creation
+                    return;
+                }
 
-    private void OnClickSubmitNewAccount() {
+                String validatedFirstName = firstName.getText().toString();
+                String validatedLastName = lastName.getText().toString();
+                String validatedAddress = address.getText().toString();
+                String validatedCreditCard = creditCard.getText().toString();
+                String validatedDescription = description.getText().toString();
 
-        String email = "";
-        String password = "";
+                // Create user data in Database
+                MealerUser user = new MealerUser(validatedId, validatedFirstName, validatedLastName, validatedEmail, validatedAddress, validatedCreditCard, validatedDescription);
+                Services.getDatabaseClient().updateUser(user);
 
-        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, task -> {
-                    if (task.isSuccessful()) {
-                        // Sign in success, update UI with the signed-in user's information
-                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                        // Create the MainActivity intent
-                        Intent i = new Intent(UserInfoForm.this, MainActivity.class);
-                        startActivity(i);
+                // Create the MainActivity intent
+                Intent i = new Intent(UserInfoForm.this, MainActivity.class);
+                startActivity(i);
 
-                        // Kill our current intent
-                        finish();
-                    } else {
-                        // If sign in fails, display a message to the user.
-                        Toast.makeText(UserInfoForm.this, "Authentication failed.",
-                                Toast.LENGTH_SHORT).show();
-                        //TODO: Implement failed sign up
-                    }
-                });
+                // Kill our current intent
+                finish();
+            } else {
+                // Failed to create an account
+                // TODO: Handle failed account creation
+                Toast.makeText(UserInfoForm.this, "Failed to user account!", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

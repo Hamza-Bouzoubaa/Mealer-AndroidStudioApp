@@ -2,18 +2,16 @@
 <resources>
     <color name="white">#FFFFFF</color>
 
-    <!-- First color palette idea -->
-    <color name="dark_purple">#4A3459</color>
-    <color name="pink_monique">#FF7A7A</color>
-    <color name="light_lavender">#CDC1D9</color>
-    <color name="lavender">#AC9FBF</color>
-    <color name="brown">#A65C41</color>
-    <color name="pink">#F28888</color>
+    <color name="primary">#D0895D</color> <!-- Brown Paper -->
+    <color name="primary_variant">#D96545</color> <!-- Peachy -->
+    <color name="primary_on">@color/white</color>
+    <color name="secondary">#BF4B2B</color> <!-- Toasted Orange -->
+    <color name="secondary_variant">#ab6c44</color> <!-- Brown -->
+    <color name="secondary_on">@color/white</color>
 
-    <!-- Second color palette idea -->
-    <color name="blue">#172b72</color>
-    <color name="light_pink">#efa1e3</color>
-    <color name="dark_pink">#b862a7</color>
-    <color name="light_blue">#1f3c81</color>
-    <color name="dark_blue">#041d6e</color>
+    <color name="callToAction">#BC292C</color> <!-- Call to Action / Dark Element -->
+    <color name="disabled">#5A5A5A</color> <!-- Disabled -->
+
+    <!-- Old colors -->
+    <!--<color name="light_brown">#d1885c </color>-->
 </resources>

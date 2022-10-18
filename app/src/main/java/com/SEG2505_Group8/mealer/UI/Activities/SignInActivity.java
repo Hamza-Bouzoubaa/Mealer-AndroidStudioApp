@@ -2,6 +2,7 @@ package com.SEG2505_Group8.mealer.UI.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -22,37 +23,21 @@ public class SignInActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_in);
 
         email = findViewById(R.id.sign_in_email_field);
+        email.setOnEditorActionListener((v, actionId, event) -> {
+            boolean handled = false;
+            if (actionId == EditorInfo.IME_ACTION_GO || actionId == EditorInfo.IME_ACTION_UNSPECIFIED) {
+                emailContinueButton.callOnClick();
+                handled = true;
+            }
+            return handled;
+        });
+
         emailContinueButton = findViewById(R.id.sign_in_continue_button);
-
         emailContinueButton.setOnClickListener(view -> {
-            // TODO: Check if email is already associated with an account
 
-            FirebaseAuth.getInstance().fetchSignInMethodsForEmail(email.getText().toString()).addOnCompleteListener(task -> {
+            // TODO: Add Gini's field validation
 
-                boolean isNewUser = true;
-
-                try {
-                    isNewUser = task.getResult().getSignInMethods().isEmpty();
-                } catch (Exception e) {
-
-                }
-
-                if (isNewUser) {
-                    // Create the UserInfoForm intent
-                    Intent i = new Intent(SignInActivity.this, UserInfoForm.class);
-                    startActivity(i);
-
-                    // Kill our current intent
-                    finish();
-                } else {
-                    // Create the SignInWithEmail intent
-                    Intent i = new Intent(SignInActivity.this, SignInWithEmailActivity.class);
-                    startActivity(i);
-
-                    // Kill our current intent
-                    finish();
-                }
-            });
+            redirectUser(email.getText().toString());
         });
 
         // If the user presses the back button on their phone
@@ -66,6 +51,38 @@ public class SignInActivity extends AppCompatActivity {
                 // Kill our current intent
                 finish();
             }
+        });
+    }
+
+    public void redirectUser(String email) {
+
+        if (email == null || email.isEmpty()) {
+            return;
+        }
+
+        FirebaseAuth.getInstance().fetchSignInMethodsForEmail(email).addOnCompleteListener(task -> {
+
+            boolean isNewUser = true;
+
+            try {
+                isNewUser = task.getResult().getSignInMethods().isEmpty();
+            } catch (Exception e) {
+                System.out.println("Failed to get SignInMethods. Presenting account creation.");
+            }
+
+            Intent i;
+            if (isNewUser) {
+                // Create the UserInfoForm intent
+                i = new Intent(SignInActivity.this, UserInfoForm.class);
+            } else {
+                // Create the SignInWithEmail intent
+                i = new Intent(SignInActivity.this, SignInWithEmailActivity.class);
+                i.putExtra("email", email);
+            }
+            startActivity(i);
+
+            // Kill current intent since we probably won't be back.
+            finish();
         });
     }
 }

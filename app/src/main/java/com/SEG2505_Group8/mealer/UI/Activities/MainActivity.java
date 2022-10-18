@@ -2,14 +2,13 @@ package com.SEG2505_Group8.mealer.UI.Activities;
 
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.SEG2505_Group8.mealer.R;
 import com.SEG2505_Group8.mealer.Services;
 import com.google.firebase.auth.FirebaseAuth;
-
-import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,16 +25,17 @@ public class MainActivity extends AppCompatActivity {
      * Launch home activity unless user info is required.
      */
     private void tryLaunchHomeActivity() {
-        try {
-            if (Services.getDatabaseClient().userInfoRequired().get()) {
-                //TODO: Implement get new user info
-//                ActivityUtils.launchActivity(this, MainActivity.this, SignInActivity.class);
-            } else {
-                ActivityUtils.launchActivity(this, MainActivity.this, HomeActivity.class);
-            }
-        } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-        }
+//        try {
+        ActivityUtils.launchActivity(this, MainActivity.this, HomeActivity.class);
+//            if (Services.getDatabaseClient().userInfoRequired().get()) {
+//                //TODO: Implement get new user info
+////                ActivityUtils.launchActivity(this, MainActivity.this, SignInActivity.class);
+//            } else {
+//                ActivityUtils.launchActivity(this, MainActivity.this, HomeActivity.class);
+//            }
+//        } catch (ExecutionException | InterruptedException e) {
+//            e.printStackTrace();
+//        }
     }
 
     @Override
