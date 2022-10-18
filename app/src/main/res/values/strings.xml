@@ -18,4 +18,7 @@
     <string name="welcome_text">First steps with Mealer</string>
     <string name="or">or</string>
     <string name="user_info_form_password">password</string>
+
+    <!-- Below is string for ChooseSignUpType -->
+    <string name="chooseActivity">Choose Activity</string>
 </resources>

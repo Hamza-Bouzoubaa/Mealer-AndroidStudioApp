@@ -11,6 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Mealer">
+        <activity
+            android:name=".ChooseSignUpType"
+            android:exported="false" />
         <activity android:name=".UI.Activities.UserInfoForm" />
         <activity android:name=".UI.Activities.SignInActivity" />
         <activity android:name=".UI.Activities.HomeActivity" />
