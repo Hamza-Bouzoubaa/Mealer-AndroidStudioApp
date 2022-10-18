@@ -6,7 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".UI.Activities.HomeActivity"
     android:id="@+id/relativeLayout">
-    <!--welcome message in text view-->
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/home_card_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:elevation="-1dp"/>
 
     <!--Button for logout from the app-->
     <Button
@@ -18,14 +27,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.SEG2505_Group8.mealer.UI.Components.ProgressiveHorizontalScrollView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <Button
+        android:id="@+id/btnDeleteRecipe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete Recipe"
+        android:textAllCaps="false"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-    </com.SEG2505_Group8.mealer.UI.Components.ProgressiveHorizontalScrollView>
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

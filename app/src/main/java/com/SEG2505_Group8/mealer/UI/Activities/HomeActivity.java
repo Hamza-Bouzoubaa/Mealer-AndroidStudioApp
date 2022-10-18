@@ -9,18 +9,29 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.SEG2505_Group8.mealer.Database.Models.MealerRecipe;
 import com.SEG2505_Group8.mealer.R;
 import com.SEG2505_Group8.mealer.Services;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class HomeActivity extends AppCompatActivity {
+
+    List<MealerRecipe> spotlightRecipes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        Button deleteRecipe = findViewById(R.id.btnDeleteRecipe);
+        deleteRecipe.setOnClickListener(v -> {
+            Services.getDatabaseClient().deleteRecipe("recipe1");
+        });
 
         // button for logout and initialing our button.
         Button logoutBtn = findViewById(R.id.idBtnLogout);
@@ -51,5 +62,6 @@ public class HomeActivity extends AppCompatActivity {
                         });
             }
         });
+        Services.getDatabaseClient().updateRecipe(new MealerRecipe("recipe1", "Chips", "Appetizer", null, null, null, 10.25f, "Some chips with ketchup"));
     }
 }

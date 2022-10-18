@@ -1,12 +1,13 @@
 package com.SEG2505_Group8.mealer.Database;
 
-import com.SEG2505_Group8.mealer.Database.Callbacks.DatabaseGetCallback;
+import com.SEG2505_Group8.mealer.Database.Callbacks.DatabaseFilterCallback;
+import com.SEG2505_Group8.mealer.Database.Callbacks.DatabaseCompletionCallback;
 import com.SEG2505_Group8.mealer.Database.Callbacks.DatabaseSetCallback;
 import com.SEG2505_Group8.mealer.Database.Models.MealerMenu;
 import com.SEG2505_Group8.mealer.Database.Models.MealerRecipe;
 import com.SEG2505_Group8.mealer.Database.Models.MealerUser;
-import com.google.common.util.concurrent.ListenableFuture;
 
+import java.util.List;
 import java.util.concurrent.Future;
 
 public interface DatabaseClient {
@@ -28,7 +29,7 @@ public interface DatabaseClient {
      * @param callback
      * @return
      */
-    Future<MealerUser> getUser(String id, DatabaseGetCallback callback);
+    Future<MealerUser> getUser(String id, DatabaseCompletionCallback callback);
 
     /**
      * Get {@link MealerUser} document of User who is logged in.
@@ -44,9 +45,14 @@ public interface DatabaseClient {
      *
      * @return
      */
-    default Future<MealerUser> getUser(DatabaseGetCallback callback) {
+    default Future<MealerUser> getUser(DatabaseCompletionCallback callback) {
         return getUser(null, callback);
     }
+
+    /**
+     * Get {@link MealerUser}s with filter
+     */
+    Future<List<MealerUser>> getUsers(DatabaseFilterCallback filter);
 
     /**
      * Get {@link MealerMenu} of user with id.
@@ -64,7 +70,7 @@ public interface DatabaseClient {
      * @param id
      * @return
      */
-    Future<MealerMenu> getUserMenu(String id, DatabaseGetCallback callback);
+    Future<MealerMenu> getUserMenu(String id, DatabaseCompletionCallback callback);
 
     /**
      * Get {@link MealerMenu} of logged in user.
@@ -80,9 +86,14 @@ public interface DatabaseClient {
      *
      * @return
      */
-    default Future<MealerMenu> getUserMenu(DatabaseGetCallback callback) {
+    default Future<MealerMenu> getUserMenu(DatabaseCompletionCallback callback) {
         return getUserMenu(null, callback);
     }
+
+    /**
+     * Get {@link MealerMenu}s with filter
+     */
+    Future<List<MealerMenu>> getMenus(DatabaseFilterCallback filter);
 
     /**
      * Get {@link MealerMenu} with Document Id.
@@ -100,13 +111,18 @@ public interface DatabaseClient {
      * @param id
      * @return
      */
-    Future<MealerMenu> getMenu(String id, DatabaseGetCallback callback);
+    Future<MealerMenu> getMenu(String id, DatabaseCompletionCallback callback);
+
+    /**
+     * Get {@link MealerRecipe}s with filter
+     */
+    Future<List<MealerRecipe>> getRecipes(DatabaseFilterCallback filter);
 
     default Future<MealerRecipe> getRecipe(String id) {
         return getRecipe(id, null);
     }
 
-    Future<MealerRecipe> getRecipe(String id, DatabaseGetCallback callback);
+    Future<MealerRecipe> getRecipe(String id, DatabaseCompletionCallback callback);
 
     default Future<Boolean> updateRecipe(MealerRecipe recipe) {
         return updateRecipe(recipe, null);
@@ -126,9 +142,15 @@ public interface DatabaseClient {
 
     Future<Boolean> updateUser(MealerUser user, DatabaseSetCallback callback);
 
+    default Future<Boolean> deleteRecipe(String id) {
+        return deleteRecipe(id, null);
+    }
+
+    Future<Boolean> deleteRecipe(String id, DatabaseCompletionCallback callback);
+
     default Future<Boolean> userInfoRequired() {
         return userInfoRequired(null);
     }
 
-    Future<Boolean> userInfoRequired(DatabaseGetCallback callback);
+    Future<Boolean> userInfoRequired(DatabaseCompletionCallback callback);
 }
