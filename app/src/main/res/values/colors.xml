@@ -2,6 +2,7 @@
 <resources>
     <color name="white">#FFFFFF</color>
 
+<<<<<<< HEAD
     <!-- First color palette idea -->
 
     <color name="dark_purple">#4A3459</color>
@@ -26,6 +27,18 @@
     <color name="Toasted_Orange">#bf4b2b </color>
     <color name="brownnn">#ab6c44 </color>
     <color name="NotSure">#b46461 </color>
+=======
+    <color name="primary">#D0895D</color> <!-- Brown Paper -->
+    <color name="primary_variant">#D96545</color> <!-- Peachy -->
+    <color name="primary_on">@color/white</color>
+    <color name="secondary">#BF4B2B</color> <!-- Toasted Orange -->
+    <color name="secondary_variant">#ab6c44</color> <!-- Brown -->
+    <color name="secondary_on">@color/white</color>
+>>>>>>> f1f92a54139a274a619ab3a81eb6b96094e8c40e
 
+    <color name="callToAction">#BC292C</color> <!-- Call to Action / Dark Element -->
+    <color name="disabled">#5A5A5A</color> <!-- Disabled -->
 
+    <!-- Old colors -->
+    <!--<color name="light_brown">#d1885c </color>-->
 </resources>

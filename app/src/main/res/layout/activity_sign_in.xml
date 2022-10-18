@@ -8,9 +8,12 @@
         android:id="@+id/sign_in_header"
         android:layout_width="wrap_content"
         android:layout_height="60dp"
+<<<<<<< HEAD
         android:layout_marginTop="28dp"
         android:text="@string/sign_in_header"
         android:textColor="@color/Toasted_Orange"
+=======
+>>>>>>> f1f92a54139a274a619ab3a81eb6b96094e8c40e
         android:textSize="28sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,8 +39,12 @@
         android:layout_height="60dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
+<<<<<<< HEAD
         android:text="@string/continue_text"
         app:backgroundTint="@color/NotSure"
+=======
+        style="@style/CallToAction"
+>>>>>>> f1f92a54139a274a619ab3a81eb6b96094e8c40e
         app:layout_constraintEnd_toEndOf="@id/sign_in_email_field"
         app:layout_constraintStart_toStartOf="@id/sign_in_email_field"
         app:layout_constraintTop_toBottomOf="@id/sign_in_email_field" />
@@ -85,7 +92,11 @@
         android:layout_marginTop="40dp"
         android:layout_marginEnd="40dp"
         android:text="SIGN IN WITH GOOGLE (NoImpl)"
+<<<<<<< HEAD
         app:backgroundTint="@color/NotSure"
+=======
+        style="@style/Disabled"
+>>>>>>> f1f92a54139a274a619ab3a81eb6b96094e8c40e
         app:layout_constraintEnd_toEndOf="@id/sign_in_email_field"
         app:layout_constraintStart_toStartOf="@id/sign_in_email_field"
         app:layout_constraintTop_toBottomOf="@id/seperator_text" />
@@ -98,7 +109,11 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="40dp"
         android:text="SIGN IN WITH GITHUB (NoImpl)"
+<<<<<<< HEAD
         app:backgroundTint="@color/NotSure"
+=======
+        style="@style/Disabled"
+>>>>>>> f1f92a54139a274a619ab3a81eb6b96094e8c40e
         app:layout_constraintEnd_toEndOf="@id/sign_in_email_field"
         app:layout_constraintStart_toStartOf="@id/sign_in_email_field"
         app:layout_constraintTop_toBottomOf="@id/placeholderButton" />

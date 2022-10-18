@@ -8,9 +8,12 @@
         android:id="@+id/sign_in_with_email_header"
         android:layout_width="wrap_content"
         android:layout_height="60dp"
+<<<<<<< HEAD
         android:layout_marginTop="28dp"
         android:text="@string/sign_in_header"
         android:textColor="@color/Toasted_Orange"
+=======
+>>>>>>> f1f92a54139a274a619ab3a81eb6b96094e8c40e
         android:textSize="28sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
