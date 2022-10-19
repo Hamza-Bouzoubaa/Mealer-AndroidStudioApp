@@ -3,6 +3,7 @@ package com.SEG2505_Group8.mealer.UI.Activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.SEG2505_Group8.mealer.Database.Models.MealerRole;
 import com.SEG2505_Group8.mealer.Database.Models.MealerUser;
 import com.SEG2505_Group8.mealer.R;
 import com.SEG2505_Group8.mealer.Services;
@@ -27,6 +29,8 @@ public class UserSignUpFormActivity extends AppCompatActivity {
 
     CheckBox conditions;
 
+    Button submitButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,13 +40,21 @@ public class UserSignUpFormActivity extends AppCompatActivity {
         lastName = findViewById(R.id.user_sign_up_form_last_name);
         address = findViewById(R.id.user_sign_up_form_address);
         email = findViewById(R.id.user_sign_up_form_email);
+
+        email.setText(getIntent().getStringExtra("email"));
+
         password = findViewById(R.id.user_sign_up_form_password);
         creditCard = findViewById(R.id.user_sign_up_form_credit_card);
         description = findViewById(R.id.user_sign_up_form_description);
         conditions = findViewById(R.id.user_sign_up_form_conditions);
+
+        submitButton = findViewById(R.id.user_sign_up_form_submit_button);
+        submitButton.setOnClickListener(view -> {
+            submit();
+        });
     }
 
-    public void submitbuttonhandler(View view) {
+    public void submit() {
         if (!conditions.isChecked()) {
             return;
         }
@@ -70,7 +82,7 @@ public class UserSignUpFormActivity extends AppCompatActivity {
                 String validatedDescription = description.getText().toString();
 
                 // Create user data in Database
-                MealerUser user = new MealerUser(validatedId, validatedFirstName, validatedLastName, validatedEmail, validatedAddress, validatedCreditCard, validatedDescription);
+                MealerUser user = new MealerUser(validatedId, MealerRole.USER, validatedFirstName, validatedLastName, validatedEmail, validatedAddress, validatedCreditCard, validatedDescription, "");
                 Services.getDatabaseClient().updateUser(user);
 
                 startActivity(new Intent(UserSignUpFormActivity.this, MainActivity.class));

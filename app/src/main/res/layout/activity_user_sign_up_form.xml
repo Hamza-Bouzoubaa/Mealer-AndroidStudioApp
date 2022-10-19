@@ -42,63 +42,6 @@
         app:layout_constraintStart_toStartOf="@id/user_sign_up_form_first_name"
         app:layout_constraintTop_toBottomOf="@id/user_sign_up_form_first_name" />
 
-    <!--    <TextView-->
-    <!--        android:id="@+id/gender"-->
-    <!--        android:layout_width="83dp"-->
-    <!--        android:layout_height="32dp"-->
-    <!--        android:layout_marginTop="172dp"-->
-    <!--        android:text="Gender"-->
-    <!--        android:textSize="18sp"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintHorizontal_bias="0.118"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="parent" />-->
-
-    <!--    <RadioGroup-->
-    <!--        android:id="@+id/radioGroup"-->
-    <!--        android:layout_width="205dp"-->
-    <!--        android:layout_height="32dp"-->
-    <!--        android:layout_marginTop="172dp"-->
-    <!--        android:orientation="horizontal"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintHorizontal_bias="0.834"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="parent">-->
-
-
-    <!--        <RadioButton-->
-    <!--            android:id="@+id/radioButton"-->
-    <!--            android:layout_width="45dp"-->
-    <!--            android:layout_height="33dp"-->
-    <!--            android:text="M"-->
-    <!--            app:layout_constraintEnd_toEndOf="parent"-->
-    <!--            app:layout_constraintStart_toStartOf="parent"-->
-    <!--            app:layout_constraintTop_toTopOf="parent"-->
-    <!--            android:onClick="radioButtonhandler" />-->
-
-    <!--        <RadioButton-->
-    <!--            android:id="@+id/female"-->
-    <!--            android:layout_width="45dp"-->
-    <!--            android:layout_height="33dp"-->
-    <!--            android:text="F"-->
-    <!--            app:layout_constraintEnd_toEndOf="parent"-->
-    <!--            app:layout_constraintHorizontal_bias="0.655"-->
-    <!--            app:layout_constraintStart_toStartOf="parent"-->
-    <!--            app:layout_constraintTop_toTopOf="parent"-->
-    <!--            android:onClick="radioButtonhandler" />-->
-
-    <!--        <RadioButton-->
-    <!--            android:id="@+id/other"-->
-    <!--            android:layout_width="96dp"-->
-    <!--            android:layout_height="33dp"-->
-    <!--            android:text="Other"-->
-    <!--            app:layout_constraintEnd_toEndOf="parent"-->
-    <!--            app:layout_constraintHorizontal_bias="0.949"-->
-    <!--            app:layout_constraintStart_toStartOf="parent"-->
-    <!--            app:layout_constraintTop_toTopOf="parent"-->
-    <!--            android:onClick="radioButtonhandler" />-->
-    <!--    </RadioGroup>-->
-
     <EditText
         android:id="@+id/user_sign_up_form_email"
         android:layout_width="wrap_content"
@@ -178,7 +121,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:onClick="submitbuttonhandler"
         android:text="@string/user_sign_up_form_submit"
         style="@style/CallToAction"
         app:layout_constraintEnd_toEndOf="parent"

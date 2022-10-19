@@ -26,10 +26,12 @@ public class ChooseUserTypeActivity extends AppCompatActivity {
 
         userButton.setOnClickListener(view -> {
             Intent i = new Intent(ChooseUserTypeActivity.this, UserSignUpFormActivity.class);
+            i.putExtra("email", getIntent().getStringExtra("email"));
             startActivity(i);
         });
         chefButton.setOnClickListener(view -> {
             Intent i = new Intent(ChooseUserTypeActivity.this, ChefSignUpFormActivity.class);
+            i.putExtra("email", getIntent().getStringExtra("email"));
             startActivity(i);
         });
     }

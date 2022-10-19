@@ -99,7 +99,7 @@ public class MealerUser {
     @MealerSerializableElement(key = "totalSales")
     int totalSales;
 
-    public MealerUser(String id, String firstName, String lastName, String email, String address, String creditCard, String description) {
+    public MealerUser(String id, MealerRole role, String firstName, String lastName, String email, String address, String creditCard, String description, String voidCheckUrl) {
 
         this.id = id;
         this.firstName = firstName;
@@ -110,8 +110,8 @@ public class MealerUser {
         this.description = description;
         this.menuId = "";
         this.profilePictureUrl = "";
-        this.voidCheckUrl = "";
-        this.role = MealerRole.USER;
+        this.voidCheckUrl = voidCheckUrl;
+        this.role = role;
         this.totalSales = 0;
 
         // TODO: Make this cleaner
