@@ -22,8 +22,6 @@ public class ChooseUserTypeActivity extends AppCompatActivity {
         userButton = findViewById(R.id.choose_user_type_user_button);
         chefButton = findViewById(R.id.choose_user_type_chef_button);
 
-        System.out.println("Logging from CUTA");
-
         userButton.setOnClickListener(view -> {
             Intent i = new Intent(ChooseUserTypeActivity.this, UserSignUpFormActivity.class);
             i.putExtra("email", getIntent().getStringExtra("email"));
