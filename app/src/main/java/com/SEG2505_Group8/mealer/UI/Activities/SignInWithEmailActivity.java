@@ -44,13 +44,7 @@ public class SignInWithEmailActivity extends AppCompatActivity {
         submitButton.setOnClickListener(view -> {
             FirebaseAuth.getInstance().signInWithEmailAndPassword(getIntent().getStringExtra("email"), passwordField.getText().toString()).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                    // Sign in success, update UI with the signed-in user's information
-                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                    // Create the MainActivity intent
-                    Intent i = new Intent(SignInWithEmailActivity.this, MainActivity.class);
-                    startActivity(i);
-
-                    // Kill our current intent
+                    startActivity(new Intent(SignInWithEmailActivity.this, MainActivity.class));
                     finish();
                 } else {
                     // If sign in fails, display a message to the user.
@@ -58,20 +52,6 @@ public class SignInWithEmailActivity extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
                 }
             });
-            ActivityUtils.launchActivity(this, SignInWithEmailActivity.this, MainActivity.class);
-        });
-
-        // If the user presses the back button on their phone
-        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-                // Create the MainActivity intent
-                Intent i = new Intent(SignInWithEmailActivity.this, SignInActivity.class);
-                startActivity(i);
-
-                // Kill our current intent
-                finish();
-            }
         });
     }
 }

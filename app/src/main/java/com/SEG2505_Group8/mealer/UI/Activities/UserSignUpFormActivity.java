@@ -5,23 +5,17 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.SEG2505_Group8.mealer.Database.Models.MealerRole;
 import com.SEG2505_Group8.mealer.Database.Models.MealerUser;
 import com.SEG2505_Group8.mealer.R;
 import com.SEG2505_Group8.mealer.Services;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class UserInfoForm extends AppCompatActivity {
+public class UserSignUpFormActivity extends AppCompatActivity {
 
     EditText firstName;
     EditText lastName;
@@ -36,7 +30,7 @@ public class UserInfoForm extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_info_form);
+        setContentView(R.layout.activity_user_sign_up_form);
 
         firstName = findViewById(R.id.user_input_form_first_name);
         lastName = findViewById(R.id.user_input_form_last_name);
@@ -46,19 +40,6 @@ public class UserInfoForm extends AppCompatActivity {
         creditCard = findViewById(R.id.user_info_form_credit_card);
         description = findViewById(R.id.user_info_form_description);
         conditions = findViewById(R.id.user_info_form_conditions);
-
-        // If the user presses the back button on their phone, go back to Main
-        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-                // Create the MainActivity intent
-                Intent i = new Intent(UserInfoForm.this, MainActivity.class);
-                startActivity(i);
-
-                // Kill our current intent
-                finish();
-            }
-        });
     }
 
     public void submitbuttonhandler(View view) {
@@ -92,16 +73,12 @@ public class UserInfoForm extends AppCompatActivity {
                 MealerUser user = new MealerUser(validatedId, validatedFirstName, validatedLastName, validatedEmail, validatedAddress, validatedCreditCard, validatedDescription);
                 Services.getDatabaseClient().updateUser(user);
 
-                // Create the MainActivity intent
-                Intent i = new Intent(UserInfoForm.this, MainActivity.class);
-                startActivity(i);
-
-                // Kill our current intent
+                startActivity(new Intent(UserSignUpFormActivity.this, MainActivity.class));
                 finish();
             } else {
                 // Failed to create an account
                 // TODO: Handle failed account creation
-                Toast.makeText(UserInfoForm.this, "Failed to user account!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(UserSignUpFormActivity.this, "Failed to user account!", Toast.LENGTH_SHORT).show();
             }
         });
     }

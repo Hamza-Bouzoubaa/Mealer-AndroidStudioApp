@@ -34,23 +34,8 @@ public class SignInActivity extends AppCompatActivity {
 
         emailContinueButton = findViewById(R.id.sign_in_continue_button);
         emailContinueButton.setOnClickListener(view -> {
-
             // TODO: Add Gini's field validation
-
             redirectUser(email.getText().toString());
-        });
-
-        // If the user presses the back button on their phone
-        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-                // Create the MainActivity intent
-                Intent i = new Intent(SignInActivity.this, MainActivity.class);
-                startActivity(i);
-
-                // Kill our current intent
-                finish();
-            }
         });
     }
 
@@ -70,19 +55,10 @@ public class SignInActivity extends AppCompatActivity {
                 System.out.println("Failed to get SignInMethods. Presenting account creation.");
             }
 
-            Intent i;
-            if (isNewUser) {
-                // Create the UserInfoForm intent
-                i = new Intent(SignInActivity.this, UserInfoForm.class);
-            } else {
-                // Create the SignInWithEmail intent
-                i = new Intent(SignInActivity.this, SignInWithEmailActivity.class);
-                i.putExtra("email", email);
-            }
-            startActivity(i);
+            Intent i = new Intent(SignInActivity.this, isNewUser ? ChooseUserTypeActivity.class : SignInWithEmailActivity.class);
 
-            // Kill current intent since we probably won't be back.
-            finish();
+            i.putExtra("email", email);
+            startActivity(i);
         });
     }
 }

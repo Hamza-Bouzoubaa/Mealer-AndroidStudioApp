@@ -1,5 +1,6 @@
 package com.SEG2505_Group8.mealer.UI.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.Toast;
@@ -26,17 +27,11 @@ public class MainActivity extends AppCompatActivity {
      * Launch home activity unless user info is required.
      */
     private void tryLaunchHomeActivity() {
-//        try {
-        ActivityUtils.launchActivity(this, MainActivity.this, HomeActivity.class);
-//            if (Services.getDatabaseClient().userInfoRequired().get()) {
-//                //TODO: Implement get new user info
-////                ActivityUtils.launchActivity(this, MainActivity.this, SignInActivity.class);
-//            } else {
-//                ActivityUtils.launchActivity(this, MainActivity.this, HomeActivity.class);
-//            }
-//        } catch (ExecutionException | InterruptedException e) {
-//            e.printStackTrace();
-//        }
+        //TODO: Implement check for new user info required?
+        startActivity(new Intent(MainActivity.this, HomeActivity.class));
+
+        //Kill main activity since user shouldn't come back using back button.
+        finish();
     }
 
     @Override
@@ -47,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         login = findViewById(R.id.login);
 
         login.setOnClickListener(view -> {
-            ActivityUtils.launchActivity(this, MainActivity.this, SignInActivity.class);
+            startActivity(new Intent(MainActivity.this, SignInActivity.class));
         });
 
         mFirebaseAuth = FirebaseAuth.getInstance();
