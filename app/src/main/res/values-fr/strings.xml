@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="user_info_form_first_name" translatable="false">Prénom</string>
-    <string name="user_info_form_last_name">Nom</string>
-    <string name="user_info_form_address">Adress</string>
-    <string name="user_info_form_title">Info Utilisateur</string>
-    <string name="user_info_form_email">Courielle</string>
-    <string name="user_info_form_credit_card">Carte de Crédit</string>
-    <string name="user_info_form_description">Description</string>
-    <string name="user_info_form_conditions">Conditions</string>
-    <string name="user_info_form_submit">SOUMETTRE</string>
+    <string name="user_sign_up_form_first_name" translatable="false">Prénom</string>
+    <string name="user_sign_up_form_last_name">Nom</string>
+    <string name="user_sign_up_form_address">Adress</string>
+    <string name="user_sign_up_form_title">Info Utilisateur</string>
+    <string name="user_sign_up_form_email">Courielle</string>
+    <string name="user_sign_up_form_credit_card">Carte de Crédit</string>
+    <string name="user_sign_up_form_description">Description</string>
+    <string name="user_sign_up_form_conditions">Conditions</string>
+    <string name="user_sign_up_form_submit">SOUMETTRE</string>
     <string name="sign_in_header">Sign In</string>
     <string name="welcome">Bienvenue</string>
     <string name="sign_in_email">courielle</string>
@@ -16,7 +16,7 @@
     <string name="continue_text">Continuer</string>
     <string name="welcome_text">Premiers pas avec Mealer</string>
     <string name="or">ou</string>
-    <string name="user_info_form_password">mot de pass</string>
-    <string name="chef_info_form_title">Info Chef</string>
+    <string name="user_sign_up_form_password">mot de pass</string>
+    <string name="chef_sign_up_form_title">Info Chef</string>
     <string name="void_check">Check Void</string>
 </resources>

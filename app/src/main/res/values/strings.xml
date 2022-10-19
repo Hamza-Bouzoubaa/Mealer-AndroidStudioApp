@@ -1,15 +1,15 @@
 <resources>
     <string name="welcome">Welcome</string>
     <string name="app_name" translatable="false">Mealer</string>
-    <string name="user_info_form_first_name">First Name</string>
-    <string name="user_info_form_last_name">Last Name</string>
-    <string name="user_info_form_address">Address</string>
-    <string name="user_info_form_title">User Info</string>
-    <string name="user_info_form_email">Email</string>
-    <string name="user_info_form_credit_card">Credit Card</string>
-    <string name="user_info_form_description">Description</string>
-    <string name="user_info_form_conditions">Conditions</string>
-    <string name="user_info_form_submit">SUBMIT</string>
+    <string name="user_sign_up_form_first_name">First Name</string>
+    <string name="user_sign_up_form_last_name">Last Name</string>
+    <string name="user_sign_up_form_address">Address</string>
+    <string name="user_sign_up_form_title">User Info</string>
+    <string name="user_sign_up_form_email">Email</string>
+    <string name="user_sign_up_form_credit_card">Credit Card</string>
+    <string name="user_sign_up_form_description">Description</string>
+    <string name="user_sign_up_form_conditions">Conditions</string>
+    <string name="user_sign_up_form_submit">SUBMIT</string>
     <string name="sign_in_header">Sign In</string>
     <string name="sign_in_email">email</string>
     <string name="sign_in_password">password</string>
@@ -17,7 +17,7 @@
     <string name="continue_text">Continue</string>
     <string name="welcome_text">First steps with Mealer</string>
     <string name="or">or</string>
-    <string name="user_info_form_password">password</string>
-    <string name="chef_info_form_title">Chef Info</string>
+    <string name="user_sign_up_form_password">password</string>
+    <string name="chef_sign_up_form_title">Chef Info</string>
     <string name="void_check">Void Check</string>
 </resources>

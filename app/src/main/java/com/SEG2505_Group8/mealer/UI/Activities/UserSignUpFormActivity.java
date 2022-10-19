@@ -32,14 +32,14 @@ public class UserSignUpFormActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_sign_up_form);
 
-        firstName = findViewById(R.id.user_input_form_first_name);
-        lastName = findViewById(R.id.user_input_form_last_name);
-        address = findViewById(R.id.user_info_form_address);
-        email = findViewById(R.id.user_info_form_email);
-        password = findViewById(R.id.user_info_form_password);
-        creditCard = findViewById(R.id.user_info_form_credit_card);
-        description = findViewById(R.id.user_info_form_description);
-        conditions = findViewById(R.id.user_info_form_conditions);
+        firstName = findViewById(R.id.user_sign_up_form_first_name);
+        lastName = findViewById(R.id.user_sign_up_form_last_name);
+        address = findViewById(R.id.user_sign_up_form_address);
+        email = findViewById(R.id.user_sign_up_form_email);
+        password = findViewById(R.id.user_sign_up_form_password);
+        creditCard = findViewById(R.id.user_sign_up_form_credit_card);
+        description = findViewById(R.id.user_sign_up_form_description);
+        conditions = findViewById(R.id.user_sign_up_form_conditions);
     }
 
     public void submitbuttonhandler(View view) {
