@@ -34,6 +34,10 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Welcome Activity for sign in users.
+ * Presents current status and a logout button.
+ */
 public class HomeActivity extends AppCompatActivity {
 
     private TextView textViewData;
@@ -56,33 +60,31 @@ public class HomeActivity extends AppCompatActivity {
         // adding onclick listener for our logout button.
         logoutBtn.setOnClickListener(v -> {
 
-            // below line is for getting instance
-            // for AuthUi and after that calling a
-            // sign out method from FIrebase.
+            // Call Firebase Authentication sign out
             AuthUI.getInstance()
                     .signOut(HomeActivity.this)
 
-                    // after sign out is executed we are redirecting
-                    // our user to MainActivity where our login flow is being displayed.
-                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                        public void onComplete(@NonNull Task<Void> task) {
+                    // Redirect user to MainActivity
+                    .addOnCompleteListener(task -> {
 
-                            // below method is used after logout from device.
-                            Toast.makeText(HomeActivity.this, "User Signed Out", Toast.LENGTH_SHORT).show();
+                        // Tell user they were signed out
+                        Toast.makeText(HomeActivity.this, "User Signed Out", Toast.LENGTH_SHORT).show();
 
-                            // below line is to go to MainActivity via an intent.
-                            Intent i = new Intent(HomeActivity.this, MainActivity.class);
-                            startActivity(i);
-                        }
+                        // Go to Main Activity
+                        Intent i = new Intent(HomeActivity.this, MainActivity.class);
+                        startActivity(i);
+
+                        // Kill current activity since we won't be back without going trough sign in
+                        finish();
                     });
         });
-        Services.getDatabaseClient().updateRecipe(new MealerRecipe("recipe1", "Chips", "Appetizer", null, null, null, 10.25f, "Some chips with ketchup"));
     }
 
     @Override
     protected void onStart() {
         super.onStart();
 
+        // Listen for current user's name and role
         Services.getDatabaseClient().listenForModel(this, "users", FirebaseAuth.getInstance().getCurrentUser().getUid(), MealerUser.class, user -> {
             textViewData.setText("Bienvenue "+ user.getFirstName()  + "! Vous êtes connecté en tant que: "+ user.getRole());
         });

@@ -12,6 +12,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.SEG2505_Group8.mealer.R;
 import com.google.firebase.auth.FirebaseAuth;
 
+/**
+ * Presents sign in methods to user.
+ * Forwards user to {@link ChooseUserTypeActivity} if their email is not recognized.
+ */
 public class SignInActivity extends AppCompatActivity {
 
 
@@ -41,6 +45,12 @@ public class SignInActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Redirects user to proper activity based off of their email.
+     * If their email is in the system, prompt for their password.
+     * Else, present account creation.
+     * @param email
+     */
     public void redirectUser(String email) {
 
         if (email == null || email.isEmpty()) {
@@ -51,6 +61,7 @@ public class SignInActivity extends AppCompatActivity {
 
             boolean isNewUser = true;
 
+            // Check if Firebase Auth has sign in methods. If their are none, then the account does not exist.
             try {
                 isNewUser = task.getResult().getSignInMethods().isEmpty();
             } catch (Exception e) {
@@ -59,6 +70,7 @@ public class SignInActivity extends AppCompatActivity {
 
             Intent i = new Intent(SignInActivity.this, isNewUser ? ChooseUserTypeActivity.class : SignInWithEmailActivity.class);
 
+            // Package email inside intent to reuse in following views.
             i.putExtra("email", email);
             startActivity(i);
         });

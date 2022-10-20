@@ -121,16 +121,41 @@ public interface DatabaseClient {
      */
     Future<List<MealerRecipe>> getRecipes(DatabaseFilterCallback filter);
 
+    /**
+     * Get {@link MealerRecipe} with document Id.
+     *
+     * @param id
+     * @return
+     */
     default Future<MealerRecipe> getRecipe(String id) {
         return getRecipe(id, null);
     }
 
+    /**
+     * Get a {@link MealerRecipe} with id.
+     * Executes callback on completion.
+     * @param id
+     * @param callback
+     * @return
+     */
     Future<MealerRecipe> getRecipe(String id, DatabaseCompletionCallback<MealerRecipe> callback);
 
+    /**
+     * Get {@link MealerRecipe} with document Id.
+     * @param id
+     * @return
+     */
     default Future<Boolean> updateRecipe(MealerRecipe recipe) {
         return updateRecipe(recipe, null);
     }
 
+    /**
+     * Update a {@link MealerRecipe} stored in Database.
+     * Executes callback on completion.
+     * @param recipe new version of recipe
+     * @param callback code to execute on completion
+     * @return
+     */
     Future<Boolean> updateRecipe(MealerRecipe recipe, DatabaseSetCallback callback);
 
     default Future<Boolean> updateMenu(MealerMenu menu) {

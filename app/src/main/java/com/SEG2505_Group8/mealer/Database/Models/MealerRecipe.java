@@ -10,6 +10,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Represents a single recipe contained inside a {@link MealerMenu}
+ */
 @Data
 @MealerSerializable
 @IgnoreExtraProperties

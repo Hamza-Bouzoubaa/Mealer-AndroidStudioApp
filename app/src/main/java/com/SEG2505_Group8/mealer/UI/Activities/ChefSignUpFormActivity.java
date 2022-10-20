@@ -15,6 +15,9 @@ import com.SEG2505_Group8.mealer.R;
 import com.SEG2505_Group8.mealer.Services;
 import com.google.firebase.auth.FirebaseAuth;
 
+/**
+ * Presents form for creating a Chef account.
+ */
 public class ChefSignUpFormActivity extends AppCompatActivity {
 
     EditText firstName;
@@ -36,6 +39,7 @@ public class ChefSignUpFormActivity extends AppCompatActivity {
         address = findViewById(R.id.chef_sign_up_form_address);
         email = findViewById(R.id.chef_sign_up_form_email);
 
+        // Get email from Intent since user already filled this info in.
         email.setText(getIntent().getStringExtra("email"));
 
         password = findViewById(R.id.chef_sign_up_form_password);
@@ -48,13 +52,15 @@ public class ChefSignUpFormActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Submit form info to create a Chef account
+     */
     public void submit() {
         String validatedEmail = email.getText().toString();
         String validatedPassword = password.getText().toString();
 
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(validatedEmail, validatedPassword).addOnCompleteListener(this, task -> {
             if (task.isSuccessful()) {
-                // Account created
 
                 // Validate fields TODO: Add validation
                 String validatedId;
@@ -74,10 +80,10 @@ public class ChefSignUpFormActivity extends AppCompatActivity {
                 MealerUser user = new MealerUser(validatedId, MealerRole.CHEF, validatedFirstName, validatedLastName, validatedEmail, validatedAddress, "", validatedDescription, "voidCheckUrl");
                 Services.getDatabaseClient().updateUser(user);
 
+                // Send user back to Main. Restarts user experience flow.
                 startActivity(new Intent(ChefSignUpFormActivity.this, MainActivity.class));
                 finish();
             } else {
-                // Failed to create an account
                 // TODO: Handle failed account creation
                 Toast.makeText(ChefSignUpFormActivity.this, "Failed to user account!", Toast.LENGTH_SHORT).show();
             }

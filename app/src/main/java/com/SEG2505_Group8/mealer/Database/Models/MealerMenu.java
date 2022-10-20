@@ -10,12 +10,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Represents a {@link MealerUser}'s menu
+ */
 @Data
 @MealerSerializable
 @IgnoreExtraProperties
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class MealerMenu {
 
     /**

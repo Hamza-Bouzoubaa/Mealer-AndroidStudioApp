@@ -17,6 +17,9 @@ import com.SEG2505_Group8.mealer.R;
 import com.SEG2505_Group8.mealer.Services;
 import com.google.firebase.auth.FirebaseAuth;
 
+/**
+ * Presents form for creating a User account.
+ */
 public class UserSignUpFormActivity extends AppCompatActivity {
 
     EditText firstName;
@@ -41,6 +44,7 @@ public class UserSignUpFormActivity extends AppCompatActivity {
         address = findViewById(R.id.user_sign_up_form_address);
         email = findViewById(R.id.user_sign_up_form_email);
 
+        // Present previously inputted email
         email.setText(getIntent().getStringExtra("email"));
 
         password = findViewById(R.id.user_sign_up_form_password);
@@ -54,6 +58,9 @@ public class UserSignUpFormActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Submit form data to create a User account
+     */
     public void submit() {
         if (!conditions.isChecked()) {
             return;
@@ -64,9 +71,9 @@ public class UserSignUpFormActivity extends AppCompatActivity {
 
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(validatedEmail, validatedPassword).addOnCompleteListener(this, task -> {
             if (task.isSuccessful()) {
-                // Account created
-
                 // Validate fields TODO: Add validation
+
+                // Get the user's new FirebaseAuth Id.
                 String validatedId;
                 try {
                     validatedId = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -85,6 +92,7 @@ public class UserSignUpFormActivity extends AppCompatActivity {
                 MealerUser user = new MealerUser(validatedId, MealerRole.USER, validatedFirstName, validatedLastName, validatedEmail, validatedAddress, validatedCreditCard, validatedDescription, "");
                 Services.getDatabaseClient().updateUser(user);
 
+                // Send the user to MainActivity. Restarts user experience flow.
                 startActivity(new Intent(UserSignUpFormActivity.this, MainActivity.class));
                 finish();
             } else {
