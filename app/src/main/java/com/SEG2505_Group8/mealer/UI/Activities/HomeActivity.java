@@ -52,19 +52,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        textViewData = findViewById(R.id.displayNameHome);
-
-
-
-
-
-        //String collectionTypeUsers = "users";
-        //String getInfoOfTypeFirstName = "firstName";
-
-
-
-
-
+        textViewData = findViewById(R.id.displayUser);
 
 
 
@@ -118,7 +106,7 @@ public class HomeActivity extends AppCompatActivity {
                 if(documentSnapshot.exists()){
                     String firstName = documentSnapshot.getString("firstName");
                     String userRole = documentSnapshot.getString("role");
-                    textViewData.setText("firstName"+ firstName + "/n" + "role: "+ userRole);
+                    textViewData.setText("Bienvenue "+ firstName  + "! Vous êtes connecté en tant que: "+ userRole);
                 }
             }
         });
@@ -133,7 +121,7 @@ public class HomeActivity extends AppCompatActivity {
                         if(documentSnapshot.exists()){
                             String firstName = documentSnapshot.getString("firstName");
                             String userRole = documentSnapshot.getString("role");
-                            textViewData.setText("firstName"+ firstName + "/n" + "role: "+ userRole);
+                            textViewData.setText("Bienvenue "+ firstName  + "! Vous êtes connecté en tant que: "+ userRole);
                         }else{
                             Toast.makeText(HomeActivity.this, "User does not exist", Toast.LENGTH_SHORT).show();
                         }
