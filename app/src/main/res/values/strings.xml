@@ -20,4 +20,5 @@
     <string name="user_sign_up_form_password">password</string>
     <string name="chef_sign_up_form_title">Chef Info</string>
     <string name="void_check">Void Check</string>
+    <string name="displayUser">Something went wrong displaying this text</string>
 </resources>

@@ -14,8 +14,10 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class SignInActivity extends AppCompatActivity {
 
+
     EditText email;
     Button emailContinueButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
