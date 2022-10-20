@@ -44,7 +44,9 @@ public class SignInWithEmailActivity extends AppCompatActivity {
         submitButton.setOnClickListener(view -> {
             FirebaseAuth.getInstance().signInWithEmailAndPassword(getIntent().getStringExtra("email"), passwordField.getText().toString()).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                    startActivity(new Intent(SignInWithEmailActivity.this, MainActivity.class));
+
+
+                    startActivity(new Intent(SignInWithEmailActivity.this, HomeActivity.class));
                     finish();
                 } else {
                     // If sign in fails, display a message to the user.

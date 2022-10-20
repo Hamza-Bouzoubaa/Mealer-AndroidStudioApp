@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
         mFirebaseAuth = FirebaseAuth.getInstance();
 
+
         // checking if the user is null or not.
         if (mFirebaseAuth.getCurrentUser() != null) {
             tryLaunchHomeActivity();

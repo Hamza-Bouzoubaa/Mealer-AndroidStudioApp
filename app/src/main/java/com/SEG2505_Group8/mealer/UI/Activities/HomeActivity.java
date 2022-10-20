@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -15,11 +16,17 @@ import com.SEG2505_Group8.mealer.Services;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
+
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
+
+
 
     List<MealerRecipe> spotlightRecipes;
 
@@ -27,6 +34,24 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        TextView hello_test;
+
+
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = auth.getCurrentUser();
+
+        hello_test = findViewById(R.id.hello_test);
+
+        for(UserInfo profile : currentUser.getProviderData()){
+            String providerId = profile.getProviderId();
+
+            String name = profile.getUid();
+            hello_test.setText("logged in as:" + name);
+        }
+
+
+
 
         Button deleteRecipe = findViewById(R.id.btnDeleteRecipe);
         deleteRecipe.setOnClickListener(v -> {
