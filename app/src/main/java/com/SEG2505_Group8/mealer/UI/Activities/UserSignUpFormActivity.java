@@ -31,6 +31,8 @@ public class UserSignUpFormActivity extends AppCompatActivity {
 
     Button submitButton;
 
+    boolean FieldsCheck = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +52,10 @@ public class UserSignUpFormActivity extends AppCompatActivity {
 
         submitButton = findViewById(R.id.user_sign_up_form_submit_button);
         submitButton.setOnClickListener(view -> {
-            submit();
+            FieldsCheck= CheckFields();
+            if(FieldsCheck){
+                submit();
+            }
         });
     }
 
@@ -93,5 +98,66 @@ public class UserSignUpFormActivity extends AppCompatActivity {
                 Toast.makeText(UserSignUpFormActivity.this, "Failed to user account!", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private boolean CheckFields() {
+        String val = email.getText().toString().trim();
+        String checkEmail = "[a-zA-Z0-9._-]+@[a-z]+.+[a-z]+";
+
+        if (firstName.length() == 0) {
+            firstName.setError("This field is required");
+            return false;
+        }
+
+        if (lastName.length() == 0) {
+            lastName.setError("This field is required");
+            return false;
+        }
+
+
+        if (email.length() == 0) {
+            email.setError("Email is required");
+            return false;
+        }else if (!val.matches(checkEmail)) {
+            email.setError("Invalid Email!");
+            return false;
+        }
+
+
+        if (password.length() == 0) {
+            password.setError("Password is required");
+            return false;
+        } else if (password.length() < 8) {
+            password.setError("Password must be minimum 8 characters");
+            return false;
+        }
+
+        if (creditCard.length() == 0) {
+            creditCard.setError("This field is required");
+            return false;
+        }else if (creditCard.length() < 16) {
+            creditCard.setError("Credit card number must be minimum of 16 digits");
+            return false;
+        }
+
+        if (description.length() == 0) {
+            description.setError("This field is required");
+            return false;
+        }
+
+        if (address.length() == 0) {
+            address.setError("This field is required");
+            return false;
+        }
+
+        if (!conditions.isChecked()) {
+            conditions.setError("Terms and conditions must be accepted first");
+            return false;
+        }
+
+
+
+        // after all validation return true.
+        return true;
     }
 }

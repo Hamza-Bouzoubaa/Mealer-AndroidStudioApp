@@ -91,18 +91,6 @@
         app:layout_constraintStart_toStartOf="@id/chef_sign_up_form_description"
         app:layout_constraintTop_toBottomOf="@id/chef_sign_up_form_description" />
 
-    <Button
-        android:id="@+id/chef_sign_up_form_void_check"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:layout_marginTop="30dp"
-        android:text="@string/void_check"
-        style="@style/CallToAction"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintEnd_toEndOf="@id/chef_sign_up_form_address"
-        app:layout_constraintStart_toStartOf="@id/chef_sign_up_form_address"
-        app:layout_constraintTop_toBottomOf="@id/chef_sign_up_form_address"  />
 
     <Button
         android:id="@+id/chef_sign_up_form_submit_button"

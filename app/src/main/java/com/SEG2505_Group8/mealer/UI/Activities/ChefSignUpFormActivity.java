@@ -22,9 +22,10 @@ public class ChefSignUpFormActivity extends AppCompatActivity {
     EditText address;
     EditText email;
     EditText password;
-    Button voidCheckButton;
     EditText description;
     Button submitButton;
+
+    boolean isAllFieldsChecked = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,12 +40,16 @@ public class ChefSignUpFormActivity extends AppCompatActivity {
         email.setText(getIntent().getStringExtra("email"));
 
         password = findViewById(R.id.chef_sign_up_form_password);
-        voidCheckButton = findViewById(R.id.chef_sign_up_form_void_check);
         description = findViewById(R.id.chef_sign_up_form_description);
 
         submitButton = findViewById(R.id.chef_sign_up_form_submit_button);
         submitButton.setOnClickListener(view -> {
-            submit();
+            isAllFieldsChecked = CheckAllFields();
+
+            if(isAllFieldsChecked){
+                submit();
+            }
+
         });
     }
 
@@ -82,5 +87,51 @@ public class ChefSignUpFormActivity extends AppCompatActivity {
                 Toast.makeText(ChefSignUpFormActivity.this, "Failed to user account!", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private boolean CheckAllFields() {
+        String val = email.getText().toString().trim();
+        String checkEmail = "[a-zA-Z0-9._-]+@[a-z]+.+[a-z]+";
+
+        if (firstName.length() == 0) {
+            firstName.setError("This field is required");
+            return false;
+        }
+
+        if (lastName.length() == 0) {
+            lastName.setError("This field is required");
+            return false;
+        }
+
+
+        if (email.length() == 0) {
+            email.setError("Email is required");
+            return false;
+        }else if (!val.matches(checkEmail)) {
+            email.setError("Invalid Email!");
+            return false;
+        }
+
+
+        if (password.length() == 0) {
+            password.setError("Password is required");
+            return false;
+        } else if (password.length() < 8) {
+            password.setError("Password must be minimum 8 characters");
+            return false;
+        }
+
+        if (description.length() == 0) {
+            description.setError("This field is required");
+            return false;
+        }
+
+        if (address.length() == 0) {
+            address.setError("This field is required");
+            return false;
+        }
+
+        // after all validation return true.
+        return true;
     }
 }

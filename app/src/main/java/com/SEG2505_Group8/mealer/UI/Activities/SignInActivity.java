@@ -17,6 +17,10 @@ public class SignInActivity extends AppCompatActivity {
     EditText email;
     Button emailContinueButton;
 
+    // one boolean variable to check whether the email field
+    // is filled by the user, properly or not.
+    boolean isFieldChecked = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +39,12 @@ public class SignInActivity extends AppCompatActivity {
         emailContinueButton = findViewById(R.id.sign_in_continue_button);
         emailContinueButton.setOnClickListener(view -> {
             // TODO: Add Gini's field validation
+
+            isFieldChecked = validateEmail();
+
+            if(isFieldChecked){
             redirectUser(email.getText().toString());
+            }
         });
     }
 
@@ -61,4 +70,22 @@ public class SignInActivity extends AppCompatActivity {
             startActivity(i);
         });
     }
+
+    // Method to validate the  email
+    private boolean validateEmail() {
+        String val = email.getText().toString().trim();
+        String checkEmail = "[a-zA-Z0-9._-]+@[a-z]+.+[a-z]+";
+        if (val.isEmpty()) {
+            email.setError("Field can not be empty");
+            return false;
+        } else if (!val.matches(checkEmail)) {
+            email.setError("Invalid Email!");
+            return false;
+        } else {
+            email.setError(null);
+            return true;
+        }
+    }
+
+
 }
