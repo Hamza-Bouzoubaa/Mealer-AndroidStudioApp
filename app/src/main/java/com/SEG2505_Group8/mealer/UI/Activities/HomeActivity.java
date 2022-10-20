@@ -19,6 +19,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
+import com.google.firebase.firestore.DocumentReference;
 
 
 import java.util.ArrayList;
@@ -35,20 +36,27 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        TextView hello_test;
+        TextView tvDisplayNameHome;
 
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
-        FirebaseUser currentUser = auth.getCurrentUser();
+        FirebaseUser currentUser = auth.getCurrentUser();  //creation d'un utilisateur avec 
+        String uid = currentUser.getUid();                  //
 
-        hello_test = findViewById(R.id.hello_test);
+        tvDisplayNameHome = findViewById(R.id.displayNameHome);
 
-        for(UserInfo profile : currentUser.getProviderData()){
-            String providerId = profile.getProviderId();
+        getData(uid);
 
-            String name = profile.getUid();
-            hello_test.setText("logged in as:" + name);
-        }
+
+
+
+
+
+
+
+
+        hello_test.setText("logged in as:" + name);
+
 
 
 
@@ -88,5 +96,9 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
         Services.getDatabaseClient().updateRecipe(new MealerRecipe("recipe1", "Chips", "Appetizer", null, null, null, 10.25f, "Some chips with ketchup"));
+    }
+
+    public void getData(String uid){
+        DocumentReference document =
     }
 }
