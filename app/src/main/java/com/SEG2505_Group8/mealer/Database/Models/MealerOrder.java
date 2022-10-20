@@ -6,11 +6,14 @@ import com.google.firebase.firestore.IgnoreExtraProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @MealerSerializable
 @IgnoreExtraProperties
 @AllArgsConstructor
+@NoArgsConstructor
+
 public class MealerOrder {
     @MealerSerializableElement(key = "status")
     MealerOrderStatus status;

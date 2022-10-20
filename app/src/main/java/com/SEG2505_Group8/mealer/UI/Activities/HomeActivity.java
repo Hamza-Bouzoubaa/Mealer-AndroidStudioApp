@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.SEG2505_Group8.mealer.Database.Callbacks.DatabaseCompletionCallback;
 import com.SEG2505_Group8.mealer.Database.Models.MealerRecipe;
+import com.SEG2505_Group8.mealer.Database.Models.MealerUser;
 import com.SEG2505_Group8.mealer.R;
 import com.SEG2505_Group8.mealer.Services;
 import com.firebase.ui.auth.AuthUI;
@@ -35,18 +36,7 @@ import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
 
-    //private static final String TAG = "HomeActivity";
-
-    FirebaseAuth auth = FirebaseAuth.getInstance();
-    FirebaseUser currentUser = auth.getCurrentUser();  //creation d'un utilisateur avec info the firebase
-    String uid = currentUser.getUid();                  // chercher l'identification du user
-
-    private FirebaseFirestore dataBase = FirebaseFirestore.getInstance();
-    private DocumentReference usersInfo = dataBase.collection("users").document(uid);
     private TextView textViewData;
-
-
-    List<MealerRecipe> spotlightRecipes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +44,6 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         textViewData = findViewById(R.id.displayUser);
-
-
 
         Button deleteRecipe = findViewById(R.id.btnDeleteRecipe);
         deleteRecipe.setOnClickListener(v -> {
@@ -66,30 +54,27 @@ public class HomeActivity extends AppCompatActivity {
         Button logoutBtn = findViewById(R.id.idBtnLogout);
 
         // adding onclick listener for our logout button.
-        logoutBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        logoutBtn.setOnClickListener(v -> {
 
-                // below line is for getting instance
-                // for AuthUi and after that calling a
-                // sign out method from FIrebase.
-                AuthUI.getInstance()
-                        .signOut(HomeActivity.this)
+            // below line is for getting instance
+            // for AuthUi and after that calling a
+            // sign out method from FIrebase.
+            AuthUI.getInstance()
+                    .signOut(HomeActivity.this)
 
-                        // after sign out is executed we are redirecting
-                        // our user to MainActivity where our login flow is being displayed.
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            public void onComplete(@NonNull Task<Void> task) {
+                    // after sign out is executed we are redirecting
+                    // our user to MainActivity where our login flow is being displayed.
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        public void onComplete(@NonNull Task<Void> task) {
 
-                                // below method is used after logout from device.
-                                Toast.makeText(HomeActivity.this, "User Signed Out", Toast.LENGTH_SHORT).show();
+                            // below method is used after logout from device.
+                            Toast.makeText(HomeActivity.this, "User Signed Out", Toast.LENGTH_SHORT).show();
 
-                                // below line is to go to MainActivity via an intent.
-                                Intent i = new Intent(HomeActivity.this, MainActivity.class);
-                                startActivity(i);
-                            }
-                        });
-            }
+                            // below line is to go to MainActivity via an intent.
+                            Intent i = new Intent(HomeActivity.this, MainActivity.class);
+                            startActivity(i);
+                        }
+                    });
         });
         Services.getDatabaseClient().updateRecipe(new MealerRecipe("recipe1", "Chips", "Appetizer", null, null, null, 10.25f, "Some chips with ketchup"));
     }
@@ -98,45 +83,8 @@ public class HomeActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        usersInfo.addSnapshotListener(this,new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(DocumentSnapshot documentSnapshot, FirebaseFirestoreException e) {
-                if(e != null){
-                    Toast.makeText(HomeActivity.this, "error loading", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if(documentSnapshot.exists()){
-                    String firstName = documentSnapshot.getString("firstName");
-                    String userRole = documentSnapshot.getString("role");
-                    textViewData.setText("Bienvenue "+ firstName  + "! Vous êtes connecté en tant que: "+ userRole);
-                }
-            }
+        Services.getDatabaseClient().listenForModel(this, "users", FirebaseAuth.getInstance().getCurrentUser().getUid(), MealerUser.class, user -> {
+            textViewData.setText("Bienvenue "+ user.getFirstName()  + "! Vous êtes connecté en tant que: "+ user.getRole());
         });
     }
-
-    public void loadUser(View v){
-
-        usersInfo.get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        if(documentSnapshot.exists()){
-                            String firstName = documentSnapshot.getString("firstName");
-                            String userRole = documentSnapshot.getString("role");
-                            textViewData.setText("Bienvenue "+ firstName  + "! Vous êtes connecté en tant que: "+ userRole);
-                        }else{
-                            Toast.makeText(HomeActivity.this, "User does not exist", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(HomeActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
-
-                    }
-                });
-    }
-
-
 }
