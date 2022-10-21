@@ -15,12 +15,15 @@ import com.SEG2505_Group8.mealer.Database.Models.MealerRole;
 import com.SEG2505_Group8.mealer.Database.Models.MealerUser;
 import com.SEG2505_Group8.mealer.R;
 import com.SEG2505_Group8.mealer.Services;
+import com.SEG2505_Group8.mealer.UI.Activities.Utils.FieldValidator;
 import com.google.firebase.auth.FirebaseAuth;
 
 /**
  * Presents form for creating a User account.
  */
 public class UserSignUpFormActivity extends AppCompatActivity {
+
+    FieldValidator validator;
 
     EditText firstName;
     EditText lastName;
@@ -66,6 +69,8 @@ public class UserSignUpFormActivity extends AppCompatActivity {
                 );
             }
         });
+
+        validator = new FieldValidator(getApplicationContext());
     }
 
     public void submit(String email, String password, String firstName, String lastName, String address, String creditCard, String description) {
@@ -95,59 +100,15 @@ public class UserSignUpFormActivity extends AppCompatActivity {
     }
 
     private boolean validateFields() {
-        if (firstName.length() == 0) {
-            firstName.setError(getString(R.string.form_required_field));
-            return false;
-        }
-
-        if (lastName.length() == 0) {
-            lastName.setError(getString(R.string.form_required_field));
-            return false;
-        }
-
-        // Check email using Regex to make sure it follows the format <x>@<y>.<z>
-        if (email.length() == 0) {
-            email.setError(getString(R.string.form_required_field));
-            return false;
-        }else if (!email.getText().toString().trim().matches("[a-zA-Z0-9._-]+@[a-z]+.+[a-z]+")) {
-            email.setError(getString(R.string.form_invalid_email));
-            return false;
-        }
-
-        // Password must be at least 8 characters long
-        if (password.length() == 0) {
-            password.setError(getString(R.string.form_required_field));
-            return false;
-        } else if (password.length() < 8) {
-            password.setError(getString(R.string.form_invalid_password));
-            return false;
-        }
-
-        // Credit card number must be at least 16 digits long
-        if (creditCard.length() == 0) {
-            creditCard.setError(getString(R.string.form_required_field));
-            return false;
-        }else if (creditCard.length() < 16) {
-            creditCard.setError(getString(R.string.form_invalid_credit_card));
-            return false;
-        }
-
-        if (description.length() == 0) {
-            description.setError(getString(R.string.form_required_field));
-            return false;
-        }
-
-        if (address.length() == 0) {
-            address.setError(getString(R.string.form_required_field));
-            return false;
-        }
-
-        if (!conditions.isChecked()) {
-            conditions.setError(getString(R.string.form_invalid_terms_and_conditions));
-            return false;
-        }
-
-        // If all validations pass, return true
-        return true;
+        return validator.required(firstName)
+                && validator.required(lastName)
+                && validator.required(email)
+                && validator.email(email)
+                && validator.required(password)
+                && validator.password(password)
+                && validator.required(description)
+                && validator.creditCard(creditCard)
+                && validator.required(address)
+                && validator.termsAndConditions(conditions);
     }
 }

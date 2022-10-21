@@ -26,4 +26,5 @@
     <string name="form_invalid_credit_card">Credit card number must be a minimum of 16 digits.</string>
     <string name="form_invalid_terms_and_conditions">Terms and conditions must be accepted first.</string>
     <string name="displayUser">Something went wrong displaying this text</string>
+    <string name="form_wrong_password">Wrong password</string>
 </resources>

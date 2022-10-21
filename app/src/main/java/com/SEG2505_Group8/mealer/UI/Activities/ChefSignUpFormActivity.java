@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -13,12 +12,15 @@ import com.SEG2505_Group8.mealer.Database.Models.MealerRole;
 import com.SEG2505_Group8.mealer.Database.Models.MealerUser;
 import com.SEG2505_Group8.mealer.R;
 import com.SEG2505_Group8.mealer.Services;
+import com.SEG2505_Group8.mealer.UI.Activities.Utils.FieldValidator;
 import com.google.firebase.auth.FirebaseAuth;
 
 /**
  * Presents form for creating a Chef account.
  */
 public class ChefSignUpFormActivity extends AppCompatActivity {
+
+    FieldValidator validator;
 
     EditText firstName;
     EditText lastName;
@@ -27,8 +29,6 @@ public class ChefSignUpFormActivity extends AppCompatActivity {
     EditText password;
     EditText description;
     Button submitButton;
-
-    boolean isAllFieldsChecked = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,41 +48,31 @@ public class ChefSignUpFormActivity extends AppCompatActivity {
 
         submitButton = findViewById(R.id.chef_sign_up_form_submit_button);
         submitButton.setOnClickListener(view -> {
-            isAllFieldsChecked = CheckAllFields();
-
-            if(isAllFieldsChecked){
-                submit();
+            if(validateFields()){
+                submit(email.getText().toString(), password.getText().toString(), firstName.getText().toString(), lastName.getText().toString(), address.getText().toString(), description.getText().toString());
             }
-
         });
+
+        validator = new FieldValidator(getApplicationContext());
     }
 
     /**
      * Submit form info to create a Chef account
      */
-    public void submit() {
-        String validatedEmail = email.getText().toString();
-        String validatedPassword = password.getText().toString();
-
-        FirebaseAuth.getInstance().createUserWithEmailAndPassword(validatedEmail, validatedPassword).addOnCompleteListener(this, task -> {
+    public void submit(String email, String password, String firstName, String lastName, String address, String description) {
+        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, task -> {
             if (task.isSuccessful()) {
 
-                // Validate fields TODO: Add validation
-                String validatedId;
+                String userId;
                 try {
-                    validatedId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                    userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
                 } catch (NullPointerException e) {
-                    // TODO: Handle invalid data in user creation
+                    Toast.makeText(ChefSignUpFormActivity.this, "Failed to get user! Please restart app.", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                String validatedFirstName = firstName.getText().toString();
-                String validatedLastName = lastName.getText().toString();
-                String validatedAddress = address.getText().toString();
-                String validatedDescription = description.getText().toString();
-
                 // Create user data in Database
-                MealerUser user = new MealerUser(validatedId, MealerRole.CHEF, validatedFirstName, validatedLastName, validatedEmail, validatedAddress, "", validatedDescription, "voidCheckUrl");
+                MealerUser user = new MealerUser(userId, MealerRole.CHEF, firstName, lastName, email, address, "", description, "voidCheckUrl");
                 Services.getDatabaseClient().updateUser(user);
 
                 // Send user back to Main. Restarts user experience flow.
@@ -95,49 +85,14 @@ public class ChefSignUpFormActivity extends AppCompatActivity {
         });
     }
 
-    private boolean CheckAllFields() {
-        String val = email.getText().toString().trim();
-        String checkEmail = "[a-zA-Z0-9._-]+@[a-z]+.+[a-z]+";
-
-        if (firstName.length() == 0) {
-            firstName.setError("This field is required");
-            return false;
-        }
-
-        if (lastName.length() == 0) {
-            lastName.setError("This field is required");
-            return false;
-        }
-
-
-        if (email.length() == 0) {
-            email.setError("Email is required");
-            return false;
-        }else if (!val.matches(checkEmail)) {
-            email.setError("Invalid Email!");
-            return false;
-        }
-
-
-        if (password.length() == 0) {
-            password.setError("Password is required");
-            return false;
-        } else if (password.length() < 8) {
-            password.setError("Password must be minimum 8 characters");
-            return false;
-        }
-
-        if (description.length() == 0) {
-            description.setError("This field is required");
-            return false;
-        }
-
-        if (address.length() == 0) {
-            address.setError("This field is required");
-            return false;
-        }
-
-        // after all validation return true.
-        return true;
+    private boolean validateFields() {
+        return validator.required(firstName)
+                && validator.required(lastName)
+                && validator.required(email)
+                && validator.email(email)
+                && validator.required(password)
+                && validator.password(password)
+                && validator.required(description)
+                && validator.required(address);
     }
 }

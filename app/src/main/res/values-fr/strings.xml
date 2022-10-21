@@ -25,4 +25,5 @@
     <string name="form_invalid_credit_card">Numéro de carte doit être minimum 16 numéros.</string>
     <string name="form_invalid_terms_and_conditions">Il faut accepter les termes et conditions.</string>
     <string name="displayUser">Erreur: affichage de texte</string>
+    <string name="form_wrong_password">Mauvais mot de pass</string>
 </resources>

@@ -12,6 +12,7 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.SEG2505_Group8.mealer.R;
+import com.SEG2505_Group8.mealer.UI.Activities.Utils.FieldValidator;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -20,6 +21,8 @@ import com.google.firebase.auth.FirebaseUser;
  * On success, send user to {@link HomeActivity}
  */
 public class SignInWithEmailActivity extends AppCompatActivity {
+
+    FieldValidator validator;
 
     TextView emailView;
     EditText passwordField;
@@ -49,17 +52,26 @@ public class SignInWithEmailActivity extends AppCompatActivity {
         emailView.setText(getIntent().getStringExtra("email"));
 
         submitButton.setOnClickListener(view -> {
-            FirebaseAuth.getInstance().signInWithEmailAndPassword(getIntent().getStringExtra("email"), passwordField.getText().toString()).addOnCompleteListener(task -> {
-                // If account creation was successful, go to HomeActivity
-                if (task.isSuccessful()) {
-                    startActivity(new Intent(SignInWithEmailActivity.this, HomeActivity.class));
-                    finish();
-                } else {
-                    // If sign in fails, display a message to the user.
-                    Toast.makeText(SignInWithEmailActivity.this, "Authentication failed.",
-                            Toast.LENGTH_SHORT).show();
-                }
-            });
+            if (validator.required(passwordField)) {
+                signIn(getIntent().getStringExtra("email"), passwordField.getText().toString());
+            }
+        });
+
+        validator = new FieldValidator(getApplicationContext());
+    }
+
+    private void signIn(String email, String password) {
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
+            // If account creation was successful, go to HomeActivity
+            if (task.isSuccessful()) {
+                startActivity(new Intent(SignInWithEmailActivity.this, HomeActivity.class));
+                finish();
+            } else {
+                // If sign in fails, display a message to the user.
+                Toast.makeText(SignInWithEmailActivity.this, "Authentication failed.",
+                        Toast.LENGTH_SHORT).show();
+                passwordField.setError(getString(R.string.form_wrong_password));
+            }
         });
     }
 }

@@ -10,6 +10,7 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.SEG2505_Group8.mealer.R;
+import com.SEG2505_Group8.mealer.UI.Activities.Utils.FieldValidator;
 import com.google.firebase.auth.FirebaseAuth;
 
 /**
@@ -18,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
  */
 public class SignInActivity extends AppCompatActivity {
 
+    FieldValidator validator;
 
     EditText email;
     Button emailContinueButton;
@@ -29,26 +31,21 @@ public class SignInActivity extends AppCompatActivity {
 
         email = findViewById(R.id.sign_in_email_field);
         email.setOnEditorActionListener((v, actionId, event) -> {
-
-            // If email is marked as wrong, check each time the user types.
-            if (email.getError() != null) {
-                validateEmail();
-            }
-
-            boolean handled = false;
             if (actionId == EditorInfo.IME_ACTION_GO || actionId == EditorInfo.IME_ACTION_UNSPECIFIED) {
                 emailContinueButton.callOnClick();
-                handled = true;
+                return true;
             }
-            return handled;
+            return false;
         });
 
         emailContinueButton = findViewById(R.id.sign_in_continue_button);
         emailContinueButton.setOnClickListener(view -> {
-            if(validateEmail()){
+            if(validator.required(email) && validator.email(email)){
                 redirectUser(email.getText().toString());
             }
         });
+
+        validator = new FieldValidator(getApplicationContext());
     }
 
     /**
@@ -82,22 +79,4 @@ public class SignInActivity extends AppCompatActivity {
             startActivity(i);
         });
     }
-
-    // Method to validate the  email
-    private boolean validateEmail() {
-        String val = email.getText().toString().trim();
-        String checkEmail = "[a-zA-Z0-9._-]+@[a-z]+.+[a-z]+";
-        if (val.isEmpty()) {
-            email.setError(getString(R.string.form_required_field));
-            return false;
-        } else if (!val.matches(checkEmail)) {
-            email.setError(getString(R.string.form_invalid_email));
-            return false;
-        } else {
-            email.setError(null);
-            return true;
-        }
-    }
-
-
 }
