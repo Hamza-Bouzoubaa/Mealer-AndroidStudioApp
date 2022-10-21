@@ -12,14 +12,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.SEG2505_Group8.mealer.R;
 import com.google.firebase.auth.FirebaseAuth;
 
+/**
+ * Presents sign in methods to user.
+ * Forwards user to {@link ChooseUserTypeActivity} if their email is not recognized.
+ */
 public class SignInActivity extends AppCompatActivity {
+
 
     EditText email;
     Button emailContinueButton;
-
-    // one boolean variable to check whether the email field
-    // is filled by the user, properly or not.
-    boolean isFieldChecked = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +30,7 @@ public class SignInActivity extends AppCompatActivity {
         email = findViewById(R.id.sign_in_email_field);
         email.setOnEditorActionListener((v, actionId, event) -> {
 
+            // If email is marked as wrong, check each time the user types.
             if (email.getError() != null) {
                 validateEmail();
             }
@@ -43,16 +45,18 @@ public class SignInActivity extends AppCompatActivity {
 
         emailContinueButton = findViewById(R.id.sign_in_continue_button);
         emailContinueButton.setOnClickListener(view -> {
-            // TODO: Add Gini's field validation
-
-            isFieldChecked = validateEmail();
-
-            if(isFieldChecked){
-            redirectUser(email.getText().toString());
+            if(validateEmail()){
+                redirectUser(email.getText().toString());
             }
         });
     }
 
+    /**
+     * Redirects user to proper activity based off of their email.
+     * If their email is in the system, prompt for their password.
+     * Else, present account creation.
+     * @param email
+     */
     public void redirectUser(String email) {
 
         // Additional check to prevent application crash
@@ -64,6 +68,7 @@ public class SignInActivity extends AppCompatActivity {
 
             boolean isNewUser = true;
 
+            // Check if Firebase Auth has sign in methods. If their are none, then the account does not exist.
             try {
                 isNewUser = task.getResult().getSignInMethods().isEmpty();
             } catch (Exception e) {
@@ -72,6 +77,7 @@ public class SignInActivity extends AppCompatActivity {
 
             Intent i = new Intent(SignInActivity.this, isNewUser ? ChooseUserTypeActivity.class : SignInWithEmailActivity.class);
 
+            // Package email inside intent to reuse in following views.
             i.putExtra("email", email);
             startActivity(i);
         });

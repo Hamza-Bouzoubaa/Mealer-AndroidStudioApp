@@ -10,11 +10,16 @@ import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+/**
+ * Represents a user.
+ */
 @Data
 @MealerSerializable
 @IgnoreExtraProperties
 @AllArgsConstructor
+@NoArgsConstructor
 public class MealerUser {
 
     /**

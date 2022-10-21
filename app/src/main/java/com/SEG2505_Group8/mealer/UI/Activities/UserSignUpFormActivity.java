@@ -17,6 +17,9 @@ import com.SEG2505_Group8.mealer.R;
 import com.SEG2505_Group8.mealer.Services;
 import com.google.firebase.auth.FirebaseAuth;
 
+/**
+ * Presents form for creating a User account.
+ */
 public class UserSignUpFormActivity extends AppCompatActivity {
 
     EditText firstName;
@@ -41,6 +44,7 @@ public class UserSignUpFormActivity extends AppCompatActivity {
         address = findViewById(R.id.user_sign_up_form_address);
         email = findViewById(R.id.user_sign_up_form_email);
 
+        // Present previously inputted email
         email.setText(getIntent().getStringExtra("email"));
 
         password = findViewById(R.id.user_sign_up_form_password);

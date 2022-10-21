@@ -9,6 +9,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.SEG2505_Group8.mealer.R;
 
+/**
+ * Presents registrable user types.
+ */
 public class ChooseUserTypeActivity extends AppCompatActivity {
 
     ImageButton userButton;
@@ -19,9 +22,11 @@ public class ChooseUserTypeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_user_type);
 
+        // Get buttons
         userButton = findViewById(R.id.choose_user_type_user_button);
         chefButton = findViewById(R.id.choose_user_type_chef_button);
 
+        // Launch proper Activity depending on which button is pressed
         userButton.setOnClickListener(view -> {
             Intent i = new Intent(ChooseUserTypeActivity.this, UserSignUpFormActivity.class);
             i.putExtra("email", getIntent().getStringExtra("email"));
