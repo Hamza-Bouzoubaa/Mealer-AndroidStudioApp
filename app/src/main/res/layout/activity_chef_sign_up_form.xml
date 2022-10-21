@@ -91,13 +91,18 @@
         app:layout_constraintStart_toStartOf="@id/chef_sign_up_form_description"
         app:layout_constraintTop_toBottomOf="@id/chef_sign_up_form_description" />
 
+
+
+
+
+
     <Button
         android:id="@+id/chef_sign_up_form_void_check"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ems="10"
         android:layout_marginTop="30dp"
-        android:text="@string/void_check"
+        android:text="Void Check"
         style="@style/CallToAction"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintEnd_toEndOf="@id/chef_sign_up_form_address"
@@ -115,6 +120,11 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
+    <ImageView
+        android:id="@+id/capturedimage"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

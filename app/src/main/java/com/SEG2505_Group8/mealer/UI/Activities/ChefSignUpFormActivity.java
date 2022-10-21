@@ -1,9 +1,12 @@
 package com.SEG2505_Group8.mealer.UI.Activities;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,6 +17,7 @@ import com.SEG2505_Group8.mealer.Database.Models.MealerUser;
 import com.SEG2505_Group8.mealer.R;
 import com.SEG2505_Group8.mealer.Services;
 import com.google.firebase.auth.FirebaseAuth;
+import android.widget.ImageView;
 
 /**
  * Presents form for creating a Chef account.
@@ -28,11 +32,32 @@ public class ChefSignUpFormActivity extends AppCompatActivity {
     Button voidCheckButton;
     EditText description;
     Button submitButton;
+    private ImageView imageView;
+    private Button button;
+
+
+    public static final int RequestPermissionCode = 1;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chef_sign_up_form);
+        imageView= findViewById(R.id.capturedimage);
+        button=findViewById(R.id.chef_sign_up_form_void_check);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent open_camera= new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(open_camera,100);
+            }
+        });
+
+
+
 
         firstName = findViewById(R.id.chef_sign_up_form_first_name);
         lastName = findViewById(R.id.chef_sign_up_form_last_name);
@@ -50,6 +75,13 @@ public class ChefSignUpFormActivity extends AppCompatActivity {
         submitButton.setOnClickListener(view -> {
             submit();
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Bitmap photo= (Bitmap)data.getExtras().get("data");
+        imageView.setImageBitmap(photo);
     }
 
     /**
