@@ -65,15 +65,11 @@ classDiagram
     class MealerClient {
         <<interface>>
         +getUser(String id)* Future~MealerUser~
+        +getUser(String id, DatabaseCompletionCallback<MealerUser> callback)* Future~MealerUser~
         +getUser()* Future~MealerUser~
-        +getUserMenu(String id)* Future~MealerMenu~
-        +getUserMenu()* Future~MealerMenu~
-        +getMenu(String id)* Future~MealerMenu~
-        +getRecipe(String id)* Future~MealerRecipe~
-        +updateRecipe(MealerRecipe recipe)* Future~Void~
-        +updateMenu(MealerMenu menu)* Future~Void~
-        +updateUser(MealerUser user)* Future~Void~
-        +userInfoRequired()* Future~Boolean~
+        +getUser(DatabaseCompletionCallback<MealerUser> callback)* Future~MealerUser~
+        +getUsers()
+        
     }
 
     class FirebaseClient {
