@@ -38,25 +38,18 @@ public class ChefSignUpFormActivity extends AppCompatActivity {
     EditText description;
     Button submitButton;
 
-    ImageView imageView;
-    byte[] imageBytes;
-
-    Button button;
-
-
-    public static final int RequestPermissionCode = 1;
-
-
-
+    ImageView voidCheckPreview;
+    byte[] voidCheckBytes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chef_sign_up_form);
-        imageView= findViewById(R.id.capturedimage);
-        button=findViewById(R.id.chef_sign_up_form_void_check);
 
-        button.setOnClickListener(v -> {
+        voidCheckPreview = findViewById(R.id.capturedimage);
+        Button voidCheckButton = findViewById(R.id.chef_sign_up_form_void_check);
+
+        voidCheckButton.setOnClickListener(v -> {
             startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE),100);
         });
 
@@ -88,22 +81,15 @@ public class ChefSignUpFormActivity extends AppCompatActivity {
 
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         photo.compress(Bitmap.CompressFormat.PNG, 100, stream);
-        imageBytes = stream.toByteArray();
+        voidCheckBytes = stream.toByteArray();
 
-        imageView.setImageBitmap(photo);
+        voidCheckPreview.setImageBitmap(photo);
     }
 
     /**
      * Submit form info to create a Chef account
      */
     public void submit(String email, String password, String firstName, String lastName, String address, String description) {
-
-        Services.getStorageClient().uploadFile(imageBytes, email + "-void-check", new StorageProgressCallback() {
-            @Override
-            public void onProgress(long processed, long total) {
-
-            }
-        });
 
 
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, task -> {
@@ -120,6 +106,10 @@ public class ChefSignUpFormActivity extends AppCompatActivity {
                 // Create user data in Database
                 MealerUser user = new MealerUser(userId, MealerRole.CHEF, firstName, lastName, email, address, "", description, email + "-void-check");
                 Services.getDatabaseClient().updateUser(user);
+
+                Services.getStorageClient().uploadFile(voidCheckBytes, "/" + email + "-void-check", (processed, total) -> {
+                    System.out.println("Uploaded: " + processed + " bytes");
+                });
 
                 // Send user back to Main. Restarts user experience flow.
                 startActivity(new Intent(ChefSignUpFormActivity.this, MainActivity.class));
