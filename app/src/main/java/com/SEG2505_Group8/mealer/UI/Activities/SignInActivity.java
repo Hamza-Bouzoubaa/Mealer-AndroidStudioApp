@@ -28,6 +28,11 @@ public class SignInActivity extends AppCompatActivity {
 
         email = findViewById(R.id.sign_in_email_field);
         email.setOnEditorActionListener((v, actionId, event) -> {
+
+            if (email.getError() != null) {
+                validateEmail();
+            }
+
             boolean handled = false;
             if (actionId == EditorInfo.IME_ACTION_GO || actionId == EditorInfo.IME_ACTION_UNSPECIFIED) {
                 emailContinueButton.callOnClick();
@@ -50,6 +55,7 @@ public class SignInActivity extends AppCompatActivity {
 
     public void redirectUser(String email) {
 
+        // Additional check to prevent application crash
         if (email == null || email.isEmpty()) {
             return;
         }
@@ -76,10 +82,10 @@ public class SignInActivity extends AppCompatActivity {
         String val = email.getText().toString().trim();
         String checkEmail = "[a-zA-Z0-9._-]+@[a-z]+.+[a-z]+";
         if (val.isEmpty()) {
-            email.setError("Field can not be empty");
+            email.setError(getString(R.string.form_required_field));
             return false;
         } else if (!val.matches(checkEmail)) {
-            email.setError("Invalid Email!");
+            email.setError(getString(R.string.form_invalid_email));
             return false;
         } else {
             email.setError(null);

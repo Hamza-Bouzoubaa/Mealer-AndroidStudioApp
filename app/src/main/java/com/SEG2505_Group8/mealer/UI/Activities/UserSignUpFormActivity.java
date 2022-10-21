@@ -31,8 +31,6 @@ public class UserSignUpFormActivity extends AppCompatActivity {
 
     Button submitButton;
 
-    boolean FieldsCheck = false;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,112 +50,100 @@ public class UserSignUpFormActivity extends AppCompatActivity {
 
         submitButton = findViewById(R.id.user_sign_up_form_submit_button);
         submitButton.setOnClickListener(view -> {
-            FieldsCheck= CheckFields();
-            if(FieldsCheck){
-                submit();
+            if (validateFields()) {
+                submit(
+                        email.getText().toString(),
+                        password.getText().toString(),
+                        firstName.getText().toString(),
+                        lastName.getText().toString(),
+                        address.getText().toString(),
+                        creditCard.getText().toString(),
+                        description.getText().toString()
+                );
             }
         });
     }
 
-    public void submit() {
-        if (!conditions.isChecked()) {
-            return;
-        }
-
-        String validatedEmail = email.getText().toString();
-        String validatedPassword = password.getText().toString();
-
-        FirebaseAuth.getInstance().createUserWithEmailAndPassword(validatedEmail, validatedPassword).addOnCompleteListener(this, task -> {
+    public void submit(String email, String password, String firstName, String lastName, String address, String creditCard, String description) {
+        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, task -> {
             if (task.isSuccessful()) {
-                // Account created
-
-                // Validate fields TODO: Add validation
-                String validatedId;
+                String userId;
                 try {
-                    validatedId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                    userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
                 } catch (NullPointerException e) {
-                    // TODO: Handle invalid data in user creation
+                    Toast.makeText(UserSignUpFormActivity.this, "Failed to get user! Please restart the app.", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                String validatedFirstName = firstName.getText().toString();
-                String validatedLastName = lastName.getText().toString();
-                String validatedAddress = address.getText().toString();
-                String validatedCreditCard = creditCard.getText().toString();
-                String validatedDescription = description.getText().toString();
-
                 // Create user data in Database
-                MealerUser user = new MealerUser(validatedId, MealerRole.USER, validatedFirstName, validatedLastName, validatedEmail, validatedAddress, validatedCreditCard, validatedDescription, "");
+                MealerUser user = new MealerUser(userId, MealerRole.USER, firstName, lastName, email, address, creditCard, description, "");
                 Services.getDatabaseClient().updateUser(user);
 
+                // Go to MainActivity, restart login flow.
                 startActivity(new Intent(UserSignUpFormActivity.this, MainActivity.class));
                 finish();
             } else {
                 // Failed to create an account
                 // TODO: Handle failed account creation
-                Toast.makeText(UserSignUpFormActivity.this, "Failed to user account!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(UserSignUpFormActivity.this, "Failed to create user account!", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private boolean CheckFields() {
-        String val = email.getText().toString().trim();
-        String checkEmail = "[a-zA-Z0-9._-]+@[a-z]+.+[a-z]+";
-
+    private boolean validateFields() {
         if (firstName.length() == 0) {
-            firstName.setError("This field is required");
+            firstName.setError(getString(R.string.form_required_field));
             return false;
         }
 
         if (lastName.length() == 0) {
-            lastName.setError("This field is required");
+            lastName.setError(getString(R.string.form_required_field));
             return false;
         }
 
-
+        // Check email using Regex to make sure it follows the format <x>@<y>.<z>
         if (email.length() == 0) {
-            email.setError("Email is required");
+            email.setError(getString(R.string.form_required_field));
             return false;
-        }else if (!val.matches(checkEmail)) {
-            email.setError("Invalid Email!");
+        }else if (!email.getText().toString().trim().matches("[a-zA-Z0-9._-]+@[a-z]+.+[a-z]+")) {
+            email.setError(getString(R.string.form_invalid_email));
             return false;
         }
 
-
+        // Password must be at least 8 characters long
         if (password.length() == 0) {
-            password.setError("Password is required");
+            password.setError(getString(R.string.form_required_field));
             return false;
         } else if (password.length() < 8) {
-            password.setError("Password must be minimum 8 characters");
+            password.setError(getString(R.string.form_invalid_password));
             return false;
         }
 
+        // Credit card number must be at least 16 digits long
         if (creditCard.length() == 0) {
-            creditCard.setError("This field is required");
+            creditCard.setError(getString(R.string.form_required_field));
             return false;
         }else if (creditCard.length() < 16) {
-            creditCard.setError("Credit card number must be minimum of 16 digits");
+            creditCard.setError(getString(R.string.form_invalid_credit_card));
             return false;
         }
 
         if (description.length() == 0) {
-            description.setError("This field is required");
+            description.setError(getString(R.string.form_required_field));
             return false;
         }
 
         if (address.length() == 0) {
-            address.setError("This field is required");
+            address.setError(getString(R.string.form_required_field));
             return false;
         }
 
         if (!conditions.isChecked()) {
-            conditions.setError("Terms and conditions must be accepted first");
+            conditions.setError(getString(R.string.form_invalid_terms_and_conditions));
             return false;
         }
 
-
-
-        // after all validation return true.
+        // If all validations pass, return true
         return true;
     }
 }
