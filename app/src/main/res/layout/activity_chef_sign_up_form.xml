@@ -91,11 +91,6 @@
         app:layout_constraintStart_toStartOf="@id/chef_sign_up_form_description"
         app:layout_constraintTop_toBottomOf="@id/chef_sign_up_form_description" />
 
-
-
-
-
-
     <Button
         android:id="@+id/chef_sign_up_form_void_check"
         android:layout_width="0dp"

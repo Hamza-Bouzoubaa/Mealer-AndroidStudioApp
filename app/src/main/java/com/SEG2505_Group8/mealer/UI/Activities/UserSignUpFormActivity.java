@@ -15,12 +15,15 @@ import com.SEG2505_Group8.mealer.Database.Models.MealerRole;
 import com.SEG2505_Group8.mealer.Database.Models.MealerUser;
 import com.SEG2505_Group8.mealer.R;
 import com.SEG2505_Group8.mealer.Services;
+import com.SEG2505_Group8.mealer.UI.Activities.Utils.FieldValidator;
 import com.google.firebase.auth.FirebaseAuth;
 
 /**
  * Presents form for creating a User account.
  */
 public class UserSignUpFormActivity extends AppCompatActivity {
+
+    FieldValidator validator;
 
     EditText firstName;
     EditText lastName;
@@ -54,52 +57,58 @@ public class UserSignUpFormActivity extends AppCompatActivity {
 
         submitButton = findViewById(R.id.user_sign_up_form_submit_button);
         submitButton.setOnClickListener(view -> {
-            submit();
+            if (validateFields()) {
+                submit(
+                        email.getText().toString(),
+                        password.getText().toString(),
+                        firstName.getText().toString(),
+                        lastName.getText().toString(),
+                        address.getText().toString(),
+                        creditCard.getText().toString(),
+                        description.getText().toString()
+                );
+            }
         });
+
+        validator = new FieldValidator(getApplicationContext());
     }
 
-    /**
-     * Submit form data to create a User account
-     */
-    public void submit() {
-        if (!conditions.isChecked()) {
-            return;
-        }
-
-        String validatedEmail = email.getText().toString();
-        String validatedPassword = password.getText().toString();
-
-        FirebaseAuth.getInstance().createUserWithEmailAndPassword(validatedEmail, validatedPassword).addOnCompleteListener(this, task -> {
+    public void submit(String email, String password, String firstName, String lastName, String address, String creditCard, String description) {
+        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, task -> {
             if (task.isSuccessful()) {
-                // Validate fields TODO: Add validation
-
-                // Get the user's new FirebaseAuth Id.
-                String validatedId;
+                String userId;
                 try {
-                    validatedId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                    userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
                 } catch (NullPointerException e) {
-                    // TODO: Handle invalid data in user creation
+                    Toast.makeText(UserSignUpFormActivity.this, "Failed to get user! Please restart the app.", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                String validatedFirstName = firstName.getText().toString();
-                String validatedLastName = lastName.getText().toString();
-                String validatedAddress = address.getText().toString();
-                String validatedCreditCard = creditCard.getText().toString();
-                String validatedDescription = description.getText().toString();
-
                 // Create user data in Database
-                MealerUser user = new MealerUser(validatedId, MealerRole.USER, validatedFirstName, validatedLastName, validatedEmail, validatedAddress, validatedCreditCard, validatedDescription, "");
+                MealerUser user = new MealerUser(userId, MealerRole.USER, firstName, lastName, email, address, creditCard, description, "");
                 Services.getDatabaseClient().updateUser(user);
 
-                // Send the user to MainActivity. Restarts user experience flow.
+                // Go to MainActivity, restart login flow.
                 startActivity(new Intent(UserSignUpFormActivity.this, MainActivity.class));
                 finish();
             } else {
                 // Failed to create an account
                 // TODO: Handle failed account creation
-                Toast.makeText(UserSignUpFormActivity.this, "Failed to user account!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(UserSignUpFormActivity.this, "Failed to create user account!", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private boolean validateFields() {
+        return validator.required(firstName)
+                && validator.required(lastName)
+                && validator.required(email)
+                && validator.email(email)
+                && validator.required(password)
+                && validator.password(password)
+                && validator.required(description)
+                && validator.creditCard(creditCard)
+                && validator.required(address)
+                && validator.termsAndConditions(conditions);
     }
 }

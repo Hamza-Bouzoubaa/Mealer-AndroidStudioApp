@@ -10,6 +10,7 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.SEG2505_Group8.mealer.R;
+import com.SEG2505_Group8.mealer.UI.Activities.Utils.FieldValidator;
 import com.google.firebase.auth.FirebaseAuth;
 
 /**
@@ -18,10 +19,10 @@ import com.google.firebase.auth.FirebaseAuth;
  */
 public class SignInActivity extends AppCompatActivity {
 
+    FieldValidator validator;
 
     EditText email;
     Button emailContinueButton;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,19 +31,21 @@ public class SignInActivity extends AppCompatActivity {
 
         email = findViewById(R.id.sign_in_email_field);
         email.setOnEditorActionListener((v, actionId, event) -> {
-            boolean handled = false;
             if (actionId == EditorInfo.IME_ACTION_GO || actionId == EditorInfo.IME_ACTION_UNSPECIFIED) {
                 emailContinueButton.callOnClick();
-                handled = true;
+                return true;
             }
-            return handled;
+            return false;
         });
 
         emailContinueButton = findViewById(R.id.sign_in_continue_button);
         emailContinueButton.setOnClickListener(view -> {
-            // TODO: Add Gini's field validation
-            redirectUser(email.getText().toString());
+            if(validator.required(email) && validator.email(email)){
+                redirectUser(email.getText().toString());
+            }
         });
+
+        validator = new FieldValidator(getApplicationContext());
     }
 
     /**
@@ -53,6 +56,7 @@ public class SignInActivity extends AppCompatActivity {
      */
     public void redirectUser(String email) {
 
+        // Additional check to prevent application crash
         if (email == null || email.isEmpty()) {
             return;
         }
