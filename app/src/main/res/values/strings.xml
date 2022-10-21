@@ -27,4 +27,7 @@
     <string name="form_invalid_terms_and_conditions">Terms and conditions must be accepted first.</string>
     <string name="displayUser">Something went wrong displaying this text</string>
     <string name="form_wrong_password">Wrong password</string>
+    <string name="role_chef">chef</string>
+    <string name="role_user">user</string>
+    <string name="role_admin">admin</string>
 </resources>

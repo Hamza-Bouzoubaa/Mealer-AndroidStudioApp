@@ -33,6 +33,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Welcome Activity for sign in users.
@@ -49,10 +50,10 @@ public class HomeActivity extends AppCompatActivity {
 
         welcomeText = findViewById(R.id.displayUser);
 
-        Button deleteRecipe = findViewById(R.id.btnDeleteRecipe);
-        deleteRecipe.setOnClickListener(v -> {
-            Services.getDatabaseClient().deleteRecipe("recipe1");
-        });
+//        Button deleteRecipe = findViewById(R.id.btnDeleteRecipe);
+//        deleteRecipe.setOnClickListener(v -> {
+//            Services.getDatabaseClient().deleteRecipe("recipe1");
+//        });
 
         // button for logout and initialing our button.
         Button logoutBtn = findViewById(R.id.idBtnLogout);
@@ -78,6 +79,12 @@ public class HomeActivity extends AppCompatActivity {
                         finish();
                     });
         });
+
+        try {
+            System.out.println("user: " + FirebaseAuth.getInstance().getCurrentUser().getUid() + " is logged in.");
+        } catch (Exception e) {
+            System.out.println("Failed to get current user.");
+        }
     }
 
     @Override
@@ -86,7 +93,24 @@ public class HomeActivity extends AppCompatActivity {
 
         // Listen for current user's name and role
         Services.getDatabaseClient().listenForModel(this, "users", FirebaseAuth.getInstance().getCurrentUser().getUid(), MealerUser.class, user -> {
-            welcomeText.setText("Bienvenue "+ user.getFirstName()  + "! Vous êtes connecté en tant que: "+ user.getRole());
+
+            String text = "Bienvenue "+ user.getFirstName()  + "! Vous êtes connecté en tant que: ";
+            String role = "null";
+            switch (user.getRole()){
+                case CHEF:
+                    role = getString(R.string.role_chef);
+                    break;
+                case USER:
+                    role = getString(R.string.role_user);
+                    break;
+                case ADMIN:
+                    role = getString(R.string.role_admin);
+                    break;
+            }
+
+            text += role.substring(0,1).toUpperCase() + role.substring(1);
+
+            welcomeText.setText(text);
         });
     }
 }
