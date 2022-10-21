@@ -11,14 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Mealer">
-        <activity
-            android:name=".cook_login"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity android:name=".UI.Activities.UserInfoForm" />
+        <activity android:name=".UI.Activities.ChooseUserTypeActivity" />
+        <activity android:name=".UI.Activities.UserSignUpFormActivity" />
+        <activity android:name=".UI.Activities.ChefSignUpFormActivity" />
         <activity android:name=".UI.Activities.SignInActivity" />
         <activity android:name=".UI.Activities.HomeActivity" />
         <activity android:name=".UI.Activities.SignInWithEmailActivity" />

@@ -8,11 +8,16 @@ import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+/**
+ * Represents a single recipe contained inside a {@link MealerMenu}
+ */
 @Data
 @MealerSerializable
 @IgnoreExtraProperties
 @AllArgsConstructor
+@NoArgsConstructor
 public class MealerRecipe {
 
     /**

@@ -15,6 +15,10 @@ import com.SEG2505_Group8.mealer.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+/**
+ * Sign in using email and password.
+ * On success, send user to {@link HomeActivity}
+ */
 public class SignInWithEmailActivity extends AppCompatActivity {
 
     TextView emailView;
@@ -30,6 +34,8 @@ public class SignInWithEmailActivity extends AppCompatActivity {
         submitButton = findViewById(R.id.sign_in_with_email_continue_button);
 
         passwordField = findViewById(R.id.sign_in_email_password);
+
+        // Listen for Enter key. On press, submit email and password.
         passwordField.setOnEditorActionListener((v, actionId, event) -> {
             boolean handled = false;
             if (actionId == EditorInfo.IME_ACTION_GO || actionId == EditorInfo.IME_ACTION_UNSPECIFIED) {
@@ -39,18 +45,14 @@ public class SignInWithEmailActivity extends AppCompatActivity {
             return handled;
         });
 
+        // Present email that was previously inputted by user
         emailView.setText(getIntent().getStringExtra("email"));
 
         submitButton.setOnClickListener(view -> {
             FirebaseAuth.getInstance().signInWithEmailAndPassword(getIntent().getStringExtra("email"), passwordField.getText().toString()).addOnCompleteListener(task -> {
+                // If account creation was successful, go to HomeActivity
                 if (task.isSuccessful()) {
-                    // Sign in success, update UI with the signed-in user's information
-                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                    // Create the MainActivity intent
-                    Intent i = new Intent(SignInWithEmailActivity.this, MainActivity.class);
-                    startActivity(i);
-
-                    // Kill our current intent
+                    startActivity(new Intent(SignInWithEmailActivity.this, HomeActivity.class));
                     finish();
                 } else {
                     // If sign in fails, display a message to the user.
@@ -58,20 +60,6 @@ public class SignInWithEmailActivity extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
                 }
             });
-            ActivityUtils.launchActivity(this, SignInWithEmailActivity.this, MainActivity.class);
-        });
-
-        // If the user presses the back button on their phone
-        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-                // Create the MainActivity intent
-                Intent i = new Intent(SignInWithEmailActivity.this, SignInActivity.class);
-                startActivity(i);
-
-                // Kill our current intent
-                finish();
-            }
         });
     }
 }

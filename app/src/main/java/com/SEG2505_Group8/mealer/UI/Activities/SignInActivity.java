@@ -12,10 +12,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.SEG2505_Group8.mealer.R;
 import com.google.firebase.auth.FirebaseAuth;
 
+/**
+ * Presents sign in methods to user.
+ * Forwards user to {@link ChooseUserTypeActivity} if their email is not recognized.
+ */
 public class SignInActivity extends AppCompatActivity {
+
 
     EditText email;
     Button emailContinueButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,26 +40,17 @@ public class SignInActivity extends AppCompatActivity {
 
         emailContinueButton = findViewById(R.id.sign_in_continue_button);
         emailContinueButton.setOnClickListener(view -> {
-
             // TODO: Add Gini's field validation
-
             redirectUser(email.getText().toString());
-        });
-
-        // If the user presses the back button on their phone
-        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-                // Create the MainActivity intent
-                Intent i = new Intent(SignInActivity.this, MainActivity.class);
-                startActivity(i);
-
-                // Kill our current intent
-                finish();
-            }
         });
     }
 
+    /**
+     * Redirects user to proper activity based off of their email.
+     * If their email is in the system, prompt for their password.
+     * Else, present account creation.
+     * @param email
+     */
     public void redirectUser(String email) {
 
         if (email == null || email.isEmpty()) {
@@ -64,25 +61,18 @@ public class SignInActivity extends AppCompatActivity {
 
             boolean isNewUser = true;
 
+            // Check if Firebase Auth has sign in methods. If their are none, then the account does not exist.
             try {
                 isNewUser = task.getResult().getSignInMethods().isEmpty();
             } catch (Exception e) {
                 System.out.println("Failed to get SignInMethods. Presenting account creation.");
             }
 
-            Intent i;
-            if (isNewUser) {
-                // Create the UserInfoForm intent
-                i = new Intent(SignInActivity.this, UserInfoForm.class);
-            } else {
-                // Create the SignInWithEmail intent
-                i = new Intent(SignInActivity.this, SignInWithEmailActivity.class);
-                i.putExtra("email", email);
-            }
-            startActivity(i);
+            Intent i = new Intent(SignInActivity.this, isNewUser ? ChooseUserTypeActivity.class : SignInWithEmailActivity.class);
 
-            // Kill current intent since we probably won't be back.
-            finish();
+            // Package email inside intent to reuse in following views.
+            i.putExtra("email", email);
+            startActivity(i);
         });
     }
 }

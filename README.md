@@ -221,3 +221,7 @@ Nous utilisons des [Pull Request](https://docs.github.com/en/pull-requests/colla
 ## Firebase
 
 Nous utilisons [Firebase](https://firebase.google.com/docs/reference/android/packages) comme base de données. Envoyer un message à quelqu'un de l'equipe pour avoir access au projet Firebase.
+
+## Attributions
+<a href='https://pngtree.com/so/Eat'>Eat png from pngtree.com/</a>
+<a href='https://pngtree.com/so/cute'>cute png from pngtree.com/</a>

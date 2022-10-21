@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".cook_login">
+    tools:context=".UI.Activities.ChefSignUpFormActivity">
 
     <TextView
-        android:id="@+id/chef_input_form_title"
+        android:id="@+id/chef_sign_up_form_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
-        android:text="@string/chef_info_form_title"
+        android:text="@string/chef_sign_up_form_title"
         android:textSize="28sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.436"
@@ -19,80 +19,80 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/chef_input_form_first_name"
+        android:id="@+id/chef_sign_up_form_first_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:ems="10"
-        android:hint="@string/user_info_form_first_name"
+        android:hint="@string/user_sign_up_form_first_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.184"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/chef_input_form_title" />
+        app:layout_constraintTop_toBottomOf="@id/chef_sign_up_form_title" />
 
     <EditText
-        android:id="@+id/chef_input_form_last_name"
+        android:id="@+id/chef_sign_up_form_last_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:ems="10"
-        android:hint="@string/user_info_form_last_name"
-        app:layout_constraintEnd_toEndOf="@id/chef_input_form_first_name"
-        app:layout_constraintStart_toStartOf="@id/chef_input_form_first_name"
-        app:layout_constraintTop_toBottomOf="@id/chef_input_form_first_name" />
+        android:hint="@string/user_sign_up_form_last_name"
+        app:layout_constraintEnd_toEndOf="@id/chef_sign_up_form_first_name"
+        app:layout_constraintStart_toStartOf="@id/chef_sign_up_form_first_name"
+        app:layout_constraintTop_toBottomOf="@id/chef_sign_up_form_first_name" />
 
         <EditText
-            android:id="@+id/chef_info_form_email"
+            android:id="@+id/chef_sign_up_form_email"
             android:layout_width="wrap_content"
             android:layout_height="46dp"
             android:layout_marginTop="30dp"
             android:ems="10"
-            android:hint="@string/user_info_form_email"
+            android:hint="@string/user_sign_up_form_email"
             android:inputType="textEmailAddress"
-            app:layout_constraintEnd_toEndOf="@id/chef_input_form_last_name"
-            app:layout_constraintStart_toStartOf="@id/chef_input_form_last_name"
-            app:layout_constraintTop_toBottomOf="@id/chef_input_form_last_name" />
+            app:layout_constraintEnd_toEndOf="@id/chef_sign_up_form_last_name"
+            app:layout_constraintStart_toStartOf="@id/chef_sign_up_form_last_name"
+            app:layout_constraintTop_toBottomOf="@id/chef_sign_up_form_last_name" />
 
     <EditText
-        android:id="@+id/chef_info_form_password"
+        android:id="@+id/chef_sign_up_form_password"
         android:layout_width="wrap_content"
         android:layout_height="46dp"
         android:layout_marginTop="10dp"
         android:ems="10"
-        android:hint="@string/user_info_form_password"
+        android:hint="@string/user_sign_up_form_password"
         android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="@id/chef_info_form_email"
-        app:layout_constraintStart_toStartOf="@id/chef_info_form_email"
-        app:layout_constraintTop_toBottomOf="@id/chef_info_form_email" />
+        app:layout_constraintEnd_toEndOf="@id/chef_sign_up_form_email"
+        app:layout_constraintStart_toStartOf="@id/chef_sign_up_form_email"
+        app:layout_constraintTop_toBottomOf="@id/chef_sign_up_form_email" />
 
     <EditText
-        android:id="@+id/chef_info_form_description"
+        android:id="@+id/chef_sign_up_form_description"
         android:layout_width="wrap_content"
         android:layout_height="52dp"
         android:layout_marginTop="30dp"
         android:ems="10"
-        android:hint="@string/user_info_form_description"
+        android:hint="@string/user_sign_up_form_description"
         android:inputType="text"
-        app:layout_constraintEnd_toEndOf="@id/chef_info_form_password"
-        app:layout_constraintStart_toStartOf="@id/chef_info_form_password"
-        app:layout_constraintTop_toBottomOf="@id/chef_info_form_password" />
+        app:layout_constraintEnd_toEndOf="@id/chef_sign_up_form_password"
+        app:layout_constraintStart_toStartOf="@id/chef_sign_up_form_password"
+        app:layout_constraintTop_toBottomOf="@id/chef_sign_up_form_password" />
 
 
     <EditText
-        android:id="@+id/chef_info_form_address"
+        android:id="@+id/chef_sign_up_form_address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:ems="10"
-        android:hint="@string/user_info_form_address"
+        android:hint="@string/user_sign_up_form_address"
         android:inputType="text"
         android:maxLines="1"
-        app:layout_constraintEnd_toEndOf="@id/chef_info_form_description"
-        app:layout_constraintStart_toStartOf="@id/chef_info_form_description"
-        app:layout_constraintTop_toBottomOf="@id/chef_info_form_description" />
+        app:layout_constraintEnd_toEndOf="@id/chef_sign_up_form_description"
+        app:layout_constraintStart_toStartOf="@id/chef_sign_up_form_description"
+        app:layout_constraintTop_toBottomOf="@id/chef_sign_up_form_description" />
 
     <Button
-        android:id="@+id/chef_info_form_void_check"
+        android:id="@+id/chef_sign_up_form_void_check"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -100,16 +100,16 @@
         android:text="@string/void_check"
         style="@style/CallToAction"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintEnd_toEndOf="@id/chef_info_form_address"
-        app:layout_constraintStart_toStartOf="@id/chef_info_form_address"
-        app:layout_constraintTop_toBottomOf="@id/chef_info_form_address"  />
+        app:layout_constraintEnd_toEndOf="@id/chef_sign_up_form_address"
+        app:layout_constraintStart_toStartOf="@id/chef_sign_up_form_address"
+        app:layout_constraintTop_toBottomOf="@id/chef_sign_up_form_address"  />
 
     <Button
-        android:id="@+id/chef_info_form_submit_button"
+        android:id="@+id/chef_sign_up_form_submit_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:text="@string/user_info_form_submit"
+        android:text="@string/user_sign_up_form_submit"
         style="@style/CallToAction"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

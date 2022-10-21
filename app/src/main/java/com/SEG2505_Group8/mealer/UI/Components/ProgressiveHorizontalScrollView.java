@@ -9,6 +9,10 @@ import android.widget.Toast;
 
 import com.SEG2505_Group8.mealer.R;
 
+/**
+ * Present data in scroll view.
+ * Fires events when reaching start and end.
+ */
 public class ProgressiveHorizontalScrollView extends HorizontalScrollView implements ViewTreeObserver.OnScrollChangedListener {
 
     public ProgressiveHorizontalScrollView(Context context) {
