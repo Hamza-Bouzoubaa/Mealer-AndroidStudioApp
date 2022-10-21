@@ -99,6 +99,10 @@ public class UserSignUpFormActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Assert all fields are valid
+     * @return
+     */
     private boolean validateFields() {
         return validator.required(firstName)
                 && validator.required(lastName)

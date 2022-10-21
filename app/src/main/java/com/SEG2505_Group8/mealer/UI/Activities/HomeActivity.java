@@ -40,14 +40,14 @@ import java.util.List;
  */
 public class HomeActivity extends AppCompatActivity {
 
-    private TextView textViewData;
+    private TextView welcomeText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        textViewData = findViewById(R.id.displayUser);
+        welcomeText = findViewById(R.id.displayUser);
 
         Button deleteRecipe = findViewById(R.id.btnDeleteRecipe);
         deleteRecipe.setOnClickListener(v -> {
@@ -86,7 +86,7 @@ public class HomeActivity extends AppCompatActivity {
 
         // Listen for current user's name and role
         Services.getDatabaseClient().listenForModel(this, "users", FirebaseAuth.getInstance().getCurrentUser().getUid(), MealerUser.class, user -> {
-            textViewData.setText("Bienvenue "+ user.getFirstName()  + "! Vous êtes connecté en tant que: "+ user.getRole());
+            welcomeText.setText("Bienvenue "+ user.getFirstName()  + "! Vous êtes connecté en tant que: "+ user.getRole());
         });
     }
 }

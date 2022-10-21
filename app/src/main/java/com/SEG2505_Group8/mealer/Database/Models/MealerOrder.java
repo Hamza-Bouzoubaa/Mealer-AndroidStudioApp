@@ -17,15 +17,30 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MealerOrder {
+
+    /**
+     * Document id of Menu
+     */
+    String id;
+
     @MealerSerializableElement(key = "status")
     MealerOrderStatus status;
 
+    /**
+     * Id of user who created order
+     */
     @MealerSerializableElement(key = "client")
-    MealerUser client;
+    String clientId;
 
+    /**
+     * Id of recipe that was ordered
+     */
     @MealerSerializableElement(key = "recipe")
-    MealerRecipe recipe;
+    String recipeId;
 
-    @MealerSerializableElement(key = "date")
-    String date;
+    /**
+     * Timestamp for order creation
+     */
+    @MealerSerializableElement(key = "timestamp")
+    String timestamp;
 }

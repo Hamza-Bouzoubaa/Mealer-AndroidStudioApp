@@ -60,6 +60,11 @@ public class SignInWithEmailActivity extends AppCompatActivity {
         validator = new FieldValidator(getApplicationContext());
     }
 
+    /**
+     * Sign in using email and password
+     * @param email
+     * @param password
+     */
     private void signIn(String email, String password) {
         FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
             // If account creation was successful, go to HomeActivity

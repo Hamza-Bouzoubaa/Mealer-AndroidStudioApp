@@ -5,7 +5,18 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * Class with static methods for serializing objects with {@link MealerSerializable} annotation.
+ */
 public class MealerSerializer {
+
+    /**
+     * Create a map where key/values are extracted using {@link MealerSerializableElement}
+     * IllegalArgumentException is thrown if object does not have @MealerSerializable annotation
+     * @param o
+     * @return
+     * @throws IllegalArgumentException
+     */
     public static Map<String, Object> toMap(Object o) throws IllegalArgumentException {
         if (isSerializable(o)) {
             try {
@@ -30,6 +41,11 @@ public class MealerSerializer {
         return null;
     }
 
+    /**
+     * Returns true if object has @MealerSerializable annotation
+     * @param o
+     * @return
+     */
     public static boolean isSerializable(Object o) {
         if (Objects.isNull(o)) {
             return false;

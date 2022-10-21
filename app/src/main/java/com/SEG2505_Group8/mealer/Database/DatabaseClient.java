@@ -12,6 +12,9 @@ import com.SEG2505_Group8.mealer.Database.Models.MealerUser;
 import java.util.List;
 import java.util.concurrent.Future;
 
+/**
+ * Interface for accessing the database
+ */
 public interface DatabaseClient {
 
     /**
@@ -45,6 +48,7 @@ public interface DatabaseClient {
 
     /**
      * Get {@link MealerUser} document of User who is logged in.
+     * Calls callback on completion
      *
      * @return
      */
@@ -69,8 +73,10 @@ public interface DatabaseClient {
 
     /**
      * Get {@link MealerMenu} of user with id.
+     * Calls callback on completion
      *
      * @param id
+     * @param callback
      * @return
      */
     Future<MealerMenu> getUserMenu(String id, DatabaseCompletionCallback<MealerMenu> callback);
@@ -86,6 +92,7 @@ public interface DatabaseClient {
 
     /**
      * Get {@link MealerMenu} of logged in user.
+     * Calls callback on completion
      *
      * @return
      */
@@ -110,6 +117,7 @@ public interface DatabaseClient {
 
     /**
      * Get {@link MealerMenu} with Document Id.
+     * Calls callback on completion
      *
      * @param id
      * @return
@@ -133,7 +141,7 @@ public interface DatabaseClient {
 
     /**
      * Get a {@link MealerRecipe} with id.
-     * Executes callback on completion.
+     * Calls callback on completion
      * @param id
      * @param callback
      * @return
@@ -141,8 +149,8 @@ public interface DatabaseClient {
     Future<MealerRecipe> getRecipe(String id, DatabaseCompletionCallback<MealerRecipe> callback);
 
     /**
-     * Get {@link MealerRecipe} with document Id.
-     * @param id
+     * Update {@link MealerRecipe} stored in database
+     * @param recipe
      * @return
      */
     default Future<Boolean> updateRecipe(MealerRecipe recipe) {
@@ -158,29 +166,92 @@ public interface DatabaseClient {
      */
     Future<Boolean> updateRecipe(MealerRecipe recipe, DatabaseSetCallback callback);
 
+    /**
+     * Update a {@link MealerMenu} stored in Database.
+     *
+     * @param menu
+     * @return
+     */
     default Future<Boolean> updateMenu(MealerMenu menu) {
         return updateMenu(menu, null);
     }
 
+    /**
+     * Update a {@link MealerMenu} stored in Database.
+     * Executes callback on completion.
+     *
+     * @param menu
+     * @param callback code to execute on completion
+     * @return
+     */
     Future<Boolean> updateMenu(MealerMenu menu, DatabaseSetCallback callback);
 
+    /**
+     * Update a {@link MealerUser} stored in Database.
+     *
+     * @param user
+     * @return
+     */
     default Future<Boolean> updateUser(MealerUser user) {
         return updateUser(user, null);
     }
 
+    /**
+     * Update a {@link MealerUser} stored in Database.
+     * Executes callback on completion.
+     *
+     * @param user
+     * @param callback code to execute on completion
+     * @return
+     */
     Future<Boolean> updateUser(MealerUser user, DatabaseSetCallback callback);
 
+    /**
+     * Delete a {@link MealerRecipe} stored in Database.
+     *
+     * @param id
+     * @return
+     */
     default Future<Boolean> deleteRecipe(String id) {
         return deleteRecipe(id, null);
     }
 
-    Future<Boolean> deleteRecipe(String id, DatabaseCompletionCallback<MealerRecipe> callback);
+    /**
+     * Delete a {@link MealerRecipe} stored in Database.
+     * Executes callback on completion.
+     *
+     * @param id
+     * @param callback
+     * @return
+     */
+    Future<Boolean> deleteRecipe(String id, DatabaseSetCallback callback);
 
+    /**
+     * Return true if sign in user's info needs to be updated
+     *
+     * @return
+     */
     default Future<Boolean> userInfoRequired() {
         return userInfoRequired(null);
     }
 
+    /**
+     * Return true if sign in user's info needs to be updated
+     * Executes callback on completion.
+     *
+     * @return
+     */
     Future<Boolean> userInfoRequired(DatabaseCompletionCallback<Boolean> callback);
 
+    /**
+     * Executes callback when document changes in database.
+     *
+     * @param activity
+     * @param collectionId
+     * @param documentId
+     * @param clazz
+     * @param callback
+     * @return
+     */
     <T> void listenForModel(Activity activity, String collectionId, String documentId, Class<T> clazz, DatabaseCompletionCallback<T> callback);
 }

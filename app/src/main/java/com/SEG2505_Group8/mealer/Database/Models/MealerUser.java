@@ -23,38 +23,40 @@ import lombok.NoArgsConstructor;
 public class MealerUser {
 
     /**
-     * Document Id of user.
+     * Id in the database
      */
     String id;
 
     /**
-     * First name of user.
+     * User's first name
      */
     @MealerSerializableElement(key = "firstName")
     String firstName;
 
     /**
-     * Last name of user.
+     * User's last name
      */
     @MealerSerializableElement(key = "lastName")
     String lastName;
 
     /**
-     * User email;
+     * User's email
      */
     @MealerSerializableElement(key = "email")
     String email;
 
     /**
-     * User address.
-     * If role == USER then this is the delivery address
+     * User's address.
+     * If role == USER then this is the default delivery address
      * If role == CHEF then this is the kitchen address
      */
     @MealerSerializableElement(key = "address")
     String address;
 
     /**
-     * Credit card number for USER, empty String otherwise
+     * User's credit card number.
+     * if role == USER, contains credit card number
+     * else, empty string
      */
     @MealerSerializableElement(key = "creditCard")
     String creditCard;

@@ -49,6 +49,7 @@ public class ChefSignUpFormActivity extends AppCompatActivity {
         voidCheckPreview = findViewById(R.id.capturedimage);
         Button voidCheckButton = findViewById(R.id.chef_sign_up_form_void_check);
 
+        // Launch camera on button press.
         voidCheckButton.setOnClickListener(v -> {
             startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE),100);
         });
@@ -89,7 +90,7 @@ public class ChefSignUpFormActivity extends AppCompatActivity {
     /**
      * Submit form info to create a Chef account
      */
-    public void submit(String email, String password, String firstName, String lastName, String address, String description) {
+    private void submit(String email, String password, String firstName, String lastName, String address, String description) {
 
 
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, task -> {
@@ -121,6 +122,10 @@ public class ChefSignUpFormActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Assert all fields are valid
+     * @return
+     */
     private boolean validateFields() {
         return validator.required(firstName)
                 && validator.required(lastName)
