@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.SEG2505_Group8.mealer.Database.Callbacks.StorageProgressCallback;
 import com.SEG2505_Group8.mealer.Database.Models.MealerRole;
 import com.SEG2505_Group8.mealer.Database.Models.MealerUser;
 import com.SEG2505_Group8.mealer.R;
@@ -19,6 +20,8 @@ import com.SEG2505_Group8.mealer.Services;
 import com.SEG2505_Group8.mealer.UI.Activities.Utils.FieldValidator;
 import com.google.firebase.auth.FirebaseAuth;
 import android.widget.ImageView;
+
+import java.io.ByteArrayOutputStream;
 
 /**
  * Presents form for creating a Chef account.
@@ -34,8 +37,11 @@ public class ChefSignUpFormActivity extends AppCompatActivity {
     EditText password;
     EditText description;
     Button submitButton;
-    private ImageView imageView;
-    private Button button;
+
+    ImageView imageView;
+    byte[] imageBytes;
+
+    Button button;
 
 
     public static final int RequestPermissionCode = 1;
@@ -50,16 +56,9 @@ public class ChefSignUpFormActivity extends AppCompatActivity {
         imageView= findViewById(R.id.capturedimage);
         button=findViewById(R.id.chef_sign_up_form_void_check);
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent open_camera= new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(open_camera,100);
-            }
+        button.setOnClickListener(v -> {
+            startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE),100);
         });
-
-
-
 
         firstName = findViewById(R.id.chef_sign_up_form_first_name);
         lastName = findViewById(R.id.chef_sign_up_form_last_name);
@@ -85,7 +84,12 @@ public class ChefSignUpFormActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Bitmap photo= (Bitmap)data.getExtras().get("data");
+        Bitmap photo = (Bitmap)data.getExtras().get("data");
+
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        photo.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        imageBytes = stream.toByteArray();
+
         imageView.setImageBitmap(photo);
     }
 
@@ -93,6 +97,15 @@ public class ChefSignUpFormActivity extends AppCompatActivity {
      * Submit form info to create a Chef account
      */
     public void submit(String email, String password, String firstName, String lastName, String address, String description) {
+
+        Services.getStorageClient().uploadFile(imageBytes, email + "-void-check", new StorageProgressCallback() {
+            @Override
+            public void onProgress(long processed, long total) {
+
+            }
+        });
+
+
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, task -> {
             if (task.isSuccessful()) {
 
@@ -105,7 +118,7 @@ public class ChefSignUpFormActivity extends AppCompatActivity {
                 }
 
                 // Create user data in Database
-                MealerUser user = new MealerUser(userId, MealerRole.CHEF, firstName, lastName, email, address, "", description, "voidCheckUrl");
+                MealerUser user = new MealerUser(userId, MealerRole.CHEF, firstName, lastName, email, address, "", description, email + "-void-check");
                 Services.getDatabaseClient().updateUser(user);
 
                 // Send user back to Main. Restarts user experience flow.

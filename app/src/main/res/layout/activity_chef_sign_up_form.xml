@@ -117,8 +117,10 @@
         app:layout_constraintBottom_toBottomOf="parent" />
     <ImageView
         android:id="@+id/capturedimage"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        app:layout_constraintStart_toEndOf="@id/chef_sign_up_form_void_check"
+        app:layout_constraintTop_toTopOf="@id/chef_sign_up_form_void_check"
         />
 
 
