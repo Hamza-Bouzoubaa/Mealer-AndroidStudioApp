@@ -10,14 +10,10 @@ import com.SEG2505_Group8.mealer.Database.Models.MealerMenu;
 import com.SEG2505_Group8.mealer.Database.Models.MealerRecipe;
 import com.SEG2505_Group8.mealer.Database.Models.MealerUser;
 import com.SEG2505_Group8.mealer.Database.Serialize.MealerSerializer;
-import com.SEG2505_Group8.mealer.UI.Activities.HomeActivity;
-import com.google.android.gms.tasks.Task;
 import com.google.common.util.concurrent.SettableFuture;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firestore.v1.WriteResult;
 
 import java.util.List;
 import java.util.Map;
@@ -231,19 +227,17 @@ public class FirebaseDatabaseClient implements DatabaseClient {
         final SettableFuture<T> future = SettableFuture.create();
 
         // Create an async task to fetch user from firestore
-        executorService.submit(() -> {
-            firestore.collection(collectionId).document(documentId).get().addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    // Firebase task was successful, set future to result
-                    T o = task.getResult().toObject(clazz);
-                    callback.onComplete(o);
-                    future.set(o);
-                } else {
+        firestore.collection(collectionId).document(documentId).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                // Firebase task was successful, set future to result
+                T o = task.getResult().toObject(clazz);
+                callback.onComplete(o);
+                future.set(o);
+            } else {
                     // Firebase task wasn't successful, set future null
-                    callback.onComplete(null);
-                    future.set(null);
-                }
-            });
+                callback.onComplete(null);
+                future.set(null);
+            }
         });
 
         return future;

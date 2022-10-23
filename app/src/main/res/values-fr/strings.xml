@@ -26,4 +26,12 @@
     <string name="form_invalid_terms_and_conditions">Il faut accepter les termes et conditions.</string>
     <string name="displayUser">Erreur: affichage de texte</string>
     <string name="form_wrong_password">Mauvais mot de pass</string>
+    <string name="bottom_navigation_menu_label_complaints">Plaints</string>
+    <string name="bottom_navigation_menu_label_settings">Paramètre</string>
+    <string name="account_header">Compte</string>
+    <string name="account_first_name">Prénom</string>
+    <string name="account_last_name">Nom</string>
+    <string name="account_address">Adress</string>
+    <string name="account_sign_out">Sign Out</string>
+    <string name="account_role">Role</string>
 </resources>

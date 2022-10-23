@@ -27,4 +27,18 @@
     <string name="form_invalid_terms_and_conditions">Terms and conditions must be accepted first.</string>
     <string name="displayUser">Something went wrong displaying this text</string>
     <string name="form_wrong_password">Wrong password</string>
+    <string name="bottom_navigation_menu_label_complaints">Complaints</string>
+    <string name="bottom_navigation_menu_label_settings">Settings</string>
+
+    <!-- Preference Titles -->
+    <string name="account_header">Account</string>
+    <string name="account_first_name">First Name</string>
+    <string name="account_last_name">Last Name</string>
+    <string name="account_address">Address</string>
+    <string name="account_sign_out">Sign Out</string>
+    <string name="account_role">Role</string>
+
+    <!-- Messages Preferences -->
+
+    <!-- Sync Preferences -->
 </resources>

@@ -1,38 +1,24 @@
 package com.SEG2505_Group8.mealer.UI.Activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
+import android.widget.Adapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.widget.ViewPager2;
 
-import com.SEG2505_Group8.mealer.Database.Callbacks.DatabaseCompletionCallback;
-import com.SEG2505_Group8.mealer.Database.Models.MealerRecipe;
 import com.SEG2505_Group8.mealer.Database.Models.MealerUser;
 import com.SEG2505_Group8.mealer.R;
 import com.SEG2505_Group8.mealer.Services;
-import com.firebase.ui.auth.AuthUI;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
+import com.SEG2505_Group8.mealer.UI.Adapters.ViewPager2Adapter;
+import com.SEG2505_Group8.mealer.UI.Fragments.ComplaintFragment;
+import com.SEG2505_Group8.mealer.UI.Fragments.SettingsFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserInfo;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Welcome Activity for sign in users.
@@ -40,53 +26,90 @@ import java.util.List;
  */
 public class HomeActivity extends AppCompatActivity {
 
-    private TextView welcomeText;
+    ViewPager2 viewPager;
+    BottomNavigationView bottomNavigationView;
+
+    ComplaintFragment complaintFragment;
+    SettingsFragment settingsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        welcomeText = findViewById(R.id.displayUser);
+        // Go back to MainActivity if user is no longer signed in.
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+            Intent i = new Intent(HomeActivity.this, MainActivity.class);
+            startActivity(i);
+            finish();
+        }
 
-        Button deleteRecipe = findViewById(R.id.btnDeleteRecipe);
-        deleteRecipe.setOnClickListener(v -> {
-            Services.getDatabaseClient().deleteRecipe("recipe1");
+        viewPager = findViewById(R.id.home_view_pager);
+        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                super.onPageScrolled(position, positionOffset, positionOffsetPixels);
+
+                switch (position) {
+                    case 0:
+                        bottomNavigationView.getMenu().findItem(R.id.bottom_navigation_menu_page_complaints).setChecked(true);
+                        break;
+                    case 1:
+                        bottomNavigationView.getMenu().findItem(R.id.bottom_navigation_menu_page_settings).setChecked(true);
+                        break;
+                }
+            }
         });
 
-        // button for logout and initialing our button.
-        Button logoutBtn = findViewById(R.id.idBtnLogout);
-
-        // adding onclick listener for our logout button.
-        logoutBtn.setOnClickListener(v -> {
-
-            // Call Firebase Authentication sign out
-            AuthUI.getInstance()
-                    .signOut(HomeActivity.this)
-
-                    // Redirect user to MainActivity
-                    .addOnCompleteListener(task -> {
-
-                        // Tell user they were signed out
-                        Toast.makeText(HomeActivity.this, "User Signed Out", Toast.LENGTH_SHORT).show();
-
-                        // Go to Main Activity
-                        Intent i = new Intent(HomeActivity.this, MainActivity.class);
-                        startActivity(i);
-
-                        // Kill current activity since we won't be back without going trough sign in
-                        finish();
-                    });
+        bottomNavigationView = findViewById(R.id.home_bottom_navigation_view);
+        bottomNavigationView.setBackground(null);
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.bottom_navigation_menu_page_complaints:
+                    System.out.println("Clicked on page 1");
+                    viewPager.setCurrentItem(0, false);
+                    return true;
+                case R.id.bottom_navigation_menu_page_settings:
+                    System.out.println("Clicked on page 2");
+                    viewPager.setCurrentItem(1, false);
+                    return true;
+                default:
+                    return false;
+            }
         });
+
+        setupViewPager(viewPager);
+    }
+
+    /**
+     * Setup view pager with desired fragments using {@link ViewPager2Adapter}
+     * @param pager ViewPager2 to initialize
+     */
+    private void setupViewPager(ViewPager2 pager) {
+        ViewPager2Adapter adapter = new ViewPager2Adapter(getSupportFragmentManager(), getLifecycle());
+
+        complaintFragment = new ComplaintFragment();
+        settingsFragment = new SettingsFragment();
+
+        adapter.add(complaintFragment);
+        adapter.add(settingsFragment);
+
+        viewPager.setAdapter(adapter);
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onResume() {
+        super.onResume();
+        Services.getDatabaseClient().listenForModel(HomeActivity.this, "users", FirebaseAuth.getInstance().getCurrentUser().getUid(), MealerUser.class, user -> {
+            // TODO: Not currently listening properly
+            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(HomeActivity.this);
 
-        // Listen for current user's name and role
-        Services.getDatabaseClient().listenForModel(this, "users", FirebaseAuth.getInstance().getCurrentUser().getUid(), MealerUser.class, user -> {
-            welcomeText.setText("Bienvenue "+ user.getFirstName()  + "! Vous êtes connecté en tant que: "+ user.getRole());
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putString("first_name", user.getFirstName());
+            editor.putString("last_name", user.getLastName());
+            editor.putString("address", user.getAddress());
+            editor.putString("role", user.getRole().toString());
+            editor.apply();
         });
     }
 }
