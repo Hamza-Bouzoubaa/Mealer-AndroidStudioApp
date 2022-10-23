@@ -3,12 +3,9 @@ package com.SEG2505_Group8.mealer.UI.Activities;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.widget.Adapter;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
-import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.SEG2505_Group8.mealer.Database.Models.MealerUser;
@@ -98,9 +95,27 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        Services.getDatabaseClient().listenForModel(HomeActivity.this, "users", FirebaseAuth.getInstance().getCurrentUser().getUid(), MealerUser.class, user -> {
+    protected void onStart() {
+        super.onStart();
+
+        // Listen for current user's name and role
+        Services.getDatabaseClient().listenForModel(this, "users", FirebaseAuth.getInstance().getCurrentUser().getUid(), MealerUser.class, user -> {
+
+            String role = "null";
+            switch (user.getRole()){
+                case CHEF:
+                    role = getString(R.string.role_chef);
+                    break;
+                case USER:
+                    role = getString(R.string.role_user);
+                    break;
+                case ADMIN:
+                    role = getString(R.string.role_admin);
+                    break;
+            }
+
+            role = role.substring(0,1).toUpperCase() + role.substring(1);
+
             // TODO: Not currently listening properly
             SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(HomeActivity.this);
 
@@ -108,7 +123,7 @@ public class HomeActivity extends AppCompatActivity {
             editor.putString("first_name", user.getFirstName());
             editor.putString("last_name", user.getLastName());
             editor.putString("address", user.getAddress());
-            editor.putString("role", user.getRole().toString());
+            editor.putString("role", role);
             editor.apply();
         });
     }

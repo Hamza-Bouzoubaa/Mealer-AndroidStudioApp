@@ -34,4 +34,7 @@
     <string name="account_address">Adress</string>
     <string name="account_sign_out">Sign Out</string>
     <string name="account_role">Role</string>
+    <string name="role_chef">cuisinier</string>
+    <string name="role_user">client</string>
+    <string name="role_admin">administrateur</string>
 </resources>

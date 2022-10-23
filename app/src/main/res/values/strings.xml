@@ -38,7 +38,7 @@
     <string name="account_sign_out">Sign Out</string>
     <string name="account_role">Role</string>
 
-    <!-- Messages Preferences -->
-
-    <!-- Sync Preferences -->
+    <string name="role_chef">chef</string>
+    <string name="role_user">user</string>
+    <string name="role_admin">admin</string>
 </resources>
