@@ -16,6 +16,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MealerComplaint {
+
+    /**
+     * Document id of Complaint
+     */
+    String id;
+
     /**
      * Id of chef who is the subject of the complaint
      */

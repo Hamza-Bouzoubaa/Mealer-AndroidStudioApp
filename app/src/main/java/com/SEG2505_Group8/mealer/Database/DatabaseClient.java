@@ -5,6 +5,7 @@ import android.app.Activity;
 import com.SEG2505_Group8.mealer.Database.Callbacks.DatabaseFilterCallback;
 import com.SEG2505_Group8.mealer.Database.Callbacks.DatabaseCompletionCallback;
 import com.SEG2505_Group8.mealer.Database.Callbacks.DatabaseSetCallback;
+import com.SEG2505_Group8.mealer.Database.Models.MealerComplaint;
 import com.SEG2505_Group8.mealer.Database.Models.MealerMenu;
 import com.SEG2505_Group8.mealer.Database.Models.MealerRecipe;
 import com.SEG2505_Group8.mealer.Database.Models.MealerUser;
@@ -149,6 +150,14 @@ public interface DatabaseClient {
     Future<MealerRecipe> getRecipe(String id, DatabaseCompletionCallback<MealerRecipe> callback);
 
     /**
+     * Page trough {@link MealerComplaint}.
+     * Calls callback on completion
+     * @param callback
+     * @return
+     */
+    Future<List<MealerComplaint>> getComplaints(DatabaseFilterCallback filter, DatabaseCompletionCallback<List<MealerComplaint>> callback);
+
+    /**
      * Update {@link MealerRecipe} stored in database
      * @param recipe
      * @return
@@ -254,4 +263,10 @@ public interface DatabaseClient {
      * @return
      */
     <T> void listenForModel(Activity activity, String collectionId, String documentId, Class<T> clazz, DatabaseCompletionCallback<T> callback);
+
+    Future<Boolean> updateComplaint(MealerComplaint complaint, DatabaseSetCallback callback);
+
+    default Future<Boolean> updateComplaint(MealerComplaint complaint) {
+        return updateComplaint(complaint, null);
+    }
 }

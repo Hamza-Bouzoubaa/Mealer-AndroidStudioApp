@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.SEG2505_Group8.mealer.Database.Models.MealerComplaint;
 import com.SEG2505_Group8.mealer.R;
+import com.SEG2505_Group8.mealer.Services;
 import com.SEG2505_Group8.mealer.UI.Adapters.ComplaintRecyclerViewAdapter;
 
 import java.util.ArrayList;
@@ -70,11 +71,11 @@ public class ComplaintFragment extends Fragment {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
 
-            List<MealerComplaint> complaintList = new ArrayList<>();
-            complaintList.add(new MealerComplaint("chef1", "user1", "Terrible food!"));
-
-
-            recyclerView.setAdapter(new ComplaintRecyclerViewAdapter(complaintList));
+            Services.getDatabaseClient().getComplaints(reference -> {
+                return reference.limit(10);
+            }, complaints -> {
+                recyclerView.setAdapter(new ComplaintRecyclerViewAdapter(complaints));
+            });
         }
         return view;
     }

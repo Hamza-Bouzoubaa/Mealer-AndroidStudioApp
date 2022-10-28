@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.SEG2505_Group8.mealer.Database.Models.MealerComplaint;
 import com.SEG2505_Group8.mealer.Database.Models.MealerUser;
 import com.SEG2505_Group8.mealer.R;
 import com.SEG2505_Group8.mealer.Services;
@@ -76,6 +77,12 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         setupViewPager(viewPager);
+
+        Services.getDatabaseClient().updateComplaint(new MealerComplaint("complaint1", "chef1", "user1", "A fancy description"));
+        Services.getDatabaseClient().updateComplaint(new MealerComplaint("complaint2", "chef2", "user1", "A trash description"));
+        Services.getDatabaseClient().updateComplaint(new MealerComplaint("complaint3", "chef3", "user1", "A hungry description"));
+        Services.getDatabaseClient().updateComplaint(new MealerComplaint("complaint4", "chef4", "user1", "A fast description"));
+        Services.getDatabaseClient().updateComplaint(new MealerComplaint("complaint5", "chef5", "user1", "A little description"));
     }
 
     /**

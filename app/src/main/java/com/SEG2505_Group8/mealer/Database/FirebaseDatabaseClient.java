@@ -6,6 +6,7 @@ import android.widget.Toast;
 import com.SEG2505_Group8.mealer.Database.Callbacks.DatabaseFilterCallback;
 import com.SEG2505_Group8.mealer.Database.Callbacks.DatabaseCompletionCallback;
 import com.SEG2505_Group8.mealer.Database.Callbacks.DatabaseSetCallback;
+import com.SEG2505_Group8.mealer.Database.Models.MealerComplaint;
 import com.SEG2505_Group8.mealer.Database.Models.MealerMenu;
 import com.SEG2505_Group8.mealer.Database.Models.MealerRecipe;
 import com.SEG2505_Group8.mealer.Database.Models.MealerUser;
@@ -25,9 +26,12 @@ import java.util.concurrent.Future;
 
 public class FirebaseDatabaseClient implements DatabaseClient {
 
+    private static final int maxiumGetModels = 20;
+
     private static final String userCollectionId = "users";
     private static final String menuCollectionId = "menus";
     private static final String recipeCollectionId = "recipes";
+    private static final String complaintCollectionId = "complaints";
 
     private final ExecutorService executorService = Executors.newSingleThreadExecutor();
 
@@ -44,9 +48,9 @@ public class FirebaseDatabaseClient implements DatabaseClient {
 
     @Override
     public Future<List<MealerUser>> getUsers(DatabaseFilterCallback filter) {
-        return getModels(MealerUser.class, userCollectionId, 10, reference -> {
+        return getModels(MealerUser.class, userCollectionId, maxiumGetModels, reference -> {
             return reference;
-        });
+        }, null);
     }
 
     @Override
@@ -78,9 +82,9 @@ public class FirebaseDatabaseClient implements DatabaseClient {
 
     @Override
     public Future<List<MealerMenu>> getMenus(DatabaseFilterCallback filter) {
-        return getModels(MealerMenu.class, menuCollectionId, 10, reference -> {
+        return getModels(MealerMenu.class, menuCollectionId, maxiumGetModels, reference -> {
             return reference;
-        });
+        }, null);
     }
 
     @Override
@@ -90,12 +94,17 @@ public class FirebaseDatabaseClient implements DatabaseClient {
 
     @Override
     public Future<List<MealerRecipe>> getRecipes(DatabaseFilterCallback filter) {
-        return getModels(MealerRecipe.class, recipeCollectionId, 10, filter);
+        return getModels(MealerRecipe.class, recipeCollectionId, maxiumGetModels, filter, null);
     }
 
     @Override
     public Future<MealerRecipe> getRecipe(String id, DatabaseCompletionCallback<MealerRecipe> callback) {
         return getModel(recipeCollectionId, id, MealerRecipe.class, callback);
+    }
+
+    @Override
+    public Future<List<MealerComplaint>> getComplaints(DatabaseFilterCallback filter, DatabaseCompletionCallback<List<MealerComplaint>> callback) {
+        return getModels(MealerComplaint.class, complaintCollectionId, maxiumGetModels, filter, callback);
     }
 
     @Override
@@ -147,6 +156,11 @@ public class FirebaseDatabaseClient implements DatabaseClient {
         });
     }
 
+    @Override
+    public Future<Boolean> updateComplaint(MealerComplaint complaint, DatabaseSetCallback callback) {
+        return saveModel(complaintCollectionId, complaint.getId(), complaint, callback);
+    }
+
     /**
      * Get list of objects of type T from firebase
      * @param clazz
@@ -156,13 +170,16 @@ public class FirebaseDatabaseClient implements DatabaseClient {
      * @param <T>
      * @return
      */
-    private <T> Future<List<T>> getModels(Class<T> clazz, String collectionName, int limit, DatabaseFilterCallback filter) {
+    private <T> Future<List<T>> getModels(Class<T> clazz, String collectionName, int limit, DatabaseFilterCallback filter, DatabaseCompletionCallback<List<T>> callback) {
         final SettableFuture<List<T>> future = SettableFuture.create();
 
         filter.applyFilter(firestore.collection(collectionName)).limit(limit).get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                future.set(task.getResult().toObjects(clazz));
+                List<T> o = task.getResult().toObjects(clazz);
+                callback.onComplete(o);
+                future.set(o);
             } else {
+                callback.onComplete(null);
                 future.set(null);
             }
         });
