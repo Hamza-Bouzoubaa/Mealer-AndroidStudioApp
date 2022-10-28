@@ -37,7 +37,8 @@ public class ComplaintRecyclerViewAdapter extends RecyclerView.Adapter<Complaint
         holder.chefIdView.setText(mValues.get(position).getChefId());
         holder.userIdView.setText(mValues.get(position).getUserId());
         holder.descriptionView.setText(mValues.get(position).getDescription());
-        holder.actionButton.setOnClickListener(v -> System.out.println("Clicked action " + holder.descriptionView.getText()));
+        holder.openButton.setOnClickListener(v -> System.out.println("Not Implemented"));
+        holder.rejectButton.setOnClickListener(v -> System.out.println("Not Implemented"));
     }
 
     @Override
@@ -49,7 +50,8 @@ public class ComplaintRecyclerViewAdapter extends RecyclerView.Adapter<Complaint
         public final TextView chefIdView;
         public final TextView userIdView;
         public final TextView descriptionView;
-        public final Button actionButton;
+        public final Button openButton;
+        public final Button rejectButton;
 
         public MealerComplaint mItem;
 
@@ -59,7 +61,8 @@ public class ComplaintRecyclerViewAdapter extends RecyclerView.Adapter<Complaint
             chefIdView = binding.chefId;
             userIdView = binding.userId;
             descriptionView = binding.description;
-            actionButton = binding.action;
+            openButton = binding.open;
+            rejectButton = binding.reject;
         }
 
         @Override
