@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+        android:id="@+id/bottom_navigation_menu_page_recommendations"
+        android:icon="@drawable/ic_baseline_message_24"
+        android:title="@string/bottom_navigation_menu_label_recommendations"/>
+    <item
         android:id="@+id/bottom_navigation_menu_page_complaints"
-        android:enabled="true"
+        android:visible="false"
         android:icon="@drawable/ic_baseline_message_24"
         android:title="@string/bottom_navigation_menu_label_complaints"/>
     <item
         android:id="@+id/bottom_navigation_menu_page_settings"
-        android:enabled="true"
         android:icon="@drawable/ic_baseline_settings_24"
         android:title="@string/bottom_navigation_menu_label_settings"/>
 </menu>

@@ -38,4 +38,5 @@
     <string name="role_user">client</string>
     <string name="role_admin">administrateur</string>
     <string name="complaint">pleinte</string>
+    <string name="bottom_navigation_menu_label_recommendations">Recommendations</string>
 </resources>
