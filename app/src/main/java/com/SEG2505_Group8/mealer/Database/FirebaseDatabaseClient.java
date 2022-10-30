@@ -10,7 +10,7 @@ import com.SEG2505_Group8.mealer.Database.Models.MealerComplaint;
 import com.SEG2505_Group8.mealer.Database.Models.MealerMenu;
 import com.SEG2505_Group8.mealer.Database.Models.MealerRecipe;
 import com.SEG2505_Group8.mealer.Database.Models.MealerUser;
-import com.SEG2505_Group8.mealer.Database.Serialize.MealerSerializer;
+import com.SEG2505_Group8.mealer.Database.Serialize.MealerSerializable;
 import com.google.common.util.concurrent.SettableFuture;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -129,6 +129,11 @@ public class FirebaseDatabaseClient implements DatabaseClient {
     }
 
     @Override
+    public Future<Boolean> deleteComplaint(String id, DatabaseSetCallback callback) {
+        return deleteModel(complaintCollectionId, id, callback);
+    }
+
+    @Override
     public Future<Boolean> userInfoRequired(DatabaseCompletionCallback<Boolean> callback) {
 
         //TODO: Implement logic for user info missing fields. We currently only check if document exists.
@@ -196,21 +201,16 @@ public class FirebaseDatabaseClient implements DatabaseClient {
      * @param callback
      * @return
      */
-    private Future<Boolean> saveModel(String collectionName, String documentId, Object objToSave, DatabaseSetCallback callback) {
+    private Future<Boolean> saveModel(String collectionName, String documentId, MealerSerializable objToSave, DatabaseSetCallback callback) {
 
         final SettableFuture<Boolean> future = SettableFuture.create();
-
-        if (!MealerSerializer.isSerializable(objToSave)) {
-            future.setException(new IllegalArgumentException("Object to Save is not Mealer Serializable!"));
-            return future;
-        }
 
         if (collectionName == null) {
             future.setException(new IllegalArgumentException("No collection name specified!"));
             return future;
         }
 
-        Map<String, Object> mappedData = MealerSerializer.toMap(objToSave);
+        Map<String, Object> mappedData = objToSave.toMap();
 
         if (mappedData == null) {
             future.setException(new IllegalArgumentException("Mapped data is null!"));

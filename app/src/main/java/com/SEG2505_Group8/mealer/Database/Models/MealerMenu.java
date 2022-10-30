@@ -14,11 +14,10 @@ import lombok.NoArgsConstructor;
  * Represents a {@link MealerUser}'s menu
  */
 @Data
-@MealerSerializable
 @IgnoreExtraProperties
 @AllArgsConstructor
 @NoArgsConstructor
-public class MealerMenu {
+public class MealerMenu implements MealerSerializable {
 
     /**
      * Document id of Menu

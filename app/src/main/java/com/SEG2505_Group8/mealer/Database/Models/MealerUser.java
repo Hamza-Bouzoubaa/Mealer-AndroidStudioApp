@@ -16,11 +16,10 @@ import lombok.NoArgsConstructor;
  * Represents a user.
  */
 @Data
-@MealerSerializable
 @IgnoreExtraProperties
 @AllArgsConstructor
 @NoArgsConstructor
-public class MealerUser {
+public class MealerUser implements MealerSerializable {
 
     /**
      * Id in the database

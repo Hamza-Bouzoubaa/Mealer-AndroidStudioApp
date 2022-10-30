@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.SEG2505_Group8.mealer.Database.Models.MealerComplaint;
+import com.SEG2505_Group8.mealer.Services;
 import com.SEG2505_Group8.mealer.UI.Activities.ComplaintActivity;
 import com.SEG2505_Group8.mealer.databinding.FragmentComplaintItemBinding;
 
@@ -44,7 +45,7 @@ public class ComplaintRecyclerViewAdapter extends RecyclerView.Adapter<Complaint
             i.putExtra("complaint", holder.mItem);
             view.getContext().startActivity(i);
         });
-        holder.rejectButton.setOnClickListener(v -> System.out.println("Not Implemented"));
+        holder.rejectButton.setOnClickListener(v -> Services.getDatabaseClient().deleteComplaint(holder.mItem.getId()));
     }
 
     @Override

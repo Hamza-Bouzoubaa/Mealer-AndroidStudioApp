@@ -37,4 +37,5 @@
     <string name="role_chef">cuisinier</string>
     <string name="role_user">client</string>
     <string name="role_admin">administrateur</string>
+    <string name="complaint">pleinte</string>
 </resources>

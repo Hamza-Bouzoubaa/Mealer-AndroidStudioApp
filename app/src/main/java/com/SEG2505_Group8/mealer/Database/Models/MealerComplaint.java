@@ -12,11 +12,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@MealerSerializable
 @IgnoreExtraProperties
 @AllArgsConstructor
 @NoArgsConstructor
-public class MealerComplaint implements Serializable {
+public class MealerComplaint implements Serializable, MealerSerializable {
 
     /**
      * Document id of Complaint

@@ -12,11 +12,10 @@ import lombok.NoArgsConstructor;
  * Represents an order
  */
 @Data
-@MealerSerializable
 @IgnoreExtraProperties
 @AllArgsConstructor
 @NoArgsConstructor
-public class MealerOrder {
+public class MealerOrder implements MealerSerializable {
 
     /**
      * Document id of Menu
