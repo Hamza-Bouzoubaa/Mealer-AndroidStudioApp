@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @IgnoreExtraProperties
 @AllArgsConstructor
 @NoArgsConstructor
-public class MealerComplaint implements Serializable, MealerSerializable {
+public class MealerComplaint implements MealerSerializable {
 
     /**
      * Document id of Complaint
