@@ -49,7 +49,7 @@
         android:layout_marginBottom="30dp"
         android:text="@string/continue_text"
         style="@style/CallToAction"
-        app:cornerRadius="@dimen/fui_wrapper_padding_horiz"
+        app:cornerRadius="@dimen/rounded_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
