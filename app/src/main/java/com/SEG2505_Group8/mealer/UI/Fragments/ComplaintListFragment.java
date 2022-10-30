@@ -12,18 +12,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.SEG2505_Group8.mealer.Database.Models.MealerComplaint;
 import com.SEG2505_Group8.mealer.R;
 import com.SEG2505_Group8.mealer.Services;
 import com.SEG2505_Group8.mealer.UI.Adapters.ComplaintRecyclerViewAdapter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * A fragment representing a list of Items.
  */
-public class ComplaintFragment extends Fragment {
+public class ComplaintListFragment extends Fragment {
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -34,13 +30,13 @@ public class ComplaintFragment extends Fragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public ComplaintFragment() {
+    public ComplaintListFragment() {
     }
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static ComplaintFragment newInstance(int columnCount) {
-        ComplaintFragment fragment = new ComplaintFragment();
+    public static ComplaintListFragment newInstance(int columnCount) {
+        ComplaintListFragment fragment = new ComplaintListFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, columnCount);
         fragment.setArguments(args);
@@ -71,9 +67,7 @@ public class ComplaintFragment extends Fragment {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
 
-            Services.getDatabaseClient().getComplaints(reference -> {
-                return reference.limit(10);
-            }, complaints -> {
+            Services.getDatabaseClient().getComplaints(reference -> reference.limit(10), complaints -> {
                 recyclerView.setAdapter(new ComplaintRecyclerViewAdapter(complaints));
             });
         }

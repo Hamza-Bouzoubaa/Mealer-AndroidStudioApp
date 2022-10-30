@@ -13,7 +13,7 @@ import com.SEG2505_Group8.mealer.Database.Models.MealerUser;
 import com.SEG2505_Group8.mealer.R;
 import com.SEG2505_Group8.mealer.Services;
 import com.SEG2505_Group8.mealer.UI.Adapters.ViewPager2Adapter;
-import com.SEG2505_Group8.mealer.UI.Fragments.ComplaintFragment;
+import com.SEG2505_Group8.mealer.UI.Fragments.ComplaintListFragment;
 import com.SEG2505_Group8.mealer.UI.Fragments.SettingsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,7 +27,7 @@ public class HomeActivity extends AppCompatActivity {
     ViewPager2 viewPager;
     BottomNavigationView bottomNavigationView;
 
-    ComplaintFragment complaintFragment;
+    ComplaintListFragment complaintListFragment;
     SettingsFragment settingsFragment;
 
     @Override
@@ -92,10 +92,10 @@ public class HomeActivity extends AppCompatActivity {
     private void setupViewPager(ViewPager2 pager) {
         ViewPager2Adapter adapter = new ViewPager2Adapter(getSupportFragmentManager(), getLifecycle());
 
-        complaintFragment = new ComplaintFragment();
+        complaintListFragment = new ComplaintListFragment();
         settingsFragment = new SettingsFragment();
 
-        adapter.add(complaintFragment);
+        adapter.add(complaintListFragment);
         adapter.add(settingsFragment);
 
         viewPager.setAdapter(adapter);

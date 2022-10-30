@@ -2,12 +2,14 @@ package com.SEG2505_Group8.mealer.UI.Adapters;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.SEG2505_Group8.mealer.Database.Models.MealerComplaint;
+import com.SEG2505_Group8.mealer.UI.Activities.ComplaintActivity;
 import com.SEG2505_Group8.mealer.databinding.FragmentComplaintItemBinding;
 
 import java.util.List;
@@ -37,7 +39,11 @@ public class ComplaintRecyclerViewAdapter extends RecyclerView.Adapter<Complaint
         holder.chefIdView.setText(mValues.get(position).getChefId());
         holder.userIdView.setText(mValues.get(position).getUserId());
         holder.descriptionView.setText(mValues.get(position).getDescription());
-        holder.openButton.setOnClickListener(v -> System.out.println("Not Implemented"));
+        holder.openButton.setOnClickListener(view -> {
+            Intent i = new Intent(view.getContext(), ComplaintActivity.class);
+            i.putExtra("complaint", holder.mItem);
+            view.getContext().startActivity(i);
+        });
         holder.rejectButton.setOnClickListener(v -> System.out.println("Not Implemented"));
     }
 

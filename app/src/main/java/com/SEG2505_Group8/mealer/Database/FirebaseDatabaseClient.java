@@ -19,6 +19,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -214,6 +215,10 @@ public class FirebaseDatabaseClient implements DatabaseClient {
         if (mappedData == null) {
             future.setException(new IllegalArgumentException("Mapped data is null!"));
             return future;
+        }
+
+        if (documentId == null) {
+            documentId = UUID.randomUUID().toString();
         }
 
         firestore.collection(collectionName).document(documentId).set(mappedData).addOnCompleteListener(task -> {
