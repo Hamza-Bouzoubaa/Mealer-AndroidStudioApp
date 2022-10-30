@@ -65,4 +65,14 @@ public class MealerRecipe implements MealerSerializable {
      */
     @MealerSerializableElement(key = "description")
     String description;
+
+    @Override
+    public String getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(String id) {
+        this.id = id;
+    }
 }

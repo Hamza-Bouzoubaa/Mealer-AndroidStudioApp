@@ -16,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -176,12 +177,21 @@ public class FirebaseDatabaseClient implements DatabaseClient {
      * @param <T>
      * @return
      */
-    private <T> Future<List<T>> getModels(Class<T> clazz, String collectionName, int limit, DatabaseFilterCallback filter, DatabaseCompletionCallback<List<T>> callback) {
+    private <T extends MealerSerializable> Future<List<T>> getModels(Class<T> clazz, String collectionName, int limit, DatabaseFilterCallback filter, DatabaseCompletionCallback<List<T>> callback) {
         final SettableFuture<List<T>> future = SettableFuture.create();
 
         filter.applyFilter(firestore.collection(collectionName)).limit(limit).get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                List<T> o = task.getResult().toObjects(clazz);
+                List<T> o = new ArrayList<>();// = task.getResult().toObjects(clazz);
+                task.getResult().getDocuments().forEach(documentSnapshot -> {
+                    T doc = documentSnapshot.toObject(clazz);
+
+                    if (doc != null) {
+                        doc.setId(documentSnapshot.getId());
+                        o.add(doc);
+                    }
+                });
+
                 callback.onComplete(o);
                 future.set(o);
             } else {
@@ -243,7 +253,7 @@ public class FirebaseDatabaseClient implements DatabaseClient {
      * @param <T>
      * @return
      */
-    private <T> Future<T> getModel(String collectionId, String documentId, Class<T> clazz, DatabaseCompletionCallback<T> callback) {
+    private <T extends MealerSerializable> Future<T> getModel(String collectionId, String documentId, Class<T> clazz, DatabaseCompletionCallback<T> callback) {
 
         // Create a future.
         final SettableFuture<T> future = SettableFuture.create();
@@ -253,6 +263,14 @@ public class FirebaseDatabaseClient implements DatabaseClient {
             if (task.isSuccessful()) {
                 // Firebase task was successful, set future to result
                 T o = task.getResult().toObject(clazz);
+
+                if (o == null) {
+                    callback.onComplete(null);
+                    future.set(null);
+                    return;
+                }
+
+                o.setId(documentId);
                 callback.onComplete(o);
                 future.set(o);
             } else {
@@ -276,8 +294,10 @@ public class FirebaseDatabaseClient implements DatabaseClient {
         final SettableFuture<Boolean> future = SettableFuture.create();
 
         firestore.collection(collectionId).document(documentId).delete().addOnCompleteListener(task -> {
+            if (callback != null) {
+                callback.onComplete(task.isSuccessful());
+            }
             future.set(task.isSuccessful());
-            callback.onComplete(task.isSuccessful());
         });
 
         return future;

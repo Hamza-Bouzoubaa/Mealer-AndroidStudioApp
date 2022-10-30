@@ -45,7 +45,15 @@ public class ComplaintRecyclerViewAdapter extends RecyclerView.Adapter<Complaint
             i.putExtra("complaint", holder.mItem);
             view.getContext().startActivity(i);
         });
-        holder.rejectButton.setOnClickListener(v -> Services.getDatabaseClient().deleteComplaint(holder.mItem.getId()));
+        holder.rejectButton.setOnClickListener(v -> {
+            Services.getDatabaseClient().deleteComplaint(holder.mItem.getId(), isSuccessful -> {
+                if (isSuccessful) {
+                    mValues.remove(position);
+                    notifyItemRemoved(position);
+                    notifyItemChanged(position, mValues.size());
+                }
+            });
+        });
     }
 
     @Override

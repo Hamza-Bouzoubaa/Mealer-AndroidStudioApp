@@ -42,4 +42,14 @@ public class MealerOrder implements MealerSerializable {
      */
     @MealerSerializableElement(key = "timestamp")
     String timestamp;
+
+    @Override
+    public String getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(String id) {
+        this.id = id;
+    }
 }

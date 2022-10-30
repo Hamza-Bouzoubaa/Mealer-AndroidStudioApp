@@ -129,4 +129,14 @@ public class MealerUser implements MealerSerializable {
         ratings.add(0);
         this.ratings = ratings;
     }
+
+    @Override
+    public String getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(String id) {
+        this.id = id;
+    }
 }

@@ -41,4 +41,14 @@ public class MealerMenu implements MealerSerializable {
      */
     @MealerSerializableElement(key = "ratings")
     List<Integer> ratings;
+
+    @Override
+    public String getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(String id) {
+        this.id = id;
+    }
 }

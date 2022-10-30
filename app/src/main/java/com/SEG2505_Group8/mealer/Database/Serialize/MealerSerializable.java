@@ -10,6 +10,10 @@ import java.util.Map;
  */
 
 public interface MealerSerializable extends Serializable {
+
+    String getId();
+    void setId(String id);
+
     /**
      * Create a map where key/values are extracted using {@link MealerSerializableElement}
      * @return
