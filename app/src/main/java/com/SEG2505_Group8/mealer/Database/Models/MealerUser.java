@@ -105,6 +105,12 @@ public class MealerUser implements MealerSerializable {
     @MealerSerializableElement(key = "totalSales")
     int totalSales;
 
+    @MealerSerializableElement(key = "isSuspended")
+    boolean isSuspended;
+
+    @MealerSerializableElement(key = "suspendedUntil")
+    String suspendedUntil;
+
     public MealerUser(String id, MealerRole role, String firstName, String lastName, String email, String address, String creditCard, String description, String voidCheckUrl) {
 
         this.id = id;
@@ -119,6 +125,8 @@ public class MealerUser implements MealerSerializable {
         this.voidCheckUrl = voidCheckUrl;
         this.role = role;
         this.totalSales = 0;
+        this.isSuspended = false;
+        this.suspendedUntil = "";
 
         // TODO: Make this cleaner
         List<Integer> ratings = new ArrayList<>();

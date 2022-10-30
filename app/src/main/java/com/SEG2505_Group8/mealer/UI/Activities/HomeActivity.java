@@ -3,9 +3,9 @@ package com.SEG2505_Group8.mealer.UI.Activities;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.preference.PreferenceManager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.SEG2505_Group8.mealer.Database.Models.MealerComplaint;
@@ -108,6 +108,8 @@ public class HomeActivity extends AppCompatActivity {
         // Listen for current user's name and role
         Services.getDatabaseClient().listenForModel(this, "users", FirebaseAuth.getInstance().getCurrentUser().getUid(), MealerUser.class, user -> {
 
+            System.out.println("Detected change to user!");
+
             String role = "null";
             switch (user.getRole()){
                 case CHEF:
@@ -123,7 +125,6 @@ public class HomeActivity extends AppCompatActivity {
 
             role = role.substring(0,1).toUpperCase() + role.substring(1);
 
-            // TODO: Not currently listening properly
             SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(HomeActivity.this);
 
             SharedPreferences.Editor editor = settings.edit();
@@ -132,6 +133,8 @@ public class HomeActivity extends AppCompatActivity {
             editor.putString("address", user.getAddress());
             editor.putString("role", role);
             editor.apply();
+
+            settingsFragment.refresh();
         });
     }
 }

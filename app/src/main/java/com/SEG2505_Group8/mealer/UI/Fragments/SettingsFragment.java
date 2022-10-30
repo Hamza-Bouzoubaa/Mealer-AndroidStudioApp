@@ -3,11 +3,13 @@ package com.SEG2505_Group8.mealer.UI.Fragments;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.widget.BaseAdapter;
 import android.widget.Toast;
 
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
+import androidx.preference.PreferenceScreen;
 
 import com.SEG2505_Group8.mealer.Database.Models.MealerUser;
 import com.SEG2505_Group8.mealer.R;
@@ -18,9 +20,13 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
 
+    PreferenceScreen preferenceScreen;
+
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+
         setPreferencesFromResource(R.xml.root_preferences, rootKey);
+        preferenceScreen = getPreferenceScreen();
 
         try {
             Preference signOutButton = findPreference("sign_out");
@@ -47,29 +53,22 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         }
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
+    /**
+     * Notify preferences to refresh themselves.
+     */
+    public void refresh() {
 
-        if (FirebaseAuth.getInstance().getCurrentUser() == null || getActivity() == null) {
-            return;
+        // Only refresh if preferences already exist
+        if (preferenceScreen != null) {
+            // Clear existing prefs
+            setPreferenceScreen(null);
+
+            // Create new prefs
+            addPreferencesFromResource(R.xml.root_preferences);
+
+            // Update ref
+            preferenceScreen = getPreferenceScreen();
         }
-
-//      Listen for current user's name and role
-//        Services.getDatabaseClient().listenForModel(getActivity(), "users", FirebaseAuth.getInstance().getCurrentUser().getUid(), MealerUser.class, user -> {
-//            if (getContext() == null) {
-//                return;
-//            }
-//
-//            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
-//
-//            SharedPreferences.Editor editor = settings.edit();
-//            editor.putString("first_name", user.getFirstName());
-//            editor.putString("last_name", user.getLastName());
-//            editor.putString("address", user.getAddress());
-//            editor.putString("role", user.getRole().toString());
-//            editor.apply();
-//        });
     }
 }
 
