@@ -12,8 +12,11 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.widget.ViewPager2;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import com.SEG2505_Group8.mealer.Database.Models.MealerComplaint;
 import com.SEG2505_Group8.mealer.Database.Models.MealerRole;
@@ -24,12 +27,11 @@ import com.SEG2505_Group8.mealer.UI.Adapters.ViewPager2Adapter;
 import com.SEG2505_Group8.mealer.UI.Fragments.ComplaintListFragment;
 import com.SEG2505_Group8.mealer.UI.Fragments.SettingsFragment;
 import com.firebase.ui.auth.AuthUI;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -179,13 +181,22 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    private void showSuspensionAlert(String suspensionEndData) {
+    private void showSuspensionAlert(String suspensionEndData)  {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         String message;
         if (suspensionEndData != null) {
             message = getString(R.string.alert_suspension_description);
-            message = message.replace("%s", suspensionEndData);
+
+            try {
+                DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+                Date date = format.parse(suspensionEndData);
+                message = message.replace("%s", date.toString() );
+            } catch (ParseException e) {
+                message = message.replace("%s", suspensionEndData + " PARSE EXCEPTION");
+            } catch (NullPointerException e) {
+                message = message.replace("%s", "NullPointerException");
+            }
         } else {
             message = getString(R.string.alert_suspension_permanent_description);
         }
