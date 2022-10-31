@@ -175,50 +175,69 @@ public class HomeActivity extends AppCompatActivity {
             bottomNavigationView.getMenu().findItem(R.id.bottom_navigation_menu_page_complaints).setVisible(user.getRole() == MealerRole.ADMIN);
             bottomNavigationView.getMenu().findItem(R.id.bottom_navigation_menu_page_settings).setVisible(true);
 
+            // If user is suspended, show suspension alert
             if (user.isSuspended()) {
                 showSuspensionAlert(user.getSuspendedUntil());
             }
         });
     }
 
-    private void showSuspensionAlert(String suspensionEndData)  {
+    /**
+     * Display alert stating suspension and its end date.
+     * @param suspensionEndDate ISO 8601 formatted date time string
+     */
+    private void showSuspensionAlert(String suspensionEndDate)  {
+
+        // Create AlertDialog builder
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
+        // Create alert message
         String message;
-        if (suspensionEndData != null) {
+        if (suspensionEndDate != null) {
             message = getString(R.string.alert_suspension_description);
 
             try {
+                // Create UTC formatter
                 DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX");
-                Date date = format.parse(suspensionEndData);
+
+                // Parse suspensionEndDate using UTC formatter
+                Date date = format.parse(suspensionEndDate);
+
+                // Replace %s in message with date.
                 message = message.replace("%s", date.toString() );
-            } catch (ParseException e) {
-                message = message.replace("%s", suspensionEndData + " PARSE EXCEPTION");
-            } catch (NullPointerException e) {
-                message = message.replace("%s", "NullPointerException");
+            } catch (ParseException | NullPointerException e) {
+                // Failed to parse, display as raw ISO 8601 string
+                message = message.replace("%s", suspensionEndDate);
             }
         } else {
+            // No suspensionEndDate supplied, assume suspension is permanent.
             message = getString(R.string.alert_suspension_permanent_description);
         }
 
+        // Configure builder
         builder.setMessage(message)
                 .setCancelable(false)
                 .setPositiveButton(getString(R.string.alert_suspension_signout), (dialog, id) -> {
+                    // Right most button clicked, sign out and go to MainActivity
                     AuthUI.getInstance().signOut(this).addOnSuccessListener(unused -> {
                         dialog.cancel();
                         Intent i = new Intent(HomeActivity.this, MainActivity.class);
                         startActivity(i);
-                        Toast.makeText(getApplicationContext(),"You chose to sign out.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(),"User Sign Out.", Toast.LENGTH_SHORT).show();
                         finish();
                     });
                 })
                 .setNegativeButton(getString(R.string.alert_suspension_quit), (dialog, id) -> {
-                    Toast.makeText(getApplicationContext(),"you choose yes action for alertbox", Toast.LENGTH_SHORT).show();
+                    // Left most button clicked, Quit app
+                    Toast.makeText(getApplicationContext(),"Quit Mealer", Toast.LENGTH_SHORT).show();
                     exit(0);
                 }).setTitle("Title here");
 
+        // Create alert using builder
         AlertDialog alert = builder.create();
         alert.setTitle(getString(R.string.alert_suspension_title));
+
+        // Display alert
         alert.show();
     }
 }
