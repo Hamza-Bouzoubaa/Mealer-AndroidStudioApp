@@ -189,7 +189,7 @@ public class HomeActivity extends AppCompatActivity {
             message = getString(R.string.alert_suspension_description);
 
             try {
-                DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+                DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX");
                 Date date = format.parse(suspensionEndData);
                 message = message.replace("%s", date.toString() );
             } catch (ParseException e) {
