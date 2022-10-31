@@ -80,4 +80,39 @@ public class ValidationTests {
 
         verify(editText, never()).setError(any());
     }
+
+    @Test
+    public void credit_card_invalid() {
+        FieldValidator validator = new FieldValidator(mockContext);
+
+        // Mock an EditText instance
+        EditText editText = mock(EditText.class);
+
+        // Create argument captor to record interactions with mocked editText
+        ArgumentCaptor<Editable> captor = ArgumentCaptor.forClass(Editable.class);
+
+        // Capture value of setError call
+        Mockito.doNothing().when(editText).setError(captor.capture());
+
+        // Mock a credit card with 9 digits when checking length of editText
+        Mockito.when(editText.length()).thenAnswer(invocation -> 9);
+
+        // Call method to test
+        validator.creditCard(editText);
+
+        // Assert that an error was captured
+        verify(editText).setError(any());
+    }
+
+    @Test
+    public void credit_card_valid() {
+        FieldValidator validator = new FieldValidator(mockContext);
+
+        EditText editText = mock(EditText.class);
+        Mockito.when(editText.length()).thenAnswer(invocation -> 16);
+
+        validator.creditCard(editText);
+
+        verify(editText, never()).setError(any());
+    }
 }
