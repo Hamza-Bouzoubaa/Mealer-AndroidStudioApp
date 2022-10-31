@@ -74,8 +74,6 @@ public class ValidationTests {
         FieldValidator validator = new FieldValidator(mockContext);
 
         EditText editText = mock(EditText.class);
-        ArgumentCaptor<Editable> captor = ArgumentCaptor.forClass(Editable.class);
-        Mockito.doNothing().when(editText).setError(captor.capture());
         Mockito.when(editText.length()).thenAnswer(invocation -> 1);
 
         validator.required(editText);
