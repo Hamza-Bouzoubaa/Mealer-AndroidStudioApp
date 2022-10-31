@@ -46,7 +46,8 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="bottom_navigation_menu_label_recommendations">Recommendations</string>
     <string name="alert_suspension_title">You\'ve been suspended!</string>
-    <string name="alert_suspension_description">This suspension is</string>
+    <string name="alert_suspension_description">You have been suspended until %s.</string>
     <string name="alert_suspension_signout">Sign Out</string>
     <string name="alert_suspension_quit">Quit</string>
+    <string name="alert_suspension_permanent_description">You have been permanetly suspended.</string>
 </resources>

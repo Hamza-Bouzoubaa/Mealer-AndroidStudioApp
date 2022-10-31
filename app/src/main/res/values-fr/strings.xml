@@ -40,8 +40,9 @@
     <string name="complaint">pleinte</string>
     <string name="bottom_navigation_menu_label_recommendations">Recommendations</string>
     <string name="alert_suspension_quit">Fermer</string>
-    <string name="alert_suspension_signout">Sign Out</string>
-    <string name="alert_suspension_description">Cet suspension est</string>
+    <string name="alert_suspension_signout">Deconnecter</string>
+    <string name="alert_suspension_description">Vous avez été suspendu jusqu\'au %s.</string>
     <string name="alert_suspension_title">Vous avez été suspendu!</string>
     <string name="hello_blank_fragment">Bonjour</string>
+    <string name="alert_suspension_permanent_description">Vous avez été suspendu!</string>
 </resources>

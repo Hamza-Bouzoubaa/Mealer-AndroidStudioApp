@@ -174,15 +174,23 @@ public class HomeActivity extends AppCompatActivity {
             bottomNavigationView.getMenu().findItem(R.id.bottom_navigation_menu_page_settings).setVisible(true);
 
             if (user.isSuspended()) {
-                showSuspensionAlert();
+                showSuspensionAlert(user.getSuspendedUntil());
             }
         });
     }
 
-    private void showSuspensionAlert() {
+    private void showSuspensionAlert(String suspensionEndData) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        builder.setMessage(getString(R.string.alert_suspension_description))
+        String message;
+        if (suspensionEndData != null) {
+            message = getString(R.string.alert_suspension_description);
+            message = message.replace("%s", suspensionEndData);
+        } else {
+            message = getString(R.string.alert_suspension_permanent_description);
+        }
+
+        builder.setMessage(message)
                 .setCancelable(false)
                 .setPositiveButton(getString(R.string.alert_suspension_signout), (dialog, id) -> {
                     AuthUI.getInstance().signOut(this).addOnSuccessListener(unused -> {
