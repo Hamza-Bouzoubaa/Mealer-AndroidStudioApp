@@ -100,11 +100,11 @@ public class HomeActivity extends AppCompatActivity {
         setupViewPager();
 
         // Create some dummy complaints
-        Services.getDatabaseClient().updateComplaint(new MealerComplaint("complaint1", "chef1", "user1", "A fancy description"));
-        Services.getDatabaseClient().updateComplaint(new MealerComplaint("complaint2", "chef2", "user1", "A trash description"));
-        Services.getDatabaseClient().updateComplaint(new MealerComplaint("complaint3", "chef3", "user1", "A hungry description"));
-        Services.getDatabaseClient().updateComplaint(new MealerComplaint("complaint4", "chef4", "user1", "A fast description"));
-        Services.getDatabaseClient().updateComplaint(new MealerComplaint("complaint5", "chef5", "user1", "A little description"));
+//        Services.getDatabaseClient().updateComplaint(new MealerComplaint("complaint1", "chef1", "user1", "A fancy description"));
+//        Services.getDatabaseClient().updateComplaint(new MealerComplaint("complaint2", "chef2", "user1", "A trash description"));
+//        Services.getDatabaseClient().updateComplaint(new MealerComplaint("complaint3", "chef3", "user1", "A hungry description"));
+//        Services.getDatabaseClient().updateComplaint(new MealerComplaint("complaint4", "chef4", "user1", "A fast description"));
+//        Services.getDatabaseClient().updateComplaint(new MealerComplaint("complaint5", "chef5", "user1", "A little description"));
     }
 
     /**
@@ -119,6 +119,15 @@ public class HomeActivity extends AppCompatActivity {
 
         Services.getDatabaseClient().getUser(user -> {
             ViewPager2Adapter adapter = new ViewPager2Adapter(getSupportFragmentManager(), getLifecycle());
+
+            if (user == null) {
+                AuthUI.getInstance().signOut(HomeActivity.this).addOnCompleteListener(view -> {
+                    Intent i = new Intent(HomeActivity.this, MainActivity.class);
+                    startActivity(i);
+                    finish();
+                });
+                return;
+            }
 
             fragments.add(recommendationsFragment);
             adapter.add(recommendationsFragment);
