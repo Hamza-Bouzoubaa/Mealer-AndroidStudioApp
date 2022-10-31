@@ -42,5 +42,8 @@ jobs:
             - ~/.gradle
           key: v1-dependencies-{{ checksum "build.gradle" }}
 
+      # Get firebase key
+      - run: echo $firebase >> app/google-services.json
+
       # run tests!
       - run: gradle test
