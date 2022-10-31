@@ -1,10 +1,15 @@
 package com.SEG2505_Group8.mealer.UI.Activities;
 
+import static java.lang.System.exit;
+
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -18,6 +23,8 @@ import com.SEG2505_Group8.mealer.Services;
 import com.SEG2505_Group8.mealer.UI.Adapters.ViewPager2Adapter;
 import com.SEG2505_Group8.mealer.UI.Fragments.ComplaintListFragment;
 import com.SEG2505_Group8.mealer.UI.Fragments.SettingsFragment;
+import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -165,6 +172,34 @@ public class HomeActivity extends AppCompatActivity {
             bottomNavigationView.getMenu().findItem(R.id.bottom_navigation_menu_page_recommendations).setVisible(true);
             bottomNavigationView.getMenu().findItem(R.id.bottom_navigation_menu_page_complaints).setVisible(user.getRole() == MealerRole.ADMIN);
             bottomNavigationView.getMenu().findItem(R.id.bottom_navigation_menu_page_settings).setVisible(true);
+
+            if (user.isSuspended()) {
+                showSuspensionAlert();
+            }
         });
+    }
+
+    private void showSuspensionAlert() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setMessage(getString(R.string.alert_suspension_description))
+                .setCancelable(false)
+                .setPositiveButton(getString(R.string.alert_suspension_signout), (dialog, id) -> {
+                    AuthUI.getInstance().signOut(this).addOnSuccessListener(unused -> {
+                        dialog.cancel();
+                        Intent i = new Intent(HomeActivity.this, MainActivity.class);
+                        startActivity(i);
+                        Toast.makeText(getApplicationContext(),"You chose to sign out.", Toast.LENGTH_SHORT).show();
+                        finish();
+                    });
+                })
+                .setNegativeButton(getString(R.string.alert_suspension_quit), (dialog, id) -> {
+                    Toast.makeText(getApplicationContext(),"you choose yes action for alertbox", Toast.LENGTH_SHORT).show();
+                    exit(0);
+                }).setTitle("Title here");
+
+        AlertDialog alert = builder.create();
+        alert.setTitle(getString(R.string.alert_suspension_title));
+        alert.show();
     }
 }
