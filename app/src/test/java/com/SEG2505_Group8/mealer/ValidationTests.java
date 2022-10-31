@@ -66,7 +66,7 @@ public class ValidationTests {
         validator.required(editText);
 
         // Assert that an error was captured
-        verify(editText, only()).setError(any());
+        verify(editText).setError(any());
     }
 
     @Test
