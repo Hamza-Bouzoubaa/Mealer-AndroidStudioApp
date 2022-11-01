@@ -19,6 +19,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import com.SEG2505_Group8.mealer.Database.Models.MealerComplaint;
+import com.SEG2505_Group8.mealer.Database.Models.MealerRecipe;
 import com.SEG2505_Group8.mealer.Database.Models.MealerRole;
 import com.SEG2505_Group8.mealer.Database.Models.MealerUser;
 import com.SEG2505_Group8.mealer.R;
@@ -98,6 +99,18 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         setupViewPager();
+
+        List<String> categories = new ArrayList<>();
+        categories.add("Italien");
+
+        List<String> ingredients = new ArrayList<>();
+        ingredients.add("crust");
+        ingredients.add("sauce");
+
+        List<String> allergens = new ArrayList<>();
+        allergens.add("garlic");
+
+        Services.getDatabaseClient().updateRecipe(new MealerRecipe("recipe1", "Pizza", "main", categories, ingredients, allergens, 10.0f, "a pizza recipe"), object -> {});
 
         // Create some dummy complaints
 //        Services.getDatabaseClient().updateComplaint(new MealerComplaint("complaint1", "chef1", "user1", "A fancy description"));
