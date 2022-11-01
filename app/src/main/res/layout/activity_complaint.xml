@@ -56,7 +56,7 @@
         android:layout_marginTop="30dp"
         android:text="Permanent Suspension"
         app:layout_constraintStart_toStartOf="@id/complaint_source"
-        app:layout_constraintTop_toBottomOf="@id/complaint_description"
+        app:layout_constraintTop_toBottomOf="@id/complaint_description"/>
 
     <Button
         android:id="@+id/complaint_date"
