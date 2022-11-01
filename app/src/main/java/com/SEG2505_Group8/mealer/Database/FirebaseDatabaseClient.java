@@ -13,6 +13,7 @@ import com.SEG2505_Group8.mealer.Database.Models.MealerUser;
 import com.SEG2505_Group8.mealer.Database.Serialize.MealerSerializable;
 import com.google.common.util.concurrent.SettableFuture;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -165,6 +166,30 @@ public class FirebaseDatabaseClient implements DatabaseClient {
 
                 callback.onComplete(o);
             }
+        });
+    }
+
+    @Override
+    public <T extends MealerSerializable> void listenForModels(Activity activity, String collectionId, Class<T> clazz, DatabaseCompletionCallback<List<T>> callback) {
+
+        CollectionReference reference = firestore.collection(collectionId);
+        reference.addSnapshotListener(activity, (querySnapshot, e) -> {
+            if(e != null){
+                Toast.makeText(activity, "Error Loading", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            List<T> o = new ArrayList<>();// = task.getResult().toObjects(clazz);
+            querySnapshot.getDocuments().forEach(documentSnapshot -> {
+                T doc = documentSnapshot.toObject(clazz);
+
+                if (doc != null) {
+                    doc.setId(documentSnapshot.getId());
+                    o.add(doc);
+                }
+            });
+
+            callback.onComplete(o);
         });
     }
 

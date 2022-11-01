@@ -286,6 +286,8 @@ public interface DatabaseClient {
      */
     <T extends MealerSerializable> void listenForModel(Activity activity, String collectionId, String documentId, Class<T> clazz, DatabaseCompletionCallback<T> callback);
 
+    <T extends MealerSerializable> void listenForModels(Activity activity, String collectionId, Class<T> clazz, DatabaseCompletionCallback<List<T>> callback);
+
     Future<Boolean> updateComplaint(MealerComplaint complaint, DatabaseSetCallback callback);
 
     default Future<Boolean> updateComplaint(MealerComplaint complaint) {

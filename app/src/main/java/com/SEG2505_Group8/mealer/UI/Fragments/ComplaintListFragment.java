@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.SEG2505_Group8.mealer.Database.Models.MealerComplaint;
 import com.SEG2505_Group8.mealer.R;
 import com.SEG2505_Group8.mealer.Services;
 import com.SEG2505_Group8.mealer.UI.Adapters.ComplaintRecyclerViewAdapter;
@@ -67,8 +68,8 @@ public class ComplaintListFragment extends Fragment {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
 
-            Services.getDatabaseClient().getComplaints(reference -> reference.limit(10), complaints -> {
-                recyclerView.setAdapter(new ComplaintRecyclerViewAdapter(complaints));
+            Services.getDatabaseClient().listenForModels(getActivity(), "complaints", MealerComplaint.class, object -> {
+                recyclerView.setAdapter(new ComplaintRecyclerViewAdapter(object));
             });
         }
         return view;
