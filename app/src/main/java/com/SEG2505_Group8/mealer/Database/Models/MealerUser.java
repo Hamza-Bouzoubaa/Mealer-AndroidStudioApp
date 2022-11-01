@@ -2,10 +2,16 @@ package com.SEG2505_Group8.mealer.Database.Models;
 
 import com.SEG2505_Group8.mealer.Database.Serialize.MealerSerializable;
 import com.SEG2505_Group8.mealer.Database.Serialize.MealerSerializableElement;
+import com.SEG2505_Group8.mealer.Services;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.IgnoreExtraProperties;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -17,7 +23,6 @@ import lombok.NoArgsConstructor;
  */
 @Data
 @IgnoreExtraProperties
-@AllArgsConstructor
 @NoArgsConstructor
 public class MealerUser implements MealerSerializable {
 
@@ -138,6 +143,23 @@ public class MealerUser implements MealerSerializable {
         this.ratings = ratings;
     }
 
+    public MealerUser(String id, String firstName, String lastName, String email, String address, String creditCard, String profilePictureUrl, String voidCheckUrl, String description, String menuId, MealerRole role, List<Integer> ratings, int totalSales, boolean isSuspended, String suspendedUntil) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.address = address;
+        this.creditCard = creditCard;
+        this.profilePictureUrl = profilePictureUrl;
+        this.voidCheckUrl = voidCheckUrl;
+        this.description = description;
+        this.menuId = menuId;
+        this.role = role;
+        this.ratings = ratings;
+        this.totalSales = totalSales;
+        this.
+    }
+
     @Override
     public String getId() {
         return id;
@@ -146,5 +168,42 @@ public class MealerUser implements MealerSerializable {
     @Override
     public void setId(String id) {
         this.id = id;
+    }
+
+    public void suspend(String suspensionEndDate) {
+        isSuspended = true;
+        this.suspendedUntil = suspensionEndDate;
+    }
+
+    public boolean isSuspended() {
+        try {
+            // Create UTC formatter
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX");
+            // Parse suspensionEndDate using UTC formatter
+            Date date = format.parse(suspendedUntil);
+            if (date.before(Date.from(Instant.now()))) {
+                isSuspended = false;
+                suspendedUntil = "";
+                Services.getDatabaseClient().updateUser(this);
+                return true;
+            }
+        } catch (ParseException | NullPointerException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    public String getPrettyDate() {
+        try {
+            // Create UTC formatter
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX");
+            // Parse suspensionEndDate using UTC formatter
+            Date date = format.parse(suspendedUntil);
+            return date.toString();
+        } catch (ParseException | NullPointerException e) {
+            e.printStackTrace();
+            return "ERROR PARSING TIME";
+        }
     }
 }

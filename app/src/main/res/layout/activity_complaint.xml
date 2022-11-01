@@ -49,12 +49,20 @@
         app:layout_constraintStart_toStartOf="@id/complaint_source"
         app:layout_constraintTop_toBottomOf="@id/complaint_destination" />
 
-    <Button
-        android:id="@+id/complaint_date"
-        android:text="Suspend user"
+    <CheckBox
+        android:id="@+id/complaint_permanent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
+        android:text="Permanent Suspension"
+        app:layout_constraintStart_toStartOf="@id/complaint_source"
         app:layout_constraintTop_toBottomOf="@id/complaint_description"
+
+    <Button
+        android:id="@+id/complaint_date"
+        android:text="Edit suspension end date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/complaint_permanent"
         app:layout_constraintStart_toStartOf="@id/complaint_source"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
