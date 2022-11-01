@@ -9,6 +9,7 @@ import com.SEG2505_Group8.mealer.Database.Models.MealerComplaint;
 import com.SEG2505_Group8.mealer.Database.Models.MealerMenu;
 import com.SEG2505_Group8.mealer.Database.Models.MealerRecipe;
 import com.SEG2505_Group8.mealer.Database.Models.MealerUser;
+import com.SEG2505_Group8.mealer.Database.Serialize.MealerSerializable;
 
 import java.util.List;
 import java.util.concurrent.Future;
@@ -283,7 +284,7 @@ public interface DatabaseClient {
      * @param callback
      * @return
      */
-    <T> void listenForModel(Activity activity, String collectionId, String documentId, Class<T> clazz, DatabaseCompletionCallback<T> callback);
+    <T extends MealerSerializable> void listenForModel(Activity activity, String collectionId, String documentId, Class<T> clazz, DatabaseCompletionCallback<T> callback);
 
     Future<Boolean> updateComplaint(MealerComplaint complaint, DatabaseSetCallback callback);
 

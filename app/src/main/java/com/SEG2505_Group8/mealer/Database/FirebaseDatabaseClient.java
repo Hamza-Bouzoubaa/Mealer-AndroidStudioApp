@@ -148,7 +148,7 @@ public class FirebaseDatabaseClient implements DatabaseClient {
     }
 
     @Override
-    public <T> void listenForModel(Activity activity, String collectionId, String documentId, Class<T> clazz, DatabaseCompletionCallback<T> callback) {
+    public <T extends MealerSerializable> void listenForModel(Activity activity, String collectionId, String documentId, Class<T> clazz, DatabaseCompletionCallback<T> callback) {
 
         DocumentReference reference = firestore.collection(collectionId).document(documentId);
         reference.addSnapshotListener(activity, (documentSnapshot, e) -> {
@@ -158,6 +158,11 @@ public class FirebaseDatabaseClient implements DatabaseClient {
             }
             if(documentSnapshot.exists()){
                 T o = documentSnapshot.toObject(clazz);
+
+                if (o != null) {
+                    o.setId(documentId);
+                }
+
                 callback.onComplete(o);
             }
         });
