@@ -23,6 +23,7 @@ import lombok.NoArgsConstructor;
  * Represents a user.
  */
 @Data
+@AllArgsConstructor
 @IgnoreExtraProperties
 @NoArgsConstructor
 public class MealerUser implements MealerSerializable {
@@ -161,15 +162,13 @@ public class MealerUser implements MealerSerializable {
 
     public boolean isSuspended() {
 
-        if (isSuspended && suspendedUntil != null && !suspendedUntil.equals("")) {
-                if (DateUtils.isPassed(suspendedUntil)) {
-                    // Suspended, but date already passed. Disable suspension.
-                    isSuspended = false;
-                    suspendedUntil = "";
+        if (isSuspended && suspendedUntil != null && !suspendedUntil.equals("") && DateUtils.isPassed(suspendedUntil)) {
+            // Suspended, but date already passed. Disable suspension.
+            isSuspended = false;
+            suspendedUntil = "";
 
-                    Services.getDatabaseClient().updateUser(this);
-                }
-        } else if (suspendedUntil != null && !suspendedUntil.equals("")) {
+            Services.getDatabaseClient().updateUser(this);
+        } else if (!isSuspended && suspendedUntil != null && !suspendedUntil.equals("")) {
             // Clear passed suspension date if not suspended.
             suspendedUntil = "";
             Services.getDatabaseClient().updateUser(this);
