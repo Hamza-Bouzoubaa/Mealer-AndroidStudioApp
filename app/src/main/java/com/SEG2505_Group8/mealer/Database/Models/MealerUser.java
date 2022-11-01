@@ -155,9 +155,9 @@ public class MealerUser implements MealerSerializable {
         this.id = id;
     }
 
-    public void suspend(String suspensionEndDate) {
+    public void suspend(Date suspensionEndDate) {
         isSuspended = true;
-        this.suspendedUntil = suspensionEndDate;
+        this.suspendedUntil = DateUtils.toString(suspensionEndDate);
     }
 
     public boolean isSuspended() {

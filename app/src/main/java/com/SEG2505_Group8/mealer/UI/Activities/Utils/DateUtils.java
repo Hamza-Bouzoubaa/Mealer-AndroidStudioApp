@@ -17,8 +17,16 @@ public class DateUtils {
         return format.parse(isoString);
     }
 
+    public static String toString(Date date) {
+        return format.format(date);
+    }
+
     public static String toPrettyString(String isoString) throws ParseException {
         return toDate(isoString).toString();
+    }
+
+    public static String nowPrettyString() {
+        return new Date().toString();
     }
 
     /**
