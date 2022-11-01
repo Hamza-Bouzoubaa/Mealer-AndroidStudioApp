@@ -2,25 +2,26 @@ package com.SEG2505_Group8.mealer.UI.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.SEG2505_Group8.mealer.Database.Models.MealerComplaint;
+import com.SEG2505_Group8.mealer.Database.Models.MealerMenu;
 import com.SEG2505_Group8.mealer.R;
 import com.SEG2505_Group8.mealer.Services;
 import com.SEG2505_Group8.mealer.UI.Adapters.ComplaintRecyclerViewAdapter;
+import com.SEG2505_Group8.mealer.UI.Adapters.RecipeRecyclerViewAdapter;
 
 /**
  * A fragment representing a list of Items.
  */
-public class ComplaintListFragment extends Fragment {
+public class MenuFragment extends Fragment {
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -31,13 +32,13 @@ public class ComplaintListFragment extends Fragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public ComplaintListFragment() {
+    public MenuFragment() {
     }
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static ComplaintListFragment newInstance(int columnCount) {
-        ComplaintListFragment fragment = new ComplaintListFragment();
+    public static MenuFragment newInstance(int columnCount) {
+        MenuFragment fragment = new MenuFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, columnCount);
         fragment.setArguments(args);
@@ -68,8 +69,7 @@ public class ComplaintListFragment extends Fragment {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
 
-            Services.getDatabaseClient().listenForModels(getActivity(), "complaints", MealerComplaint.class, object -> {
-                recyclerView.setAdapter(new ComplaintRecyclerViewAdapter(object));
+            Services.getDatabaseClient().listenForModel(getActivity(), "menus", "menu1", MealerMenu.class, object -> {
             });
         }
         return view;
