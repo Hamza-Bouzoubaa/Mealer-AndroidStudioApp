@@ -1,15 +1,40 @@
 package com.SEG2505_Group8.mealer.Database.Serialize;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * Annotation for classes that can be serialized by {@link MealerSerializer}
+ * Interface for classes that can be serialized into database
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-public @interface MealerSerializable {
 
+public interface MealerSerializable extends Serializable {
+
+    String getId();
+    void setId(String id);
+
+    /**
+     * Create a map where key/values are extracted using {@link MealerSerializableElement}
+     * @return
+     */
+    default Map<String, Object> toMap() {
+        try {
+            Class<?> clazz = getClass();
+            Map<String, Object> map = new HashMap<>();
+
+            for (Field field : clazz.getDeclaredFields()) {
+                field.setAccessible(true);
+                if (field.isAnnotationPresent(MealerSerializableElement.class)) {
+                    map.put(field.getAnnotation(MealerSerializableElement.class).key(), field.get(this));
+                }
+            }
+
+            return map;
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 }

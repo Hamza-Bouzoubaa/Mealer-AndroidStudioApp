@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UI.Activities.ComplaintActivity">
+    <TextView
+        android:id="@+id/complaint_form_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:text="@string/complaint"
+        android:textSize="28sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.436"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/complaint_source"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:ems="10"
+        android:hint="The complainer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.184"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/complaint_form_title" />
+
+    <TextView
+        android:id="@+id/complaint_destination"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:ems="10"
+        android:hint="The target"
+        app:layout_constraintStart_toStartOf="@id/complaint_source"
+        app:layout_constraintTop_toBottomOf="@id/complaint_source" />
+
+    <TextView
+        android:id="@+id/complaint_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:ems="10"
+        android:hint="A Complaint description"
+        app:layout_constraintStart_toStartOf="@id/complaint_source"
+        app:layout_constraintTop_toBottomOf="@id/complaint_destination" />
+
+    <CheckBox
+        android:id="@+id/complaint_permanent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="Permanent Suspension"
+        app:layout_constraintStart_toStartOf="@id/complaint_source"
+        app:layout_constraintTop_toBottomOf="@id/complaint_description"/>
+
+    <Button
+        android:id="@+id/complaint_date"
+        android:text="Edit suspension end date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/complaint_permanent"
+        app:layout_constraintStart_toStartOf="@id/complaint_source"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

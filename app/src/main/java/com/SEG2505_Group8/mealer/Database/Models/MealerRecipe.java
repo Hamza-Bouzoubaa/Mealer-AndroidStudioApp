@@ -14,11 +14,10 @@ import lombok.NoArgsConstructor;
  * Represents a single recipe contained inside a {@link MealerMenu}
  */
 @Data
-@MealerSerializable
 @IgnoreExtraProperties
 @AllArgsConstructor
 @NoArgsConstructor
-public class MealerRecipe {
+public class MealerRecipe implements MealerSerializable {
 
     /**
      * Document id of Recipe.
@@ -66,4 +65,14 @@ public class MealerRecipe {
      */
     @MealerSerializableElement(key = "description")
     String description;
+
+    @Override
+    public String getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(String id) {
+        this.id = id;
+    }
 }

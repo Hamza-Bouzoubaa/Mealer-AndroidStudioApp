@@ -12,11 +12,10 @@ import lombok.NoArgsConstructor;
  * Represents an order
  */
 @Data
-@MealerSerializable
 @IgnoreExtraProperties
 @AllArgsConstructor
 @NoArgsConstructor
-public class MealerOrder {
+public class MealerOrder implements MealerSerializable {
 
     /**
      * Document id of Menu
@@ -43,4 +42,14 @@ public class MealerOrder {
      */
     @MealerSerializableElement(key = "timestamp")
     String timestamp;
+
+    @Override
+    public String getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(String id) {
+        this.id = id;
+    }
 }

@@ -2,10 +2,17 @@ package com.SEG2505_Group8.mealer.Database.Models;
 
 import com.SEG2505_Group8.mealer.Database.Serialize.MealerSerializable;
 import com.SEG2505_Group8.mealer.Database.Serialize.MealerSerializableElement;
+import com.SEG2505_Group8.mealer.Services;
+import com.SEG2505_Group8.mealer.UI.Activities.Utils.DateUtils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.IgnoreExtraProperties;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -16,11 +23,10 @@ import lombok.NoArgsConstructor;
  * Represents a user.
  */
 @Data
-@MealerSerializable
-@IgnoreExtraProperties
 @AllArgsConstructor
+@IgnoreExtraProperties
 @NoArgsConstructor
-public class MealerUser {
+public class MealerUser implements MealerSerializable {
 
     /**
      * Id in the database
@@ -106,6 +112,12 @@ public class MealerUser {
     @MealerSerializableElement(key = "totalSales")
     int totalSales;
 
+    @MealerSerializableElement(key = "isSuspended")
+    boolean isSuspended;
+
+    @MealerSerializableElement(key = "suspendedUntil")
+    String suspendedUntil;
+
     public MealerUser(String id, MealerRole role, String firstName, String lastName, String email, String address, String creditCard, String description, String voidCheckUrl) {
 
         this.id = id;
@@ -120,6 +132,8 @@ public class MealerUser {
         this.voidCheckUrl = voidCheckUrl;
         this.role = role;
         this.totalSales = 0;
+        this.isSuspended = false;
+        this.suspendedUntil = "";
 
         // TODO: Make this cleaner
         List<Integer> ratings = new ArrayList<>();
@@ -129,5 +143,38 @@ public class MealerUser {
         ratings.add(0);
         ratings.add(0);
         this.ratings = ratings;
+    }
+
+    @Override
+    public String getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void suspend(String suspensionEndDate) {
+        isSuspended = true;
+        this.suspendedUntil = suspensionEndDate;
+    }
+
+    public boolean isSuspended() {
+
+        if (isSuspended && suspendedUntil != null && !suspendedUntil.equals("") && DateUtils.isPassed(suspendedUntil)) {
+            // Suspended, but date already passed. Disable suspension.
+            isSuspended = false;
+            suspendedUntil = "";
+
+            Services.getDatabaseClient().updateUser(this);
+        } else if (!isSuspended && suspendedUntil != null && !suspendedUntil.equals("")) {
+            // Clear passed suspension date if not suspended.
+            suspendedUntil = "";
+            Services.getDatabaseClient().updateUser(this);
+
+        }
+
+        return isSuspended;
     }
 }

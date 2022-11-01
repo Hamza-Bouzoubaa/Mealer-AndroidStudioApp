@@ -1,39 +1,38 @@
 package com.SEG2505_Group8.mealer.UI.Activities;
 
+import static java.lang.System.exit;
+
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
+import android.preference.PreferenceManager;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager2.widget.ViewPager2;
 
-import com.SEG2505_Group8.mealer.Database.Callbacks.DatabaseCompletionCallback;
-import com.SEG2505_Group8.mealer.Database.Models.MealerRecipe;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
+import com.SEG2505_Group8.mealer.Database.Models.MealerComplaint;
+import com.SEG2505_Group8.mealer.Database.Models.MealerRole;
 import com.SEG2505_Group8.mealer.Database.Models.MealerUser;
 import com.SEG2505_Group8.mealer.R;
 import com.SEG2505_Group8.mealer.Services;
+import com.SEG2505_Group8.mealer.UI.Adapters.ViewPager2Adapter;
+import com.SEG2505_Group8.mealer.UI.Fragments.ComplaintListFragment;
+import com.SEG2505_Group8.mealer.UI.Fragments.SettingsFragment;
 import com.firebase.ui.auth.AuthUI;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserInfo;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Welcome Activity for sign in users.
@@ -41,50 +40,109 @@ import java.util.Locale;
  */
 public class HomeActivity extends AppCompatActivity {
 
-    private TextView welcomeText;
+    ViewPager2 viewPager;
+    BottomNavigationView bottomNavigationView;
+
+    RecommendationsFragment recommendationsFragment;
+    ComplaintListFragment complaintListFragment;
+    SettingsFragment settingsFragment;
+
+    List<Fragment> fragments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        welcomeText = findViewById(R.id.displayUser);
+        // Go back to MainActivity if user is no longer signed in.
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+            Intent i = new Intent(HomeActivity.this, MainActivity.class);
+            startActivity(i);
+            finish();
+        }
 
-//        Button deleteRecipe = findViewById(R.id.btnDeleteRecipe);
-//        deleteRecipe.setOnClickListener(v -> {
-//            Services.getDatabaseClient().deleteRecipe("recipe1");
-//        });
+        viewPager = findViewById(R.id.home_view_pager);
+        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                super.onPageScrolled(position, positionOffset, positionOffsetPixels);
 
-        // button for logout and initialing our button.
-        Button logoutBtn = findViewById(R.id.idBtnLogout);
+                Fragment f = fragments.get(position);
 
-        // adding onclick listener for our logout button.
-        logoutBtn.setOnClickListener(v -> {
-
-            // Call Firebase Authentication sign out
-            AuthUI.getInstance()
-                    .signOut(HomeActivity.this)
-
-                    // Redirect user to MainActivity
-                    .addOnCompleteListener(task -> {
-
-                        // Tell user they were signed out
-                        Toast.makeText(HomeActivity.this, "User Signed Out", Toast.LENGTH_SHORT).show();
-
-                        // Go to Main Activity
-                        Intent i = new Intent(HomeActivity.this, MainActivity.class);
-                        startActivity(i);
-
-                        // Kill current activity since we won't be back without going trough sign in
-                        finish();
-                    });
+                if (f.equals(recommendationsFragment)) {
+                    bottomNavigationView.getMenu().findItem(R.id.bottom_navigation_menu_page_recommendations).setChecked(true);
+                } else if (f.equals(complaintListFragment)) {
+                    bottomNavigationView.getMenu().findItem(R.id.bottom_navigation_menu_page_complaints).setChecked(true);
+                } else if (f.equals(settingsFragment)) {
+                    bottomNavigationView.getMenu().findItem(R.id.bottom_navigation_menu_page_settings).setChecked(true);
+                }
+            }
         });
 
-        try {
-            System.out.println("user: " + FirebaseAuth.getInstance().getCurrentUser().getUid() + " is logged in.");
-        } catch (Exception e) {
-            System.out.println("Failed to get current user.");
-        }
+        bottomNavigationView = findViewById(R.id.home_bottom_navigation_view);
+        bottomNavigationView.setBackground(null);
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.bottom_navigation_menu_page_recommendations:
+                    viewPager.setCurrentItem(fragments.indexOf(recommendationsFragment), false);
+                    return true;
+                case R.id.bottom_navigation_menu_page_complaints:
+                    viewPager.setCurrentItem(fragments.indexOf(complaintListFragment), false);
+                    return true;
+                case R.id.bottom_navigation_menu_page_settings:
+                    viewPager.setCurrentItem(fragments.indexOf(settingsFragment), false);
+                    return true;
+                default:
+                    return false;
+            }
+        });
+
+        setupViewPager();
+
+        // Create some dummy complaints
+//        Services.getDatabaseClient().updateComplaint(new MealerComplaint("complaint1", "chef1", "user1", "A fancy description"));
+//        Services.getDatabaseClient().updateComplaint(new MealerComplaint("complaint2", "chef2", "user1", "A trash description"));
+//        Services.getDatabaseClient().updateComplaint(new MealerComplaint("complaint3", "chef3", "user1", "A hungry description"));
+//        Services.getDatabaseClient().updateComplaint(new MealerComplaint("complaint4", "chef4", "user1", "A fast description"));
+//        Services.getDatabaseClient().updateComplaint(new MealerComplaint("complaint5", "chef5", "user1", "A little description"));
+    }
+
+    /**
+     * Setup view pager with desired fragments using {@link ViewPager2Adapter}
+     */
+    private void setupViewPager() {
+        recommendationsFragment = new RecommendationsFragment();
+        complaintListFragment = new ComplaintListFragment();
+        settingsFragment = new SettingsFragment();
+
+        fragments = new ArrayList<>();
+
+        Services.getDatabaseClient().getUser(user -> {
+            ViewPager2Adapter adapter = new ViewPager2Adapter(getSupportFragmentManager(), getLifecycle());
+
+            if (user == null) {
+                AuthUI.getInstance().signOut(HomeActivity.this).addOnCompleteListener(view -> {
+                    Intent i = new Intent(HomeActivity.this, MainActivity.class);
+                    startActivity(i);
+                    finish();
+                });
+                return;
+            }
+
+            fragments.add(recommendationsFragment);
+            adapter.add(recommendationsFragment);
+
+            if (user.getRole() == MealerRole.ADMIN) {
+                fragments.add(complaintListFragment);
+                adapter.add(complaintListFragment);
+            }
+
+            adapter.add(settingsFragment);
+            fragments.add(settingsFragment);
+
+            viewPager.setAdapter(adapter);
+
+        });
     }
 
     @Override
@@ -94,7 +152,7 @@ public class HomeActivity extends AppCompatActivity {
         // Listen for current user's name and role
         Services.getDatabaseClient().listenForModel(this, "users", FirebaseAuth.getInstance().getCurrentUser().getUid(), MealerUser.class, user -> {
 
-            String text = "Bienvenue "+ user.getFirstName()  + "! Vous êtes connecté en tant que: ";
+            // Update preferences
             String role = "null";
             switch (user.getRole()){
                 case CHEF:
@@ -108,9 +166,87 @@ public class HomeActivity extends AppCompatActivity {
                     break;
             }
 
-            text += role.substring(0,1).toUpperCase() + role.substring(1);
+            role = role.substring(0,1).toUpperCase() + role.substring(1);
 
-            welcomeText.setText(text);
+            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(HomeActivity.this);
+
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putString("first_name", user.getFirstName());
+            editor.putString("last_name", user.getLastName());
+            editor.putString("address", user.getAddress());
+            editor.putString("role", role);
+            editor.apply();
+
+            settingsFragment.refresh();
+
+            // Update available menus
+            bottomNavigationView.getMenu().findItem(R.id.bottom_navigation_menu_page_recommendations).setVisible(true);
+            bottomNavigationView.getMenu().findItem(R.id.bottom_navigation_menu_page_complaints).setVisible(user.getRole() == MealerRole.ADMIN);
+            bottomNavigationView.getMenu().findItem(R.id.bottom_navigation_menu_page_settings).setVisible(true);
+
+            // If user is suspended, show suspension alert
+            if (user.isSuspended()) {
+                showSuspensionAlert(user.getSuspendedUntil());
+            }
         });
+    }
+
+    /**
+     * Display alert stating suspension and its end date.
+     * @param suspensionEndDate ISO 8601 formatted date time string
+     */
+    private void showSuspensionAlert(String suspensionEndDate)  {
+
+        // Create AlertDialog builder
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        // Create alert message
+        String message;
+        if (suspensionEndDate != null) {
+            message = getString(R.string.alert_suspension_description);
+
+            try {
+                // Create UTC formatter
+                DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX");
+
+                // Parse suspensionEndDate using UTC formatter
+                Date date = format.parse(suspensionEndDate);
+
+                // Replace %s in message with date.
+                message = message.replace("%s", date.toString() );
+            } catch (ParseException | NullPointerException e) {
+                // Failed to parse, display as raw ISO 8601 string
+                message = message.replace("%s", suspensionEndDate);
+            }
+        } else {
+            // No suspensionEndDate supplied, assume suspension is permanent.
+            message = getString(R.string.alert_suspension_permanent_description);
+        }
+
+        // Configure builder
+        builder.setMessage(message)
+                .setCancelable(false)
+                .setPositiveButton(getString(R.string.alert_suspension_signout), (dialog, id) -> {
+                    // Right most button clicked, sign out and go to MainActivity
+                    AuthUI.getInstance().signOut(this).addOnSuccessListener(unused -> {
+                        dialog.cancel();
+                        Intent i = new Intent(HomeActivity.this, MainActivity.class);
+                        startActivity(i);
+                        Toast.makeText(getApplicationContext(),"User Sign Out.", Toast.LENGTH_SHORT).show();
+                        finish();
+                    });
+                })
+                .setNegativeButton(getString(R.string.alert_suspension_quit), (dialog, id) -> {
+                    // Left most button clicked, Quit app
+                    Toast.makeText(getApplicationContext(),"Quit Mealer", Toast.LENGTH_SHORT).show();
+                    exit(0);
+                }).setTitle("Title here");
+
+        // Create alert using builder
+        AlertDialog alert = builder.create();
+        alert.setTitle(getString(R.string.alert_suspension_title));
+
+        // Display alert
+        alert.show();
     }
 }

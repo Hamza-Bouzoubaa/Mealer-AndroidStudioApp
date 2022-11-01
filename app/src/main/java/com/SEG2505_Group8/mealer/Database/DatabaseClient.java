@@ -5,9 +5,11 @@ import android.app.Activity;
 import com.SEG2505_Group8.mealer.Database.Callbacks.DatabaseFilterCallback;
 import com.SEG2505_Group8.mealer.Database.Callbacks.DatabaseCompletionCallback;
 import com.SEG2505_Group8.mealer.Database.Callbacks.DatabaseSetCallback;
+import com.SEG2505_Group8.mealer.Database.Models.MealerComplaint;
 import com.SEG2505_Group8.mealer.Database.Models.MealerMenu;
 import com.SEG2505_Group8.mealer.Database.Models.MealerRecipe;
 import com.SEG2505_Group8.mealer.Database.Models.MealerUser;
+import com.SEG2505_Group8.mealer.Database.Serialize.MealerSerializable;
 
 import java.util.List;
 import java.util.concurrent.Future;
@@ -149,6 +151,14 @@ public interface DatabaseClient {
     Future<MealerRecipe> getRecipe(String id, DatabaseCompletionCallback<MealerRecipe> callback);
 
     /**
+     * Page trough {@link MealerComplaint}.
+     * Calls callback on completion
+     * @param callback
+     * @return
+     */
+    Future<List<MealerComplaint>> getComplaints(DatabaseFilterCallback filter, DatabaseCompletionCallback<List<MealerComplaint>> callback);
+
+    /**
      * Update {@link MealerRecipe} stored in database
      * @param recipe
      * @return
@@ -227,6 +237,27 @@ public interface DatabaseClient {
     Future<Boolean> deleteRecipe(String id, DatabaseSetCallback callback);
 
     /**
+     * Delete a {@link MealerComplaint} stored in Database.
+     * Executes callback on completion.
+     *
+     * @param id
+     * @return
+     */
+    default Future<Boolean> deleteComplaint(String id) {
+        return deleteComplaint(id, null);
+    }
+
+    /**
+     * Delete a {@link MealerComplaint} stored in Database.
+     * Executes callback on completion.
+     *
+     * @param id
+     * @param callback
+     * @return
+     */
+    Future<Boolean> deleteComplaint(String id, DatabaseSetCallback callback);
+
+    /**
      * Return true if sign in user's info needs to be updated
      *
      * @return
@@ -253,5 +284,11 @@ public interface DatabaseClient {
      * @param callback
      * @return
      */
-    <T> void listenForModel(Activity activity, String collectionId, String documentId, Class<T> clazz, DatabaseCompletionCallback<T> callback);
+    <T extends MealerSerializable> void listenForModel(Activity activity, String collectionId, String documentId, Class<T> clazz, DatabaseCompletionCallback<T> callback);
+
+    Future<Boolean> updateComplaint(MealerComplaint complaint, DatabaseSetCallback callback);
+
+    default Future<Boolean> updateComplaint(MealerComplaint complaint) {
+        return updateComplaint(complaint, null);
+    }
 }

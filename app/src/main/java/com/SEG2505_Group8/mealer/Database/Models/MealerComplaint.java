@@ -4,43 +4,41 @@ import com.SEG2505_Group8.mealer.Database.Serialize.MealerSerializable;
 import com.SEG2505_Group8.mealer.Database.Serialize.MealerSerializableElement;
 import com.google.firebase.firestore.IgnoreExtraProperties;
 
+import java.io.Serializable;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * Represents a {@link MealerUser}'s menu
- */
 @Data
 @IgnoreExtraProperties
 @AllArgsConstructor
 @NoArgsConstructor
-public class MealerMenu implements MealerSerializable {
+public class MealerComplaint implements MealerSerializable {
 
     /**
-     * Document id of Menu
+     * Document id of Complaint
      */
     String id;
 
     /**
-     * Document Id of chef who created and maintains this menu.
+     * Id of chef who is the subject of the complaint
      */
     @MealerSerializableElement(key = "chefId")
     String chefId;
 
     /**
-     * List of recipe ids that a chef cooks.
+     * Id of the user who is making the complaint
      */
-    @MealerSerializableElement(key = "recipeIds")
-    List<String> recipeIds;
+    @MealerSerializableElement(key = "userId")
+    String userId;
 
     /**
-     * Number of 1, 2, 3, 4, 5 star ratings.
+     * Description of the complaint
      */
-    @MealerSerializableElement(key = "ratings")
-    List<Integer> ratings;
+    @MealerSerializableElement(key = "description")
+    String description;
 
     @Override
     public String getId() {

@@ -6,7 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotation for field that can be serialized by {@link MealerSerializer}
+ * Annotation for field that can be serialized into database
  * Annotated fields must be in class with {@link MealerSerializable} annotation.
  */
 @Retention(RetentionPolicy.RUNTIME)

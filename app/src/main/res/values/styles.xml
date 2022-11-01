@@ -33,4 +33,11 @@
         <item name="android:adjustViewBounds">true</item>
         <item name="android:scaleType">fitCenter</item>
     </style>
+
+    <style name="BottomMenuBar" parent="Widget.MaterialComponents.BottomNavigationView.Colored"></style>
+
+    <style name="Widget.Theme.Mealer.MyView" parent="">
+        <item name="android:background">@color/gray_400</item>
+        <item name="exampleColor">@color/light_blue_400</item>
+    </style>
 </resources>
