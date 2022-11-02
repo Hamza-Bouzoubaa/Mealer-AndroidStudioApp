@@ -23,6 +23,8 @@ public class ComplaintActivity extends AppCompatActivity
         implements DatePickerDialog.OnDateSetListener{
 
     MealerComplaint complaint;
+    TextView complaintSource;
+    TextView complaintDestination;
     TextView complaintDescription;
     TextView endDate;
     CheckBox isPermanent;
@@ -36,6 +38,21 @@ public class ComplaintActivity extends AppCompatActivity
 
         complaint = (MealerComplaint) getIntent().getSerializableExtra("complaint");
         System.out.println("Deserialized complaint");
+
+        complaintSource = findViewById(R.id.complaint_source);
+
+        Services.getDatabaseClient().getUser(complaint.getUserId(), user -> {
+            if (user != null) {
+                complaintSource.setText(user.getFirstName() + " " + user.getLastName());
+            }
+        });
+
+        complaintDestination = findViewById(R.id.complaint_destination);
+        Services.getDatabaseClient().getUser(complaint.getChefId(), user -> {
+            if (user != null) {
+                complaintDestination.setText(user.getFirstName() + " " + user.getLastName());
+            }
+        });
 
         complaintDescription = findViewById(R.id.complaint_description);
         complaintDescription.setText(complaint.getDescription());

@@ -37,9 +37,6 @@ public class ComplaintRecyclerViewAdapter extends RecyclerView.Adapter<Complaint
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
 
-        holder.chefIdView.setText(mValues.get(position).getChefId());
-        holder.userIdView.setText(mValues.get(position).getUserId());
-        holder.descriptionView.setText(mValues.get(position).getDescription());
         holder.openButton.setOnClickListener(view -> {
             Intent i = new Intent(view.getContext(), ComplaintActivity.class);
             i.putExtra("complaint", holder.mItem);
@@ -62,9 +59,6 @@ public class ComplaintRecyclerViewAdapter extends RecyclerView.Adapter<Complaint
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public final TextView chefIdView;
-        public final TextView userIdView;
-        public final TextView descriptionView;
         public final Button openButton;
         public final Button rejectButton;
 
@@ -73,16 +67,8 @@ public class ComplaintRecyclerViewAdapter extends RecyclerView.Adapter<Complaint
         public ViewHolder(FragmentComplaintItemBinding binding) {
             super(binding.getRoot());
 
-            chefIdView = binding.chefId;
-            userIdView = binding.userId;
-            descriptionView = binding.description;
             openButton = binding.open;
             rejectButton = binding.reject;
-        }
-
-        @Override
-        public String toString() {
-            return super.toString() + " '" + chefIdView.getText() + ", " + userIdView.getText() + ", " + descriptionView.getText() + "'";
         }
     }
 }

@@ -113,7 +113,7 @@ public class MealerUser implements MealerSerializable {
     int totalSales;
 
     @MealerSerializableElement(key = "isSuspended")
-    boolean isSuspended;
+    Boolean isSuspended;
 
     @MealerSerializableElement(key = "suspendedUntil")
     String suspendedUntil;
@@ -157,7 +157,11 @@ public class MealerUser implements MealerSerializable {
 
     public void suspend(Date suspensionEndDate) {
         isSuspended = true;
-        this.suspendedUntil = DateUtils.toString(suspensionEndDate);
+        if (suspensionEndDate != null) {
+            this.suspendedUntil = DateUtils.toString(suspensionEndDate);
+        } else {
+            this.suspendedUntil = null;
+        }
     }
 
     public boolean isSuspended() {
