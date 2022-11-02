@@ -114,9 +114,9 @@ public class HomeActivity extends AppCompatActivity {
         Services.getDatabaseClient().updateRecipe(new MealerRecipe("recipe1", "Pizza", "main", categories, ingredients, allergens, 10.0f, "a pizza recipe"), object -> {});
 
         // Create some dummy complaints
-        for (int i = 0; i < 10; i++) {
-            Services.getDatabaseClient().updateComplaint(new MealerComplaint(UUID.randomUUID().toString(), "m2nZ7KiHJyRbzvhkaGMkuB2JZ9M2","OzG6d9CjlMTuG8idUQ2ovAv70xn1", "Fires shot!"));
-        }
+//        for (int i = 0; i < 20; i++) {
+//            Services.getDatabaseClient().updateComplaint(new MealerComplaint(UUID.randomUUID().toString(), "m2nZ7KiHJyRbzvhkaGMkuB2JZ9M2","OzG6d9CjlMTuG8idUQ2ovAv70xn1", "Fires shot!"));
+//        }
     }
 
     /**
@@ -141,12 +141,12 @@ public class HomeActivity extends AppCompatActivity {
                 return;
             }
 
-            fragments.add(recommendationsFragment);
-            adapter.add(recommendationsFragment);
-
             if (user.getRole() == MealerRole.ADMIN) {
                 fragments.add(complaintListFragment);
                 adapter.add(complaintListFragment);
+            } else {
+                fragments.add(recommendationsFragment);
+                adapter.add(recommendationsFragment);
             }
 
             adapter.add(settingsFragment);
@@ -192,7 +192,7 @@ public class HomeActivity extends AppCompatActivity {
             settingsFragment.refresh();
 
             // Update available menus
-            bottomNavigationView.getMenu().findItem(R.id.bottom_navigation_menu_page_recommendations).setVisible(true);
+            bottomNavigationView.getMenu().findItem(R.id.bottom_navigation_menu_page_recommendations).setVisible(user.getRole() != MealerRole.ADMIN);
             bottomNavigationView.getMenu().findItem(R.id.bottom_navigation_menu_page_complaints).setVisible(user.getRole() == MealerRole.ADMIN);
             bottomNavigationView.getMenu().findItem(R.id.bottom_navigation_menu_page_settings).setVisible(true);
 

@@ -7,8 +7,10 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.SEG2505_Group8.mealer.Database.Models.MealerComplaint;
+import com.SEG2505_Group8.mealer.R;
 import com.SEG2505_Group8.mealer.Services;
 import com.SEG2505_Group8.mealer.UI.Activities.ComplaintActivity;
 import com.SEG2505_Group8.mealer.databinding.FragmentComplaintItemBinding;
@@ -37,6 +39,8 @@ public class ComplaintRecyclerViewAdapter extends RecyclerView.Adapter<Complaint
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
 
+        holder.title.setText(holder.mItem.getDescription());
+
         holder.openButton.setOnClickListener(view -> {
             Intent i = new Intent(view.getContext(), ComplaintActivity.class);
             i.putExtra("complaint", holder.mItem);
@@ -45,6 +49,7 @@ public class ComplaintRecyclerViewAdapter extends RecyclerView.Adapter<Complaint
         holder.rejectButton.setOnClickListener(v -> {
             Services.getDatabaseClient().deleteComplaint(holder.mItem.getId(), isSuccessful -> {
                 if (isSuccessful) {
+                    Toast.makeText(v.getContext(), "Complaint rejected", Toast.LENGTH_SHORT).show();
                     mValues.remove(position);
                     notifyItemRemoved(position);
                     notifyItemChanged(position, mValues.size());
@@ -61,6 +66,7 @@ public class ComplaintRecyclerViewAdapter extends RecyclerView.Adapter<Complaint
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final Button openButton;
         public final Button rejectButton;
+        public final TextView title;
 
         public MealerComplaint mItem;
 
@@ -69,6 +75,7 @@ public class ComplaintRecyclerViewAdapter extends RecyclerView.Adapter<Complaint
 
             openButton = binding.open;
             rejectButton = binding.reject;
+            title = binding.complaintItemTitle;
         }
     }
 }
