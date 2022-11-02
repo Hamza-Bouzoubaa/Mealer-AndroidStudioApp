@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
@@ -23,8 +25,9 @@ public class ComplaintActivity extends AppCompatActivity
     MealerComplaint complaint;
     TextView complaintDescription;
     TextView endDate;
+    CheckBox isPermanent;
 
-    Date endDateData;
+    Date endDateData = new Date();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +43,8 @@ public class ComplaintActivity extends AppCompatActivity
         endDate = findViewById(R.id.complaint_end_date);
         endDate.setText(DateUtils.nowPrettyString());
 
+        isPermanent = findViewById(R.id.complaint_permanent);
+
         Button setEndButton = findViewById(R.id.complaint_date);
         setEndButton.setOnClickListener(view -> {
             DialogFragment newFragment = new DatePickerFragment(this);
@@ -54,8 +59,14 @@ public class ComplaintActivity extends AppCompatActivity
         Button submitButton = findViewById(R.id.complaint_submit);
         submitButton.setOnClickListener(view -> {
             Services.getDatabaseClient().getUser(complaint.getChefId(), o -> {
-                o.suspend(endDateData);
-                Services.getDatabaseClient().updateUser(o);
+
+                if (o != null) {
+                    o.suspend(isPermanent.isChecked() ? null : endDateData);
+                    Services.getDatabaseClient().updateUser(o);
+                }
+                Services.getDatabaseClient().deleteComplaint(complaint.getId(), success -> {
+                    finish();
+                });
             });
         });
     }

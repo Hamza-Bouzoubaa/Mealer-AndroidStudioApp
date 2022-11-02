@@ -286,7 +286,11 @@ public interface DatabaseClient {
      */
     <T extends MealerSerializable> void listenForModel(Activity activity, String collectionId, String documentId, Class<T> clazz, DatabaseCompletionCallback<T> callback);
 
-    <T extends MealerSerializable> void listenForModels(Activity activity, String collectionId, Class<T> clazz, DatabaseCompletionCallback<List<T>> callback);
+    <T extends MealerSerializable> void listenForModels(Activity activity, String collectionId, Class<T> clazz, DatabaseFilterCallback filter, DatabaseCompletionCallback<List<T>> callback);
+
+    default <T extends MealerSerializable> void listenForModels(Activity activity, String collectionId, Class<T> clazz, DatabaseCompletionCallback<List<T>> callback){
+        listenForModels(activity, collectionId, clazz, object -> object.limit(100), callback);
+    }
 
     Future<Boolean> updateComplaint(MealerComplaint complaint, DatabaseSetCallback callback);
 
