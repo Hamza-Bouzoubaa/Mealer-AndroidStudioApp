@@ -134,6 +134,6 @@ public class ChefSignUpFormActivity extends AppCompatActivity {
                 && validator.required(password)
                 && validator.password(password)
                 && validator.required(description)
-                && validator.required(address);
+                && validator.required(address) && voidCheckBytes != null;
     }
 }

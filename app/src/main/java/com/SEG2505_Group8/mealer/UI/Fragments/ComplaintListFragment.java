@@ -74,7 +74,10 @@ public class ComplaintListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+
+        // Listen for complaints from Database
         Services.getDatabaseClient().listenForModels(getActivity(), "complaints", MealerComplaint.class,object -> {
+            // Give updated complaints to adapter
             ((RecyclerView)getView()).setAdapter(new ComplaintRecyclerViewAdapter(object));
         });
     }
