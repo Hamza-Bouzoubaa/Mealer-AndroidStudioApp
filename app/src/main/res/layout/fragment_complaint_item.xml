@@ -19,7 +19,7 @@
         android:id="@+id/open"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Open"
+        android:text="@string/action_view"
         android:layout_marginEnd="5dp"
         app:layout_constraintEnd_toStartOf="@+id/reject"
         app:layout_constraintTop_toTopOf="parent" />
@@ -28,7 +28,7 @@
         android:id="@+id/reject"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Reject"
+        android:text="@string/action_reject"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

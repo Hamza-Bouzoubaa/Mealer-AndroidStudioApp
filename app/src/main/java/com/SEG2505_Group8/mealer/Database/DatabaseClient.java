@@ -286,14 +286,45 @@ public interface DatabaseClient {
      */
     <T extends MealerSerializable> void listenForModel(Activity activity, String collectionId, String documentId, Class<T> clazz, DatabaseCompletionCallback<T> callback);
 
+    /**
+     * Executes callback when collection changes in database.
+     * Filters collection using filter.
+     *
+     * @param activity
+     * @param collectionId
+     * @param clazz
+     * @param filter to get part of a collection
+     * @param callback to execute when collection changes
+     * @return
+     */
     <T extends MealerSerializable> void listenForModels(Activity activity, String collectionId, Class<T> clazz, DatabaseFilterCallback filter, DatabaseCompletionCallback<List<T>> callback);
 
+    /**
+     * Executes callback when collection changes in database.
+     *
+     * @param activity
+     * @param collectionId
+     * @param clazz
+     * @param callback to execute when collection changes
+     * @return
+     */
     default <T extends MealerSerializable> void listenForModels(Activity activity, String collectionId, Class<T> clazz, DatabaseCompletionCallback<List<T>> callback){
         listenForModels(activity, collectionId, clazz, object -> object.limit(100), callback);
     }
 
+    /**
+     * Update a complaint in the database. Executes callback on completion.
+     * @param complaint
+     * @param callback
+     * @return
+     */
     Future<Boolean> updateComplaint(MealerComplaint complaint, DatabaseSetCallback callback);
 
+    /**
+     * Update a complaint in the database.
+     * @param complaint
+     * @return
+     */
     default Future<Boolean> updateComplaint(MealerComplaint complaint) {
         return updateComplaint(complaint, null);
     }

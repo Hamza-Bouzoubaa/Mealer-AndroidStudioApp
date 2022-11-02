@@ -6,6 +6,9 @@ import android.widget.EditText;
 
 import com.SEG2505_Group8.mealer.R;
 
+/**
+ * Validate fields using standardized method
+ */
 public class FieldValidator {
 
     /**
