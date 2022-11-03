@@ -43,14 +43,14 @@ public class ComplaintActivity extends AppCompatActivity
 
         Services.getDatabaseClient().getUser(complaint.getUserId(), user -> {
             if (user != null) {
-                complaintSource.setText(user.getFirstName() + " " + user.getLastName());
+                complaintSource.setText(user.getFirstName() + " " + user.getLastName() + "\n(" + user.getEmail() + ")");
             }
         });
 
         complaintDestination = findViewById(R.id.complaint_destination);
         Services.getDatabaseClient().getUser(complaint.getChefId(), user -> {
             if (user != null) {
-                complaintDestination.setText(user.getFirstName() + " " + user.getLastName());
+                complaintDestination.setText(user.getFirstName() + " " + user.getLastName() + "\n(" + user.getEmail() + ")");
             }
         });
 
