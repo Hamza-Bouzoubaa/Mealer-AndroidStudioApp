@@ -12,6 +12,8 @@ Once your IDE is setup, see [Contributions](#contributions) for information on h
 email: admin@mealer.com
 password: admin!!!
 
+You can generate more complaints by pressing the + button in the bottom center of the screen.
+
 ## Firebase
 
 Nous utilisons [Firebase](https://firebase.google.com/docs/reference/android/packages) comme base de données. Envoyer un message à quelqu'un de l'equipe pour avoir access au projet Firebase.
