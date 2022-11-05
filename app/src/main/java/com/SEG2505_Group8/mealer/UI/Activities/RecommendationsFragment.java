@@ -14,7 +14,7 @@ import com.SEG2505_Group8.mealer.Database.Models.MealerRecipe;
 import com.SEG2505_Group8.mealer.R;
 import com.SEG2505_Group8.mealer.Services;
 
-/**
+/*
  * A simple {@link Fragment} subclass.
  * Use the {@link RecommendationsFragment} factory method to
  * create an instance of this fragment.

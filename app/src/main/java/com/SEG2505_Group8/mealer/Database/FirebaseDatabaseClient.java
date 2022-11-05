@@ -170,10 +170,11 @@ public class FirebaseDatabaseClient implements DatabaseClient {
     }
 
     @Override
-    public <T extends MealerSerializable> void listenForModels(Activity activity, String collectionId, Class<T> clazz, DatabaseCompletionCallback<List<T>> callback) {
+    public <T extends MealerSerializable> void listenForModels(Activity activity, String collectionId, Class<T> clazz, DatabaseFilterCallback filter, DatabaseCompletionCallback<List<T>> callback) {
 
         CollectionReference reference = firestore.collection(collectionId);
-        reference.addSnapshotListener(activity, (querySnapshot, e) -> {
+
+        filter.applyFilter(reference).addSnapshotListener(activity, (querySnapshot, e) -> {
             if(e != null){
                 Toast.makeText(activity, "Error Loading", Toast.LENGTH_SHORT).show();
                 return;

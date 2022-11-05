@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -29,17 +30,21 @@ import com.SEG2505_Group8.mealer.UI.Fragments.ComplaintListFragment;
 import com.SEG2505_Group8.mealer.UI.Fragments.SettingsFragment;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Welcome Activity for sign in users.
  * Presents current status and a logout button.
  */
 public class HomeActivity extends AppCompatActivity {
+
+    FloatingActionButton fab;
 
     ViewPager2 viewPager;
     BottomNavigationView bottomNavigationView;
@@ -112,12 +117,12 @@ public class HomeActivity extends AppCompatActivity {
 
         Services.getDatabaseClient().updateRecipe(new MealerRecipe("recipe1", "Pizza", "main", categories, ingredients, allergens, 10.0f, "a pizza recipe"), object -> {});
 
+        fab = findViewById(R.id.home_bottom_navigation_fab);
+
         // Create some dummy complaints
-//        Services.getDatabaseClient().updateComplaint(new MealerComplaint("complaint1", "chef1", "user1", "A fancy description"));
-//        Services.getDatabaseClient().updateComplaint(new MealerComplaint("complaint2", "chef2", "user1", "A trash description"));
-//        Services.getDatabaseClient().updateComplaint(new MealerComplaint("complaint3", "chef3", "user1", "A hungry description"));
-//        Services.getDatabaseClient().updateComplaint(new MealerComplaint("complaint4", "chef4", "user1", "A fast description"));
-//        Services.getDatabaseClient().updateComplaint(new MealerComplaint("complaint5", "chef5", "user1", "A little description"));
+//        for (int i = 0; i < 20; i++) {
+//            Services.getDatabaseClient().updateComplaint(new MealerComplaint(UUID.randomUUID().toString(), "m2nZ7KiHJyRbzvhkaGMkuB2JZ9M2","OzG6d9CjlMTuG8idUQ2ovAv70xn1", "Fires shot!"));
+//        }
     }
 
     /**
@@ -142,12 +147,12 @@ public class HomeActivity extends AppCompatActivity {
                 return;
             }
 
-            fragments.add(recommendationsFragment);
-            adapter.add(recommendationsFragment);
-
             if (user.getRole() == MealerRole.ADMIN) {
                 fragments.add(complaintListFragment);
                 adapter.add(complaintListFragment);
+            } else {
+                fragments.add(recommendationsFragment);
+                adapter.add(recommendationsFragment);
             }
 
             adapter.add(settingsFragment);
@@ -176,6 +181,14 @@ public class HomeActivity extends AppCompatActivity {
                     break;
                 case ADMIN:
                     role = getString(R.string.role_admin);
+                    fab.setTooltipText("Generate complaints");
+                    fab.setOnClickListener(view -> {
+                        Services.getDatabaseClient().updateComplaint(new MealerComplaint(UUID.randomUUID().toString(), "m2nZ7KiHJyRbzvhkaGMkuB2JZ9M2","OzG6d9CjlMTuG8idUQ2ovAv70xn1", "Terrible food!"));
+                        Services.getDatabaseClient().updateComplaint(new MealerComplaint(UUID.randomUUID().toString(), "m2nZ7KiHJyRbzvhkaGMkuB2JZ9M2","OzG6d9CjlMTuG8idUQ2ovAv70xn1", "Health hazard!"));
+                        Services.getDatabaseClient().updateComplaint(new MealerComplaint(UUID.randomUUID().toString(), "m2nZ7KiHJyRbzvhkaGMkuB2JZ9M2","OzG6d9CjlMTuG8idUQ2ovAv70xn1", "0 stars!"));
+                        Services.getDatabaseClient().updateComplaint(new MealerComplaint(UUID.randomUUID().toString(), "m2nZ7KiHJyRbzvhkaGMkuB2JZ9M2","OzG6d9CjlMTuG8idUQ2ovAv70xn1", "Garbage!"));
+                        Services.getDatabaseClient().updateComplaint(new MealerComplaint(UUID.randomUUID().toString(), "m2nZ7KiHJyRbzvhkaGMkuB2JZ9M2","OzG6d9CjlMTuG8idUQ2ovAv70xn1", "Food 1 hour late!"));
+                    });
                     break;
             }
 
@@ -193,7 +206,7 @@ public class HomeActivity extends AppCompatActivity {
             settingsFragment.refresh();
 
             // Update available menus
-            bottomNavigationView.getMenu().findItem(R.id.bottom_navigation_menu_page_recommendations).setVisible(true);
+            bottomNavigationView.getMenu().findItem(R.id.bottom_navigation_menu_page_recommendations).setVisible(user.getRole() != MealerRole.ADMIN);
             bottomNavigationView.getMenu().findItem(R.id.bottom_navigation_menu_page_complaints).setVisible(user.getRole() == MealerRole.ADMIN);
             bottomNavigationView.getMenu().findItem(R.id.bottom_navigation_menu_page_settings).setVisible(true);
 
@@ -215,7 +228,7 @@ public class HomeActivity extends AppCompatActivity {
 
         // Create alert message
         String message;
-        if (suspensionEndDate != null) {
+        if (suspensionEndDate != null && !suspensionEndDate.equals("")) {
             message = getString(R.string.alert_suspension_description);
 
             try {

@@ -67,11 +67,18 @@ public class ComplaintListFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-
-            Services.getDatabaseClient().listenForModels(getActivity(), "complaints", MealerComplaint.class, object -> {
-                recyclerView.setAdapter(new ComplaintRecyclerViewAdapter(object));
-            });
         }
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        // Listen for complaints from Database
+        Services.getDatabaseClient().listenForModels(getActivity(), "complaints", MealerComplaint.class,object -> {
+            // Give updated complaints to adapter
+            ((RecyclerView)getView()).setAdapter(new ComplaintRecyclerViewAdapter(object));
+        });
     }
 }

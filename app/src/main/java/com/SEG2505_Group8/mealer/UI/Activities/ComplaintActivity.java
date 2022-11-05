@@ -3,19 +3,33 @@ package com.SEG2505_Group8.mealer.UI.Activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
+import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.TextView;
 
 import com.SEG2505_Group8.mealer.Database.Models.MealerComplaint;
 import com.SEG2505_Group8.mealer.R;
+import com.SEG2505_Group8.mealer.Services;
+import com.SEG2505_Group8.mealer.UI.Activities.Utils.DateUtils;
 import com.SEG2505_Group8.mealer.UI.Fragments.DatePickerFragment;
 
-public class ComplaintActivity extends AppCompatActivity {
+import java.util.Date;
+
+public class ComplaintActivity extends AppCompatActivity
+        implements DatePickerDialog.OnDateSetListener{
 
     MealerComplaint complaint;
+    TextView complaintSource;
+    TextView complaintDestination;
     TextView complaintDescription;
-    Button suspendButton;
+    TextView endDate;
+    CheckBox isPermanent;
+
+    Date endDateData = new Date();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,14 +39,57 @@ public class ComplaintActivity extends AppCompatActivity {
         complaint = (MealerComplaint) getIntent().getSerializableExtra("complaint");
         System.out.println("Deserialized complaint");
 
-        complaintDescription = findViewById(R.id.complaint_description);
+        complaintSource = findViewById(R.id.complaint_source);
 
+        Services.getDatabaseClient().getUser(complaint.getUserId(), user -> {
+            if (user != null) {
+                complaintSource.setText(user.getFirstName() + " " + user.getLastName() + "\n(" + user.getEmail() + ")");
+            }
+        });
+
+        complaintDestination = findViewById(R.id.complaint_destination);
+        Services.getDatabaseClient().getUser(complaint.getChefId(), user -> {
+            if (user != null) {
+                complaintDestination.setText(user.getFirstName() + " " + user.getLastName() + "\n(" + user.getEmail() + ")");
+            }
+        });
+
+        complaintDescription = findViewById(R.id.complaint_description);
         complaintDescription.setText(complaint.getDescription());
 
-        suspendButton = findViewById(R.id.complaint_date);
-        suspendButton.setOnClickListener(view -> {
-            DialogFragment newFragment = new DatePickerFragment();
+        endDate = findViewById(R.id.complaint_end_date);
+        endDate.setText(DateUtils.nowPrettyString());
+
+        isPermanent = findViewById(R.id.complaint_permanent);
+
+        Button setEndButton = findViewById(R.id.complaint_date);
+        setEndButton.setOnClickListener(view -> {
+            DialogFragment newFragment = new DatePickerFragment(this);
             newFragment.show(getSupportFragmentManager(), "datePicker");
         });
+
+        Button cancelButton = findViewById(R.id.complaint_cancel);
+        cancelButton.setOnClickListener(view -> {
+            finish();
+        });
+
+        Button submitButton = findViewById(R.id.complaint_submit);
+        submitButton.setOnClickListener(view -> {
+            Services.getDatabaseClient().getUser(complaint.getChefId(), o -> {
+
+                if (o != null) {
+                    o.suspend(isPermanent.isChecked() ? null : endDateData);
+                    Services.getDatabaseClient().updateUser(o);
+                }
+                Services.getDatabaseClient().deleteComplaint(complaint.getId(), success -> {
+                    finish();
+                });
+            });
+        });
+    }
+
+    public void onDateSet(DatePicker view, int year, int month, int day) {
+        endDateData = new Date(year, month, day);
+        endDate.setText(endDateData.toString());
     }
 }

@@ -11,7 +11,16 @@ import java.util.Map;
 
 public interface MealerSerializable extends Serializable {
 
+    /**
+     * Return the document id of the object
+     * @return
+     */
     String getId();
+
+    /**
+     * Set the document id of the object
+     * @param id
+     */
     void setId(String id);
 
     /**

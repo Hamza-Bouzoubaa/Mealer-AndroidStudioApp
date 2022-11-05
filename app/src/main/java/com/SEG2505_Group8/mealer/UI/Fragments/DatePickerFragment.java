@@ -10,8 +10,13 @@ import androidx.fragment.app.DialogFragment;
 
 import java.util.Calendar;
 
-public class DatePickerFragment extends DialogFragment
-        implements DatePickerDialog.OnDateSetListener {
+public class DatePickerFragment extends DialogFragment {
+
+    DatePickerDialog.OnDateSetListener listener;
+
+    public DatePickerFragment(DatePickerDialog.OnDateSetListener listener) {
+        this.listener = listener;
+    }
 
     @NonNull
     @Override
@@ -23,10 +28,7 @@ public class DatePickerFragment extends DialogFragment
         int day = c.get(Calendar.DAY_OF_MONTH);
 
         // Create a new instance of DatePickerDialog and return it
-        return new DatePickerDialog(requireContext(), this, year, month, day);
+        return new DatePickerDialog(requireContext(), listener, year, month, day);
     }
 
-    public void onDateSet(DatePicker view, int year, int month, int day) {
-        // Do something with the date chosen by the user
-    }
 }

@@ -67,6 +67,7 @@ public class ChefSignUpFormActivity extends AppCompatActivity {
 
         submitButton = findViewById(R.id.chef_sign_up_form_submit_button);
         submitButton.setOnClickListener(view -> {
+            // Only submit if all fields are valid
             if(validateFields()){
                 submit(email.getText().toString(), password.getText().toString(), firstName.getText().toString(), lastName.getText().toString(), address.getText().toString(), description.getText().toString());
             }
@@ -134,6 +135,6 @@ public class ChefSignUpFormActivity extends AppCompatActivity {
                 && validator.required(password)
                 && validator.password(password)
                 && validator.required(description)
-                && validator.required(address);
+                && validator.required(address) && voidCheckBytes != null;
     }
 }

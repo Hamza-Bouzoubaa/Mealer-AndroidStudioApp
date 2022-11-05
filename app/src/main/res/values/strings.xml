@@ -50,4 +50,6 @@
     <string name="alert_suspension_signout">Sign Out</string>
     <string name="alert_suspension_quit">Quit</string>
     <string name="alert_suspension_permanent_description">You have been permanetly suspended.</string>
+    <string name="action_view">View</string>
+    <string name="action_reject">Reject</string>
 </resources>
