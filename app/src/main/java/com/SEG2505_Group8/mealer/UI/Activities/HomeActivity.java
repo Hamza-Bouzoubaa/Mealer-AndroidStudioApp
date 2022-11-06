@@ -19,6 +19,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import com.SEG2505_Group8.mealer.Database.Models.MealerComplaint;
+import com.SEG2505_Group8.mealer.Database.Models.MealerMenu;
 import com.SEG2505_Group8.mealer.Database.Models.MealerRecipe;
 import com.SEG2505_Group8.mealer.Database.Models.MealerRole;
 import com.SEG2505_Group8.mealer.Database.Models.MealerUser;
@@ -137,6 +138,22 @@ public class HomeActivity extends AppCompatActivity {
         Services.getDatabaseClient().updateRecipe(new MealerRecipe("recipe1", "Pizza", "main", categories, ingredients, allergens, 10.0f, "a pizza recipe"), object -> {});
 
         fab = findViewById(R.id.home_bottom_navigation_fab);
+
+        List<String> recipes = new ArrayList<>();
+        recipes.add("recipe1");
+
+        List<Integer> ratings = new ArrayList<>();
+        ratings.add(0);
+        ratings.add(0);
+        ratings.add(0);
+        ratings.add(0);
+        ratings.add(0);
+        Services.getDatabaseClient().updateMenu(new MealerMenu("menu1", "m2nZ7KiHJyRbzvhkaGMkuB2JZ9M2", recipes, ratings), object -> {});
+
+        Services.getDatabaseClient().getUser(user -> {
+            user.setMenuId("menu1");
+            Services.getDatabaseClient().updateUser(user);
+        });
     }
 
     /**
