@@ -2,12 +2,14 @@ package com.SEG2505_Group8.mealer.Database.Models;
 
 import com.SEG2505_Group8.mealer.Database.Serialize.MealerSerializable;
 import com.SEG2505_Group8.mealer.Database.Serialize.MealerSerializableElement;
+import com.SEG2505_Group8.mealer.R;
 import com.SEG2505_Group8.mealer.Services;
 import com.SEG2505_Group8.mealer.UI.Activities.Utils.DateUtils;
 import com.google.firebase.firestore.IgnoreExtraProperties;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -179,4 +181,29 @@ public class MealerUser implements MealerSerializable {
 
         return isSuspended;
     }
+
+    private static HashMap<MealerRole, List<Integer>> availableViews = new HashMap<MealerRole, List<Integer>>() {{
+        List<Integer> adminViews = new ArrayList<>();
+        adminViews.add(R.id.bottom_navigation_menu_page_complaints);
+        adminViews.add(R.id.bottom_navigation_menu_page_settings);
+
+        put(MealerRole.ADMIN, adminViews);
+
+        List<Integer> userViews = new ArrayList<>();
+        userViews.add(R.id.bottom_navigation_menu_page_recommendations);
+        userViews.add(R.id.bottom_navigation_menu_page_settings);
+
+        put(MealerRole.USER, userViews);
+
+        List<Integer> chefViews = new ArrayList<>();
+        chefViews.add(R.id.bottom_navigation_menu_page_menu);
+        chefViews.add(R.id.bottom_navigation_menu_page_settings);
+
+        put(MealerRole.CHEF, chefViews);
+    }};
+
+    public List<Integer> getAvailableViews() {
+        return availableViews.get(role);
+    }
+
 }

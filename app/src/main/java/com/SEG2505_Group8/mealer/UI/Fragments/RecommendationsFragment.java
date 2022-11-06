@@ -1,4 +1,4 @@
-package com.SEG2505_Group8.mealer.UI.Activities;
+package com.SEG2505_Group8.mealer.UI.Fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +13,7 @@ import android.widget.Button;
 import com.SEG2505_Group8.mealer.Database.Models.MealerRecipe;
 import com.SEG2505_Group8.mealer.R;
 import com.SEG2505_Group8.mealer.Services;
+import com.SEG2505_Group8.mealer.UI.Activities.RecipeActivity;
 
 /*
  * A simple {@link Fragment} subclass.

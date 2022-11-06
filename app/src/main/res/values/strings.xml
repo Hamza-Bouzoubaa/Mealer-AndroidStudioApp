@@ -52,4 +52,5 @@
     <string name="alert_suspension_permanent_description">You have been permanetly suspended.</string>
     <string name="action_view">View</string>
     <string name="action_reject">Reject</string>
+    <string name="bottom_navigation_menu_label_menu">Menu</string>
 </resources>
