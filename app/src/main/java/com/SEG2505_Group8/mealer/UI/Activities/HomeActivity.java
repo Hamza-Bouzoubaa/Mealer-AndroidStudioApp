@@ -224,6 +224,9 @@ public class HomeActivity extends AppCompatActivity {
             switch (user.getRole()){
                 case CHEF:
                     role = getString(R.string.role_chef);
+                    fab.setOnClickListener(view -> {
+                        startActivity(new Intent(HomeActivity.this, RecipeFormActivity.class));
+                    });
                     break;
                 case USER:
                     role = getString(R.string.role_user);
