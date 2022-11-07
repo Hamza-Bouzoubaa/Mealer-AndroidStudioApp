@@ -205,5 +205,4 @@ public class MealerUser implements MealerSerializable {
     public List<Integer> getAvailableViews() {
         return availableViews.get(role);
     }
-
 }
