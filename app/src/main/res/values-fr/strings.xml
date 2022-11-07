@@ -48,4 +48,7 @@
     <string name="action_view">Visionez</string>
     <string name="action_reject">Rejetez</string>
     <string name="bottom_navigation_menu_label_menu">Menu</string>
+    <string name="recipe_form_submit">Submit</string>
+    <string name="recipe_form_take_photo">Take Photo</string>
+    <string name="recipe_form_title">New Recipe</string>
 </resources>
