@@ -135,7 +135,7 @@ public class HomeActivity extends AppCompatActivity {
         List<String> allergens = new ArrayList<>();
         allergens.add("garlic");
 
-        Services.getDatabaseClient().updateRecipe(new MealerRecipe("recipe1", "Pizza", "main", categories, ingredients, allergens, 10.0f, "a pizza recipe"), object -> {});
+        Services.getDatabaseClient().updateRecipe(new MealerRecipe("recipe1", "Pizza", "main", categories, ingredients, allergens, 10.0f, "a pizza recipe", true), object -> {});
 
         fab = findViewById(R.id.home_bottom_navigation_fab);
 
