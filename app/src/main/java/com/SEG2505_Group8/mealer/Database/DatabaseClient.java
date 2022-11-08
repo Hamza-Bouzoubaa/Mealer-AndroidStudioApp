@@ -151,6 +151,15 @@ public interface DatabaseClient {
     Future<MealerRecipe> getRecipe(String id, DatabaseCompletionCallback<MealerRecipe> callback);
 
     /**
+     * Page trough {@link MealerRecipe}.
+     * Calls callback on completion
+     * @param callback
+     * @return
+     */
+    Future<List<MealerRecipe>> getRecipes(DatabaseFilterCallback filter, DatabaseCompletionCallback<List<MealerRecipe>> callback);
+
+
+    /**
      * Page trough {@link MealerComplaint}.
      * Calls callback on completion
      * @param callback

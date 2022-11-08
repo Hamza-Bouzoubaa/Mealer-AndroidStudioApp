@@ -106,6 +106,11 @@ public class FirebaseDatabaseClient implements DatabaseClient {
     }
 
     @Override
+    public Future<List<MealerRecipe>> getRecipes(DatabaseFilterCallback filter, DatabaseCompletionCallback<List<MealerRecipe>> callback) {
+        return getModels(MealerRecipe.class, complaintCollectionId, maxiumGetModels, filter, callback);
+    }
+
+    @Override
     public Future<List<MealerComplaint>> getComplaints(DatabaseFilterCallback filter, DatabaseCompletionCallback<List<MealerComplaint>> callback) {
         return getModels(MealerComplaint.class, complaintCollectionId, maxiumGetModels, filter, callback);
     }
