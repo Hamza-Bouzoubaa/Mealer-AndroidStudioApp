@@ -22,6 +22,9 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
     PreferenceScreen preferenceScreen;
 
+    public SettingsFragment() {
+    }
+
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
 

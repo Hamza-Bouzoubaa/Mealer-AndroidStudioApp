@@ -2,12 +2,11 @@ package com.SEG2505_Group8.mealer.UI.Activities;
 
 import static java.lang.System.exit;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.widget.Button;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -20,6 +19,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import com.SEG2505_Group8.mealer.Database.Models.MealerComplaint;
+import com.SEG2505_Group8.mealer.Database.Models.MealerMenu;
 import com.SEG2505_Group8.mealer.Database.Models.MealerRecipe;
 import com.SEG2505_Group8.mealer.Database.Models.MealerRole;
 import com.SEG2505_Group8.mealer.Database.Models.MealerUser;
@@ -27,6 +27,8 @@ import com.SEG2505_Group8.mealer.R;
 import com.SEG2505_Group8.mealer.Services;
 import com.SEG2505_Group8.mealer.UI.Adapters.ViewPager2Adapter;
 import com.SEG2505_Group8.mealer.UI.Fragments.ComplaintListFragment;
+import com.SEG2505_Group8.mealer.UI.Fragments.MenuFragment;
+import com.SEG2505_Group8.mealer.UI.Fragments.RecommendationsFragment;
 import com.SEG2505_Group8.mealer.UI.Fragments.SettingsFragment;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -52,8 +54,10 @@ public class HomeActivity extends AppCompatActivity {
     RecommendationsFragment recommendationsFragment;
     ComplaintListFragment complaintListFragment;
     SettingsFragment settingsFragment;
+    MenuFragment menuFragment;
 
     List<Fragment> fragments;
+    List<Integer> views;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +71,12 @@ public class HomeActivity extends AppCompatActivity {
             finish();
         }
 
+        views = new ArrayList<>();
+        views.add(R.id.bottom_navigation_menu_page_recommendations);
+        views.add(R.id.bottom_navigation_menu_page_complaints);
+        views.add(R.id.bottom_navigation_menu_page_settings);
+        views.add(R.id.bottom_navigation_menu_page_menu);
+
         viewPager = findViewById(R.id.home_view_pager);
         viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
@@ -75,13 +85,21 @@ public class HomeActivity extends AppCompatActivity {
 
                 Fragment f = fragments.get(position);
 
-                if (f.equals(recommendationsFragment)) {
-                    bottomNavigationView.getMenu().findItem(R.id.bottom_navigation_menu_page_recommendations).setChecked(true);
-                } else if (f.equals(complaintListFragment)) {
-                    bottomNavigationView.getMenu().findItem(R.id.bottom_navigation_menu_page_complaints).setChecked(true);
-                } else if (f.equals(settingsFragment)) {
-                    bottomNavigationView.getMenu().findItem(R.id.bottom_navigation_menu_page_settings).setChecked(true);
+                int id;
+
+                if (recommendationsFragment.equals(f)) {
+                    id = R.id.bottom_navigation_menu_page_recommendations;
+                } else if (complaintListFragment.equals(f)) {
+                    id = R.id.bottom_navigation_menu_page_complaints;
+                } else if (settingsFragment.equals(f)) {
+                    id = R.id.bottom_navigation_menu_page_settings;
+                } else if (menuFragment.equals(f)) {
+                    id = R.id.bottom_navigation_menu_page_menu;
+                } else {
+                    throw new IndexOutOfBoundsException("Fragment not found in fragments list.");
                 }
+
+                bottomNavigationView.getMenu().findItem(id).setChecked(true);
             }
         });
 
@@ -98,6 +116,8 @@ public class HomeActivity extends AppCompatActivity {
                 case R.id.bottom_navigation_menu_page_settings:
                     viewPager.setCurrentItem(fragments.indexOf(settingsFragment), false);
                     return true;
+                case R.id.bottom_navigation_menu_page_menu:
+                    viewPager.setCurrentItem(fragments.indexOf(menuFragment), false);
                 default:
                     return false;
             }
@@ -115,14 +135,25 @@ public class HomeActivity extends AppCompatActivity {
         List<String> allergens = new ArrayList<>();
         allergens.add("garlic");
 
-        Services.getDatabaseClient().updateRecipe(new MealerRecipe("recipe1", "Pizza", "main", categories, ingredients, allergens, 10.0f, "a pizza recipe"), object -> {});
+        Services.getDatabaseClient().updateRecipe(new MealerRecipe("recipe1", "Pizza", "main", categories, ingredients, allergens, 10.0f, "a pizza recipe", true), object -> {});
 
         fab = findViewById(R.id.home_bottom_navigation_fab);
 
-        // Create some dummy complaints
-//        for (int i = 0; i < 20; i++) {
-//            Services.getDatabaseClient().updateComplaint(new MealerComplaint(UUID.randomUUID().toString(), "m2nZ7KiHJyRbzvhkaGMkuB2JZ9M2","OzG6d9CjlMTuG8idUQ2ovAv70xn1", "Fires shot!"));
-//        }
+        List<String> recipes = new ArrayList<>();
+        recipes.add("recipe1");
+
+        List<Integer> ratings = new ArrayList<>();
+        ratings.add(0);
+        ratings.add(0);
+        ratings.add(0);
+        ratings.add(0);
+        ratings.add(0);
+        Services.getDatabaseClient().updateMenu(new MealerMenu("menu1", "m2nZ7KiHJyRbzvhkaGMkuB2JZ9M2", recipes, ratings), object -> {});
+
+        Services.getDatabaseClient().getUser(user -> {
+            user.setMenuId("menu1");
+            Services.getDatabaseClient().updateUser(user);
+        });
     }
 
     /**
@@ -132,6 +163,7 @@ public class HomeActivity extends AppCompatActivity {
         recommendationsFragment = new RecommendationsFragment();
         complaintListFragment = new ComplaintListFragment();
         settingsFragment = new SettingsFragment();
+        menuFragment = new MenuFragment();
 
         fragments = new ArrayList<>();
 
@@ -148,11 +180,24 @@ public class HomeActivity extends AppCompatActivity {
             }
 
             if (user.getRole() == MealerRole.ADMIN) {
-                fragments.add(complaintListFragment);
-                adapter.add(complaintListFragment);
+
             } else {
-                fragments.add(recommendationsFragment);
-                adapter.add(recommendationsFragment);
+
+            }
+
+            switch (user.getRole()) {
+                case ADMIN:
+                    fragments.add(complaintListFragment);
+                    adapter.add(complaintListFragment);
+                    break;
+                case USER:
+                    fragments.add(recommendationsFragment);
+                    adapter.add(recommendationsFragment);
+                    break;
+                case CHEF:
+                    fragments.add(menuFragment);
+                    adapter.add(menuFragment);
+                    break;
             }
 
             adapter.add(settingsFragment);
@@ -170,18 +215,24 @@ public class HomeActivity extends AppCompatActivity {
         // Listen for current user's name and role
         Services.getDatabaseClient().listenForModel(this, "users", FirebaseAuth.getInstance().getCurrentUser().getUid(), MealerUser.class, user -> {
 
+            if (user == null) {
+                return;
+            }
+
             // Update preferences
             String role = "null";
             switch (user.getRole()){
                 case CHEF:
                     role = getString(R.string.role_chef);
+                    fab.setOnClickListener(view -> {
+                        startActivity(new Intent(HomeActivity.this, RecipeFormActivity.class));
+                    });
                     break;
                 case USER:
                     role = getString(R.string.role_user);
                     break;
                 case ADMIN:
                     role = getString(R.string.role_admin);
-                    fab.setTooltipText("Generate complaints");
                     fab.setOnClickListener(view -> {
                         Services.getDatabaseClient().updateComplaint(new MealerComplaint(UUID.randomUUID().toString(), "m2nZ7KiHJyRbzvhkaGMkuB2JZ9M2","OzG6d9CjlMTuG8idUQ2ovAv70xn1", "Terrible food!"));
                         Services.getDatabaseClient().updateComplaint(new MealerComplaint(UUID.randomUUID().toString(), "m2nZ7KiHJyRbzvhkaGMkuB2JZ9M2","OzG6d9CjlMTuG8idUQ2ovAv70xn1", "Health hazard!"));
@@ -206,9 +257,19 @@ public class HomeActivity extends AppCompatActivity {
             settingsFragment.refresh();
 
             // Update available menus
-            bottomNavigationView.getMenu().findItem(R.id.bottom_navigation_menu_page_recommendations).setVisible(user.getRole() != MealerRole.ADMIN);
-            bottomNavigationView.getMenu().findItem(R.id.bottom_navigation_menu_page_complaints).setVisible(user.getRole() == MealerRole.ADMIN);
-            bottomNavigationView.getMenu().findItem(R.id.bottom_navigation_menu_page_settings).setVisible(true);
+            for (Integer id : views) {
+                MenuItem item = bottomNavigationView.getMenu().findItem(id);
+                if (item != null) {
+                    item.setVisible(false);
+                }
+            }
+
+            for (Integer id : user.getAvailableViews()) {
+                MenuItem item = bottomNavigationView.getMenu().findItem(id);
+                if (item != null) {
+                    item.setVisible(true);
+                }
+            }
 
             // If user is suspended, show suspension alert
             if (user.isSuspended()) {

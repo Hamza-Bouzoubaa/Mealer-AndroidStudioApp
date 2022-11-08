@@ -5,6 +5,11 @@
         android:icon="@drawable/ic_baseline_message_24"
         android:title="@string/bottom_navigation_menu_label_recommendations"/>
     <item
+        android:id="@+id/bottom_navigation_menu_page_menu"
+        android:visible="false"
+        android:icon="@drawable/ic_baseline_message_24"
+        android:title="@string/bottom_navigation_menu_label_menu"/>
+    <item
         android:id="@+id/bottom_navigation_menu_page_complaints"
         android:visible="false"
         android:icon="@drawable/ic_baseline_message_24"

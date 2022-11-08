@@ -66,6 +66,9 @@ public class MealerRecipe implements MealerSerializable {
     @MealerSerializableElement(key = "description")
     String description;
 
+    @MealerSerializableElement(key = "isOffered")
+    boolean isOffered;
+
     @Override
     public String getId() {
         return id;

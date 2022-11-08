@@ -13,10 +13,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.SEG2505_Group8.mealer.Database.Models.MealerComplaint;
 import com.SEG2505_Group8.mealer.Database.Models.MealerMenu;
+import com.SEG2505_Group8.mealer.Database.Models.MealerRecipe;
 import com.SEG2505_Group8.mealer.R;
 import com.SEG2505_Group8.mealer.Services;
 import com.SEG2505_Group8.mealer.UI.Adapters.ComplaintRecyclerViewAdapter;
 import com.SEG2505_Group8.mealer.UI.Adapters.RecipeRecyclerViewAdapter;
+import com.google.firebase.firestore.FieldPath;
 
 /**
  * A fragment representing a list of Items.
@@ -57,7 +59,7 @@ public class MenuFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_complaint_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_menu, container, false);
 
         // Set the adapter
         if (view instanceof RecyclerView) {
@@ -69,7 +71,10 @@ public class MenuFragment extends Fragment {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
 
-            Services.getDatabaseClient().listenForModel(getActivity(), "menus", "menu1", MealerMenu.class, object -> {
+            Services.getDatabaseClient().getUser(user -> {
+                Services.getDatabaseClient().listenForModel(getActivity(), "menus", user.getMenuId(), MealerMenu.class, menu -> {
+                    Services.getDatabaseClient().listenForModels(getActivity(), "recipes", MealerRecipe.class, reference -> reference.whereIn(FieldPath.documentId(), menu.getRecipeIds()), recipes -> ((RecyclerView)getView()).setAdapter(new RecipeRecyclerViewAdapter(recipes)));
+                });
             });
         }
         return view;
