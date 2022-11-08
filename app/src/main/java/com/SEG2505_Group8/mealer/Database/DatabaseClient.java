@@ -26,7 +26,7 @@ public interface DatabaseClient {
      * @return
      */
     default Future<MealerUser> getUser(String id) {
-        return getUser(id, null);
+        return getUser(id, MealerUser.class, null);
     }
 
     /**
@@ -37,7 +37,21 @@ public interface DatabaseClient {
      * @param callback
      * @return
      */
-    Future<MealerUser> getUser(String id, DatabaseCompletionCallback<MealerUser> callback);
+    default Future<MealerUser> getUser(String id, DatabaseCompletionCallback<MealerUser> callback) {
+        return getUser(id, MealerUser.class, callback);
+    }
+
+    /**
+     * Get {@link MealerUser} with document Id.
+     * Cast to clazz
+     * Calls callback on completion
+     *
+     * @param id
+     * @param clazz
+     * @param callback
+     * @return
+     */
+    <T extends MealerUser> Future<T> getUser(String id, Class<T> clazz, DatabaseCompletionCallback<T> callback);
 
     /**
      * Get {@link MealerUser} document of User who is logged in.
@@ -45,7 +59,7 @@ public interface DatabaseClient {
      * @return
      */
     default Future<MealerUser> getUser() {
-        return getUser(null, null);
+        return getUser(null, MealerUser.class, null);
     }
 
     /**
@@ -55,7 +69,7 @@ public interface DatabaseClient {
      * @return
      */
     default Future<MealerUser> getUser(DatabaseCompletionCallback<MealerUser> callback) {
-        return getUser(null, callback);
+        return getUser(null, MealerUser.class, callback);
     }
 
     /**

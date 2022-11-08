@@ -41,12 +41,12 @@ public class FirebaseDatabaseClient implements DatabaseClient {
     private final FirebaseFirestore firestore = FirebaseFirestore.getInstance();
 
     @Override
-    public Future<MealerUser> getUser(String id, DatabaseCompletionCallback<MealerUser> callback) throws NullPointerException {
+    public <T extends MealerUser> Future<T> getUser(String id, Class<T> clazz, DatabaseCompletionCallback<T> callback) throws NullPointerException {
         if (id == null || id.isEmpty()) {
             id = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
         }
 
-        return getModel(userCollectionId, id, MealerUser.class, callback);
+        return getModel(userCollectionId, id, clazz, callback);
     }
 
     @Override
