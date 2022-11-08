@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.SEG2505_Group8.mealer.Database.Callbacks.StorageProgressCallback;
+import com.SEG2505_Group8.mealer.Database.Models.MealerChef;
 import com.SEG2505_Group8.mealer.Database.Models.MealerRole;
 import com.SEG2505_Group8.mealer.Database.Models.MealerUser;
 import com.SEG2505_Group8.mealer.R;
@@ -106,7 +107,7 @@ public class ChefSignUpFormActivity extends AppCompatActivity {
                 }
 
                 // Create user data in Database
-                MealerUser user = new MealerUser(userId, MealerRole.CHEF, firstName, lastName, email, address, "", description, email + "-void-check");
+                MealerUser user = new MealerChef(userId, firstName, lastName, email, address, description, email + "-void-check");
                 Services.getDatabaseClient().updateUser(user);
 
                 Services.getStorageClient().uploadFile(voidCheckBytes, "/" + email + "-void-check", (processed, total) -> {
