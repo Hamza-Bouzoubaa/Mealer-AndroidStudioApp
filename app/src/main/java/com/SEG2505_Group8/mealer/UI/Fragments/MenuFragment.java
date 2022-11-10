@@ -25,6 +25,8 @@ import com.google.firebase.firestore.FieldPath;
  */
 public class MenuFragment extends Fragment {
 
+    View menuView;
+
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
@@ -61,10 +63,12 @@ public class MenuFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_menu, container, false);
 
+        menuView = view.findViewById(R.id.menu);
+
         // Set the adapter
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
+        if (menuView instanceof RecyclerView) {
+            Context context = menuView.getContext();
+            RecyclerView recyclerView = (RecyclerView) menuView;
             if (mColumnCount <= 1) {
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
             } else {
@@ -73,7 +77,7 @@ public class MenuFragment extends Fragment {
 
             Services.getDatabaseClient().getUser(user -> {
                 Services.getDatabaseClient().listenForModel(getActivity(), "menus", user.getMenuId(), MealerMenu.class, menu -> {
-                    Services.getDatabaseClient().listenForModels(getActivity(), "recipes", MealerRecipe.class, reference -> reference.whereIn(FieldPath.documentId(), menu.getRecipeIds()), recipes -> ((RecyclerView)getView()).setAdapter(new RecipeRecyclerViewAdapter(recipes)));
+                    Services.getDatabaseClient().listenForModels(getActivity(), "recipes", MealerRecipe.class, reference -> reference.whereIn(FieldPath.documentId(), menu.getRecipeIds()), recipes -> ((RecyclerView)menuView).setAdapter(new RecipeRecyclerViewAdapter(recipes)));
                 });
             });
         }

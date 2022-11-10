@@ -136,11 +136,19 @@ public class HomeActivity extends AppCompatActivity {
         allergens.add("garlic");
 
         Services.getDatabaseClient().updateRecipe(new MealerRecipe("recipe1", "Pizza", "main", categories, ingredients, allergens, 10.0f, "a pizza recipe", true), object -> {});
+        Services.getDatabaseClient().updateRecipe(new MealerRecipe("recipe2", "Cheese Pizza", "main", categories, ingredients, allergens, 10.0f, "a pizza recipe", true), object -> {});
+        Services.getDatabaseClient().updateRecipe(new MealerRecipe("recipe3", "Peperoni Pizza", "main", categories, ingredients, allergens, 10.0f, "a pizza recipe", true), object -> {});
+        Services.getDatabaseClient().updateRecipe(new MealerRecipe("recipe4", "Olive Pizza", "main", categories, ingredients, allergens, 10.0f, "a pizza recipe", true), object -> {});
+        Services.getDatabaseClient().updateRecipe(new MealerRecipe("recipe5", "Tomato Pizza", "main", categories, ingredients, allergens, 10.0f, "a pizza recipe", true), object -> {});
 
         fab = findViewById(R.id.home_bottom_navigation_fab);
 
         List<String> recipes = new ArrayList<>();
         recipes.add("recipe1");
+        recipes.add("recipe2");
+        recipes.add("recipe3");
+        recipes.add("recipe4");
+        recipes.add("recipe5");
 
         List<Integer> ratings = new ArrayList<>();
         ratings.add(0);
