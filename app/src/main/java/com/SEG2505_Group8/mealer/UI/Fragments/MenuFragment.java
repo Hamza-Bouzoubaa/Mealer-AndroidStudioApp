@@ -1,6 +1,7 @@
 package com.SEG2505_Group8.mealer.UI.Fragments;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,12 +19,15 @@ import com.SEG2505_Group8.mealer.R;
 import com.SEG2505_Group8.mealer.Services;
 import com.SEG2505_Group8.mealer.UI.Adapters.ComplaintRecyclerViewAdapter;
 import com.SEG2505_Group8.mealer.UI.Adapters.RecipeRecyclerViewAdapter;
+import com.google.android.material.chip.Chip;
 import com.google.firebase.firestore.FieldPath;
 
 /**
  * A fragment representing a list of Items.
  */
 public class MenuFragment extends Fragment {
+
+    Chip offeredChip;
 
     View menuView;
 
@@ -64,6 +68,13 @@ public class MenuFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_menu, container, false);
 
         menuView = view.findViewById(R.id.menu);
+
+        offeredChip = view.findViewById(R.id.menu_chips_offered);
+        offeredChip.setCheckable(true);
+
+        offeredChip.setOnClickListener(v -> {
+
+        });
 
         // Set the adapter
         if (menuView instanceof RecyclerView) {

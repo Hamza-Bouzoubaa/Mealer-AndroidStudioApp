@@ -6,13 +6,31 @@
     android:name="com.SEG2505_Group8.mealer.UI.Activities.MenuFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/menu_chips"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp">
+        <com.google.android.material.chip.Chip
+            android:id="@+id/menu_chips_offered"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Offered"/>
+    </com.google.android.material.chip.ChipGroup>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/menu"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layoutManager="LinearLayoutManager"
         tools:context=".UI.Fragments.MenuFragment"
-        tools:listitem="@layout/fragment_menu_item" />
+        tools:listitem="@layout/fragment_menu_item"
+        app:layout_constraintTop_toBottomOf="@id/menu_chips"
+        app:layout_constraintStart_toStartOf="@id/menu_chips"
+        app:layout_constraintEnd_toEndOf="@id/menu_chips"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
