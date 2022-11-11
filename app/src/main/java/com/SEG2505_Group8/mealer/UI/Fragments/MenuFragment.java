@@ -1,7 +1,6 @@
 package com.SEG2505_Group8.mealer.UI.Fragments;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,15 +11,12 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.SEG2505_Group8.mealer.Database.Models.MealerComplaint;
-import com.SEG2505_Group8.mealer.Database.Models.MealerMenu;
-import com.SEG2505_Group8.mealer.Database.Models.MealerRecipe;
+import com.SEG2505_Group8.mealer.Database.Utils.DatabaseListener;
 import com.SEG2505_Group8.mealer.R;
 import com.SEG2505_Group8.mealer.Services;
-import com.SEG2505_Group8.mealer.UI.Adapters.ComplaintRecyclerViewAdapter;
 import com.SEG2505_Group8.mealer.UI.Adapters.RecipeRecyclerViewAdapter;
 import com.google.android.material.chip.Chip;
-import com.google.firebase.firestore.FieldPath;
+import com.google.firebase.auth.FirebaseAuth;
 
 /**
  * A fragment representing a list of Items.
@@ -30,6 +26,8 @@ public class MenuFragment extends Fragment {
     Chip offeredChip;
 
     View menuView;
+
+    DatabaseListener listener;
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -86,12 +84,16 @@ public class MenuFragment extends Fragment {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
 
-            Services.getDatabaseClient().getUser(user -> {
-                Services.getDatabaseClient().listenForModel(getActivity(), "menus", user.getMenuId(), MealerMenu.class, menu -> {
-                    Services.getDatabaseClient().listenForModels(getActivity(), "recipes", MealerRecipe.class, reference -> reference.whereIn(FieldPath.documentId(), menu.getRecipeIds()), recipes -> ((RecyclerView)menuView).setAdapter(new RecipeRecyclerViewAdapter(recipes)));
-                });
-            });
+            listenForRecipes(false);
         }
         return view;
+    }
+
+    private void listenForRecipes(boolean offeredOnly) {
+        if (listener != null) {
+            listener.remove();
+        }
+
+        listener = Services.getDatabaseClient().listenForUserRecipes(getActivity(), FirebaseAuth.getInstance().getCurrentUser().getUid(), offeredOnly, recipes -> ((RecyclerView)menuView).setAdapter(new RecipeRecyclerViewAdapter(recipes)));
     }
 }
