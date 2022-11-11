@@ -83,8 +83,6 @@ public class MenuFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-
-            listenForRecipes(false);
         }
         return view;
     }
@@ -95,5 +93,17 @@ public class MenuFragment extends Fragment {
         }
 
         listener = Services.getDatabaseClient().listenForUserRecipes(getActivity(), FirebaseAuth.getInstance().getCurrentUser().getUid(), offeredOnly, recipes -> ((RecyclerView)menuView).setAdapter(new RecipeRecyclerViewAdapter(recipes)));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        listenForRecipes(offeredChip.isChecked());
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        listener.remove();
     }
 }

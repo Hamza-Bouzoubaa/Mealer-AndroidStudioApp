@@ -337,11 +337,17 @@ public class FirebaseDatabaseClient implements DatabaseClient {
                 }
 
                 o.setId(documentId);
-                callback.onComplete(o);
+
+                if (callback != null) {
+                    callback.onComplete(o);
+                }
+
                 future.set(o);
             } else {
                     // Firebase task wasn't successful, set future null
-                callback.onComplete(null);
+                if (callback != null) {
+                    callback.onComplete(null);
+                }
                 future.set(null);
             }
         });

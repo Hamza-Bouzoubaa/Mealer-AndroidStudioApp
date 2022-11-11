@@ -56,4 +56,10 @@
     <string name="recipe_form_submit">Submit</string>
     <string name="recipe_form_take_photo">Take Photo</string>
     <string name="recipe_form_title">New Recipe</string>
+    <string name="recipe_course_label">Course</string>
+    <string name="recipe_categories_label">Categories</string>
+    <string name="recipe_ingredients_label">Ingredients :</string>
+    <string name="recipe_allergens_label">Allergens :</string>
+    <string name="recipe_price_label">Price :</string>
+    <string name="delete">Delete</string>
 </resources>
