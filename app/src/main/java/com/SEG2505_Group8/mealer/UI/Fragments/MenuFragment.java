@@ -70,8 +70,8 @@ public class MenuFragment extends Fragment {
         offeredChip = view.findViewById(R.id.menu_chips_offered);
         offeredChip.setCheckable(true);
 
-        offeredChip.setOnClickListener(v -> {
-
+        offeredChip.setOnCheckedChangeListener((v, checked) -> {
+            listenForRecipes(checked);
         });
 
         // Set the adapter
