@@ -107,7 +107,7 @@ public class MealerUser implements MealerSerializable {
      * More granular stats can be queried at runtime.
      */
     @MealerSerializableElement(key = "totalSales")
-    int totalSales;
+    Integer totalSales;
 
     @MealerSerializableElement(key = "isSuspended")
     Boolean isSuspended;

@@ -49,7 +49,16 @@ public class RecipeActivity extends AppCompatActivity {
         price.setText('$' + String.valueOf(recipe.getPrice()));
 
         CheckBox isOffered = findViewById(R.id.recipe_offered);
-        isOffered.setChecked(recipe.isOffered());
+        isOffered.setChecked(recipe.getIsOffered());
+
+        isOffered.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            recipe.setIsOffered(isChecked);
+        });
+
+        Button saveButton = findViewById(R.id.recipe_save);
+        saveButton.setOnClickListener(view -> {
+            Services.getDatabaseClient().updateRecipe(recipe);
+        });
 
         Button deleteButton = findViewById(R.id.recipe_delete);
         deleteButton.setOnClickListener(view -> {
