@@ -1,6 +1,6 @@
 package com.SEG2505_Group8.mealer.Database;
 
-import com.SEG2505_Group8.mealer.Database.Callbacks.StorageProgressCallback;
+import com.SEG2505_Group8.mealer.Database.Utils.StorageProgressCallback;
 import com.google.common.util.concurrent.SettableFuture;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;

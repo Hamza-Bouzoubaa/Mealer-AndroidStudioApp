@@ -14,11 +14,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.SEG2505_Group8.mealer.Database.Models.MealerComplaint;
 import com.SEG2505_Group8.mealer.Database.Models.MealerMenu;
 import com.SEG2505_Group8.mealer.Database.Models.MealerRecipe;
+import com.SEG2505_Group8.mealer.Database.Models.MealerUser;
+import com.SEG2505_Group8.mealer.Database.Utils.DatabaseListener;
 import com.SEG2505_Group8.mealer.R;
 import com.SEG2505_Group8.mealer.Services;
 import com.SEG2505_Group8.mealer.UI.Adapters.ComplaintRecyclerViewAdapter;
 import com.SEG2505_Group8.mealer.UI.Adapters.RecipeRecyclerViewAdapter;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FieldPath;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A fragment representing a list of Items.
@@ -26,6 +32,8 @@ import com.google.firebase.firestore.FieldPath;
 public class MenuFragment extends Fragment {
 
     View menuView;
+
+    DatabaseListener listener;
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -75,12 +83,16 @@ public class MenuFragment extends Fragment {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
 
-            Services.getDatabaseClient().getUser(user -> {
-                Services.getDatabaseClient().listenForModel(getActivity(), "menus", user.getMenuId(), MealerMenu.class, menu -> {
-                    Services.getDatabaseClient().listenForModels(getActivity(), "recipes", MealerRecipe.class, reference -> reference.whereIn(FieldPath.documentId(), menu.getRecipeIds()), recipes -> ((RecyclerView)menuView).setAdapter(new RecipeRecyclerViewAdapter(recipes)));
-                });
-            });
+            listenForRecipes(false);
         }
         return view;
+    }
+
+    private void listenForRecipes(boolean offeredOnly) {
+        if (listener != null) {
+            listener.remove();
+        }
+
+        listener = Services.getDatabaseClient().listenForUserRecipes(getActivity(), FirebaseAuth.getInstance().getCurrentUser().getUid(), offeredOnly, recipes -> ((RecyclerView)menuView).setAdapter(new RecipeRecyclerViewAdapter(recipes)));
     }
 }

@@ -2,9 +2,10 @@ package com.SEG2505_Group8.mealer.Database;
 
 import android.app.Activity;
 
-import com.SEG2505_Group8.mealer.Database.Callbacks.DatabaseFilterCallback;
-import com.SEG2505_Group8.mealer.Database.Callbacks.DatabaseCompletionCallback;
-import com.SEG2505_Group8.mealer.Database.Callbacks.DatabaseSetCallback;
+import com.SEG2505_Group8.mealer.Database.Utils.DatabaseFilterCallback;
+import com.SEG2505_Group8.mealer.Database.Utils.DatabaseCompletionCallback;
+import com.SEG2505_Group8.mealer.Database.Utils.DatabaseListener;
+import com.SEG2505_Group8.mealer.Database.Utils.DatabaseSetCallback;
 import com.SEG2505_Group8.mealer.Database.Models.MealerComplaint;
 import com.SEG2505_Group8.mealer.Database.Models.MealerMenu;
 import com.SEG2505_Group8.mealer.Database.Models.MealerRecipe;
@@ -298,6 +299,28 @@ public interface DatabaseClient {
     Future<Boolean> userInfoRequired(DatabaseCompletionCallback<Boolean> callback);
 
     /**
+     * Listen for a user's recipes
+     * @param activity
+     * @param userId
+     * @param callback
+     * @return
+     */
+    default DatabaseListener listenForUserRecipes(Activity activity, String userId, DatabaseCompletionCallback<List<MealerRecipe>> callback) {
+        return listenForUserRecipes(activity, userId, false, callback);
+    }
+
+    /**
+     * Listen for a user's recipes.
+     * Only show offered recipes if offeredRecipesOnly is true
+     * @param activity
+     * @param userId
+     * @param offeredRecipesOnly
+     * @param callback
+     * @return
+     */
+    DatabaseListener listenForUserRecipes(Activity activity, String userId, boolean offeredRecipesOnly, DatabaseCompletionCallback<List<MealerRecipe>> callback);
+
+    /**
      * Executes callback when document changes in database.
      *
      * @param activity
@@ -307,7 +330,7 @@ public interface DatabaseClient {
      * @param callback
      * @return
      */
-    <T extends MealerSerializable> void listenForModel(Activity activity, String collectionId, String documentId, Class<T> clazz, DatabaseCompletionCallback<T> callback);
+    <T extends MealerSerializable> DatabaseListener listenForModel(Activity activity, String collectionId, String documentId, Class<T> clazz, DatabaseCompletionCallback<T> callback);
 
     /**
      * Executes callback when collection changes in database.
@@ -320,7 +343,7 @@ public interface DatabaseClient {
      * @param callback to execute when collection changes
      * @return
      */
-    <T extends MealerSerializable> void listenForModels(Activity activity, String collectionId, Class<T> clazz, DatabaseFilterCallback filter, DatabaseCompletionCallback<List<T>> callback);
+    <T extends MealerSerializable> DatabaseListener listenForModels(Activity activity, String collectionId, Class<T> clazz, DatabaseFilterCallback filter, DatabaseCompletionCallback<List<T>> callback);
 
     /**
      * Executes callback when collection changes in database.
@@ -331,8 +354,8 @@ public interface DatabaseClient {
      * @param callback to execute when collection changes
      * @return
      */
-    default <T extends MealerSerializable> void listenForModels(Activity activity, String collectionId, Class<T> clazz, DatabaseCompletionCallback<List<T>> callback){
-        listenForModels(activity, collectionId, clazz, object -> object.limit(100), callback);
+    default <T extends MealerSerializable> DatabaseListener listenForModels(Activity activity, String collectionId, Class<T> clazz, DatabaseCompletionCallback<List<T>> callback){
+        return listenForModels(activity, collectionId, clazz, object -> object.limit(100), callback);
     }
 
     /**
