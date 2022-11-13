@@ -42,6 +42,9 @@ public class UserTests {
         when(databaseClient.updateUser(any())).thenReturn(falseFuture);
     }
 
+    /**
+     * Test that calling suspend without providing a suspension end date permanently suspends the user
+     */
     @Test
     public void suspendUserPermanently() {
         MealerUser user = new MealerUser("testId", MealerRole.USER, "fName", "lName", "email@example.com", "100 test st", "1111111111111111", "d", "void@example.com");
@@ -57,6 +60,9 @@ public class UserTests {
         Assert.assertNull(user.getSuspendedUntil());
     }
 
+    /**
+     * Test that calling suspend with a suspension end date properly sets end date
+     */
     @Test
     public void suspendUserTemporarily() {
         MealerUser user = new MealerUser("testId", MealerRole.USER, "fName", "lName", "email@example.com", "100 test st", "1111111111111111", "d", "void@example.com");
@@ -81,6 +87,9 @@ public class UserTests {
         Assert.assertNotNull(user.getSuspendedUntil());
     }
 
+    /**
+     * Test that expired suspensions are revoked by isSuspended();
+     */
     @Test
     public void expirationOfExpiredSuspension() {
         MealerUser user = new MealerUser("testId", MealerRole.USER, "fName", "lName", "email@example.com", "100 test st", "1111111111111111", "d", "void@example.com");
@@ -102,9 +111,13 @@ public class UserTests {
 
         // Ensure they were permanently suspended
         Assert.assertFalse(user.isSuspended(databaseClient));
+        Assert.assertFalse(user.getIsSuspended());
         Assert.assertNull(user.getSuspendedUntil());
     }
 
+    /**
+     * Test that valid suspensions are not revoked by isSuspended();
+     */
     @Test
     public void expirationOfActiveSuspension() {
         MealerUser user = new MealerUser("testId", MealerRole.USER, "fName", "lName", "email@example.com", "100 test st", "1111111111111111", "d", "void@example.com");
