@@ -63,4 +63,5 @@
     <string name="recipe_price_label">Price :</string>
     <string name="delete">Delete</string>
     <string name="save">Save</string>
+    <string name="filters">filters:</string>
 </resources>
