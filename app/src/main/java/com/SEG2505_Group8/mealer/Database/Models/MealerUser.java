@@ -1,9 +1,9 @@
 package com.SEG2505_Group8.mealer.Database.Models;
 
+import com.SEG2505_Group8.mealer.Database.DatabaseClient;
 import com.SEG2505_Group8.mealer.Database.Serialize.MealerSerializable;
 import com.SEG2505_Group8.mealer.Database.Serialize.MealerSerializableElement;
 import com.SEG2505_Group8.mealer.R;
-import com.SEG2505_Group8.mealer.Services;
 import com.SEG2505_Group8.mealer.UI.Activities.Utils.DateUtils;
 import com.google.firebase.firestore.IgnoreExtraProperties;
 
@@ -165,18 +165,18 @@ public class MealerUser implements MealerSerializable {
      * Check if a user is suspended. Updates database if suspension end date has passed.
      * @return
      */
-    public boolean isSuspended() {
+    public boolean isSuspended(DatabaseClient client) {
 
         if (isSuspended && suspendedUntil != null && !suspendedUntil.equals("") && DateUtils.isPassed(suspendedUntil)) {
             // Suspended, but date already passed. Disable suspension.
             isSuspended = false;
-            suspendedUntil = "";
+            suspendedUntil = null;
 
-            Services.getDatabaseClient().updateUser(this);
+            client.updateUser(this);
         } else if (!isSuspended && suspendedUntil != null && !suspendedUntil.equals("")) {
             // Clear passed suspension date if not suspended.
-            suspendedUntil = "";
-            Services.getDatabaseClient().updateUser(this);
+            suspendedUntil = null;
+            client.updateUser(this);
         }
 
         return isSuspended;

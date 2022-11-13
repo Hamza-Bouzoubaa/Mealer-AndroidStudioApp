@@ -282,7 +282,7 @@ public class HomeActivity extends AppCompatActivity {
             }
 
             // If user is suspended, show suspension alert
-            if (user.isSuspended()) {
+            if (user.isSuspended(Services.getDatabaseClient())) {
                 showSuspensionAlert(user.getSuspendedUntil());
             }
         });
