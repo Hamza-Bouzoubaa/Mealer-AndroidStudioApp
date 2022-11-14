@@ -47,7 +47,7 @@ public class ValidationTests {
     }
 
     @Test
-    public void required_empty() {
+    public void requiredEmpty() {
         FieldValidator validator = new FieldValidator(mockContext);
 
         // Mock an EditText instance
@@ -70,7 +70,7 @@ public class ValidationTests {
     }
 
     @Test
-    public void required_not_empty() {
+    public void requiredNotEmpty() {
         FieldValidator validator = new FieldValidator(mockContext);
 
         EditText editText = mock(EditText.class);
@@ -82,7 +82,7 @@ public class ValidationTests {
     }
 
     @Test
-    public void credit_card_invalid() {
+    public void creditCardInvalid() {
         FieldValidator validator = new FieldValidator(mockContext);
 
         // Mock an EditText instance
@@ -105,7 +105,7 @@ public class ValidationTests {
     }
 
     @Test
-    public void credit_card_valid() {
+    public void creditCardValid() {
         FieldValidator validator = new FieldValidator(mockContext);
 
         EditText editText = mock(EditText.class);
