@@ -33,7 +33,7 @@ public class ComplaintFormActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recipe_form);
+        setContentView(R.layout.activity_complaint_form);
 
         validator = new FieldValidator(getApplicationContext());
     }
