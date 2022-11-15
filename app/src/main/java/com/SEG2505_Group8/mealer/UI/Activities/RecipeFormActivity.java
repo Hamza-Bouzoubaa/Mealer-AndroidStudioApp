@@ -40,25 +40,25 @@ public class RecipeFormActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_form);
-
-        recipePreview = findViewById(R.id.recipe_form_image);
-        Button recipeButton = findViewById(R.id.recipe_form_take_photo);
-
-        // Launch camera on button press.
-        recipeButton.setOnClickListener(v -> {
-            startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE),100);
-        });
-
-        submitButton = findViewById(R.id.recipe_form_submit_button);
-        submitButton.setOnClickListener(view -> {
-            // Only submit if all fields are valid
-            if(validateFields()){
-                // TODO: Implement submit function call
-//                submit();
-            }
-        });
-
-        validator = new FieldValidator(getApplicationContext());
+//
+//        recipePreview = findViewById(R.id.recipe_form_image);
+//        Button recipeButton = findViewById(R.id.recipe_form_take_photo);
+//
+//        // Launch camera on button press.
+//        recipeButton.setOnClickListener(v -> {
+//            startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE),100);
+//        });
+//
+//        submitButton = findViewById(R.id.recipe_form_submit_button);
+//        submitButton.setOnClickListener(view -> {
+//            // Only submit if all fields are valid
+//            if(validateFields()){
+//                // TODO: Implement submit function call
+////                submit();
+//            }
+//        });
+//
+//        validator = new FieldValidator(getApplicationContext());
     }
 
     /**
