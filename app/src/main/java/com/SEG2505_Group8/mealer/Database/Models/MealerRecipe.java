@@ -58,7 +58,7 @@ public class MealerRecipe implements MealerSerializable {
      * Price to display. TODO: How does price localization work?
      */
     @MealerSerializableElement(key = "price")
-    float price;
+    Float price;
 
     /**
      * Contains a description and extra notes a chef would like to display.
@@ -67,7 +67,7 @@ public class MealerRecipe implements MealerSerializable {
     String description;
 
     @MealerSerializableElement(key = "isOffered")
-    boolean isOffered;
+    Boolean isOffered;
 
     @Override
     public String getId() {

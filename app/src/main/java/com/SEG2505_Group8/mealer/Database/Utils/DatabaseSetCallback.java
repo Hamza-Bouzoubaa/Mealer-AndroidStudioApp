@@ -1,4 +1,4 @@
-package com.SEG2505_Group8.mealer.Database.Callbacks;
+package com.SEG2505_Group8.mealer.Database.Utils;
 
 /**
  * Interface for database SET operations.

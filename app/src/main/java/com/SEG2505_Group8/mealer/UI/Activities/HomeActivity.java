@@ -136,11 +136,19 @@ public class HomeActivity extends AppCompatActivity {
         allergens.add("garlic");
 
         Services.getDatabaseClient().updateRecipe(new MealerRecipe("recipe1", "Pizza", "main", categories, ingredients, allergens, 10.0f, "a pizza recipe", true), object -> {});
+        Services.getDatabaseClient().updateRecipe(new MealerRecipe("recipe2", "Cheese Pizza", "main", categories, ingredients, allergens, 10.0f, "a pizza recipe", false), object -> {});
+        Services.getDatabaseClient().updateRecipe(new MealerRecipe("recipe3", "Peperoni Pizza", "main", categories, ingredients, allergens, 10.0f, "a pizza recipe", true), object -> {});
+        Services.getDatabaseClient().updateRecipe(new MealerRecipe("recipe4", "Olive Pizza", "main", categories, ingredients, allergens, 10.0f, "a pizza recipe", false), object -> {});
+        Services.getDatabaseClient().updateRecipe(new MealerRecipe("recipe5", "Tomato Pizza", "main", categories, ingredients, allergens, 10.0f, "a pizza recipe", true), object -> {});
 
         fab = findViewById(R.id.home_bottom_navigation_fab);
 
         List<String> recipes = new ArrayList<>();
         recipes.add("recipe1");
+        recipes.add("recipe2");
+        recipes.add("recipe3");
+        recipes.add("recipe4");
+        recipes.add("recipe5");
 
         List<Integer> ratings = new ArrayList<>();
         ratings.add(0);
@@ -151,8 +159,10 @@ public class HomeActivity extends AppCompatActivity {
         Services.getDatabaseClient().updateMenu(new MealerMenu("menu1", "m2nZ7KiHJyRbzvhkaGMkuB2JZ9M2", recipes, ratings), object -> {});
 
         Services.getDatabaseClient().getUser(user -> {
-            user.setMenuId("menu1");
-            Services.getDatabaseClient().updateUser(user);
+            if (user != null) {
+                user.setMenuId("menu1");
+                Services.getDatabaseClient().updateUser(user);
+            }
         });
     }
 
@@ -272,7 +282,7 @@ public class HomeActivity extends AppCompatActivity {
             }
 
             // If user is suspended, show suspension alert
-            if (user.isSuspended()) {
+            if (user.isSuspended(Services.getDatabaseClient())) {
                 showSuspensionAlert(user.getSuspendedUntil());
             }
         });

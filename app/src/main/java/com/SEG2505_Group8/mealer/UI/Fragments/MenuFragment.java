@@ -11,19 +11,23 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.SEG2505_Group8.mealer.Database.Models.MealerComplaint;
-import com.SEG2505_Group8.mealer.Database.Models.MealerMenu;
-import com.SEG2505_Group8.mealer.Database.Models.MealerRecipe;
+import com.SEG2505_Group8.mealer.Database.Utils.DatabaseListener;
 import com.SEG2505_Group8.mealer.R;
 import com.SEG2505_Group8.mealer.Services;
-import com.SEG2505_Group8.mealer.UI.Adapters.ComplaintRecyclerViewAdapter;
 import com.SEG2505_Group8.mealer.UI.Adapters.RecipeRecyclerViewAdapter;
-import com.google.firebase.firestore.FieldPath;
+import com.google.android.material.chip.Chip;
+import com.google.firebase.auth.FirebaseAuth;
 
 /**
  * A fragment representing a list of Items.
  */
 public class MenuFragment extends Fragment {
+
+    Chip offeredChip;
+
+    View menuView;
+
+    DatabaseListener listener;
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -61,22 +65,45 @@ public class MenuFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_menu, container, false);
 
+        menuView = view.findViewById(R.id.menu);
+
+        offeredChip = view.findViewById(R.id.menu_chips_offered);
+        offeredChip.setCheckable(true);
+
+        offeredChip.setOnCheckedChangeListener((v, checked) -> {
+            listenForRecipes(checked);
+        });
+
         // Set the adapter
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
+        if (menuView instanceof RecyclerView) {
+            Context context = menuView.getContext();
+            RecyclerView recyclerView = (RecyclerView) menuView;
             if (mColumnCount <= 1) {
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-
-            Services.getDatabaseClient().getUser(user -> {
-                Services.getDatabaseClient().listenForModel(getActivity(), "menus", user.getMenuId(), MealerMenu.class, menu -> {
-                    Services.getDatabaseClient().listenForModels(getActivity(), "recipes", MealerRecipe.class, reference -> reference.whereIn(FieldPath.documentId(), menu.getRecipeIds()), recipes -> ((RecyclerView)getView()).setAdapter(new RecipeRecyclerViewAdapter(recipes)));
-                });
-            });
         }
         return view;
+    }
+
+    private void listenForRecipes(boolean offeredOnly) {
+        if (listener != null) {
+            listener.remove();
+        }
+
+        listener = Services.getDatabaseClient().listenForUserRecipes(getActivity(), FirebaseAuth.getInstance().getCurrentUser().getUid(), offeredOnly, recipes -> ((RecyclerView)menuView).setAdapter(new RecipeRecyclerViewAdapter(recipes)));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        listenForRecipes(offeredChip.isChecked());
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        listener.remove();
     }
 }

@@ -3,19 +3,24 @@ package com.SEG2505_Group8.mealer.Database;
 import android.app.Activity;
 import android.widget.Toast;
 
-import com.SEG2505_Group8.mealer.Database.Callbacks.DatabaseFilterCallback;
-import com.SEG2505_Group8.mealer.Database.Callbacks.DatabaseCompletionCallback;
-import com.SEG2505_Group8.mealer.Database.Callbacks.DatabaseSetCallback;
+import com.SEG2505_Group8.mealer.Database.Utils.DatabaseFilterCallback;
+import com.SEG2505_Group8.mealer.Database.Utils.DatabaseCompletionCallback;
+import com.SEG2505_Group8.mealer.Database.Utils.DatabaseListener;
+import com.SEG2505_Group8.mealer.Database.Utils.DatabaseSetCallback;
 import com.SEG2505_Group8.mealer.Database.Models.MealerComplaint;
 import com.SEG2505_Group8.mealer.Database.Models.MealerMenu;
 import com.SEG2505_Group8.mealer.Database.Models.MealerRecipe;
 import com.SEG2505_Group8.mealer.Database.Models.MealerUser;
 import com.SEG2505_Group8.mealer.Database.Serialize.MealerSerializable;
+import com.SEG2505_Group8.mealer.Services;
 import com.google.common.util.concurrent.SettableFuture;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,12 +46,12 @@ public class FirebaseDatabaseClient implements DatabaseClient {
     private final FirebaseFirestore firestore = FirebaseFirestore.getInstance();
 
     @Override
-    public Future<MealerUser> getUser(String id, DatabaseCompletionCallback<MealerUser> callback) throws NullPointerException {
+    public <T extends MealerUser> Future<T> getUser(String id, Class<T> clazz, DatabaseCompletionCallback<T> callback) throws NullPointerException {
         if (id == null || id.isEmpty()) {
             id = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
         }
 
-        return getModel(userCollectionId, id, MealerUser.class, callback);
+        return getModel(userCollectionId, id, clazz, callback);
     }
 
     @Override
@@ -154,10 +159,31 @@ public class FirebaseDatabaseClient implements DatabaseClient {
     }
 
     @Override
-    public <T extends MealerSerializable> void listenForModel(Activity activity, String collectionId, String documentId, Class<T> clazz, DatabaseCompletionCallback<T> callback) {
+    public DatabaseListener listenForUserRecipes(Activity activity, String userId, boolean offeredRecipesOnly, DatabaseCompletionCallback<List<MealerRecipe>> callback) {
+        DatabaseListener listener = new DatabaseListener();
+
+        listener.addRegistration(listenForModel(activity, userCollectionId, userId, MealerUser.class, user -> {
+            listener.addRegistration(listenForModel(activity, menuCollectionId, user.getMenuId(), MealerMenu.class, menu -> {
+                listener.addRegistration(listenForModels(activity, recipeCollectionId, MealerRecipe.class, reference -> {
+                    Query q = reference.whereIn(FieldPath.documentId(), menu.getRecipeIds());
+
+                    if (offeredRecipesOnly) {
+                        q = q.whereEqualTo("isOffered", true);
+                    }
+
+                    return q;
+                }, callback));
+            }));
+        }));
+
+        return listener;
+    }
+
+    @Override
+    public <T extends MealerSerializable> DatabaseListener listenForModel(Activity activity, String collectionId, String documentId, Class<T> clazz, DatabaseCompletionCallback<T> callback) {
 
         DocumentReference reference = firestore.collection(collectionId).document(documentId);
-        reference.addSnapshotListener(activity, (documentSnapshot, e) -> {
+        ListenerRegistration registration = reference.addSnapshotListener(activity, (documentSnapshot, e) -> {
             if(e != null){
                 Toast.makeText(activity, "Error Loading", Toast.LENGTH_SHORT).show();
                 return;
@@ -172,14 +198,16 @@ public class FirebaseDatabaseClient implements DatabaseClient {
                 callback.onComplete(o);
             }
         });
+
+        return new DatabaseListener(registration);
     }
 
     @Override
-    public <T extends MealerSerializable> void listenForModels(Activity activity, String collectionId, Class<T> clazz, DatabaseFilterCallback filter, DatabaseCompletionCallback<List<T>> callback) {
+    public <T extends MealerSerializable> DatabaseListener listenForModels(Activity activity, String collectionId, Class<T> clazz, DatabaseFilterCallback filter, DatabaseCompletionCallback<List<T>> callback) {
 
         CollectionReference reference = firestore.collection(collectionId);
 
-        filter.applyFilter(reference).addSnapshotListener(activity, (querySnapshot, e) -> {
+        ListenerRegistration registration = filter.applyFilter(reference).addSnapshotListener(activity, (querySnapshot, e) -> {
             if(e != null){
                 Toast.makeText(activity, "Error Loading", Toast.LENGTH_SHORT).show();
                 return;
@@ -197,6 +225,8 @@ public class FirebaseDatabaseClient implements DatabaseClient {
 
             callback.onComplete(o);
         });
+
+        return new DatabaseListener(registration);
     }
 
     @Override
@@ -307,11 +337,17 @@ public class FirebaseDatabaseClient implements DatabaseClient {
                 }
 
                 o.setId(documentId);
-                callback.onComplete(o);
+
+                if (callback != null) {
+                    callback.onComplete(o);
+                }
+
                 future.set(o);
             } else {
                     // Firebase task wasn't successful, set future null
-                callback.onComplete(null);
+                if (callback != null) {
+                    callback.onComplete(null);
+                }
                 future.set(null);
             }
         });
