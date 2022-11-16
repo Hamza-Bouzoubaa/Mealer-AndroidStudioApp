@@ -1,114 +1,155 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UI.Activities.RecipeFormActivity">
+    tools:context=".UI.Activities.ChefSignUpFormActivity">
 
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/recipe_form_title"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_marginTop="28dp"
+        android:text="@string/recipe_form_title"
+        android:textSize="28sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.436"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        >
+    <EditText
+        android:id="@+id/recipe_form_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:ems="10"
+        android:hint="@string/recipe_form_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.184"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recipe_form_title" />
 
+    <EditText
+        android:id="@+id/recipe_form_course"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:hint="@string/recipe_form_course"
+        app:layout_constraintEnd_toEndOf="@id/recipe_form_name"
+        app:layout_constraintStart_toStartOf="@id/recipe_form_name"
+        app:layout_constraintTop_toBottomOf="@id/recipe_form_name" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:gravity="center"
-            android:text="Ajouter un repas"
-            android:textSize="28sp"
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/recipe_form_category_chips"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        app:layout_constraintStart_toStartOf="@id/recipe_form_course"
+        app:layout_constraintTop_toBottomOf="@id/recipe_form_course" />/>
 
-            />
+    <EditText
+        android:id="@+id/recipe_form_categories"
+        android:layout_width="wrap_content"
+        android:layout_height="46dp"
+        android:layout_marginTop="5dp"
+        android:ems="10"
+        android:imeOptions="actionSend"
+        android:singleLine="true"
+        android:hint="@string/recipe_form_categories"
+        app:layout_constraintEnd_toEndOf="@id/recipe_form_course"
+        app:layout_constraintStart_toStartOf="@id/recipe_form_course"
+        app:layout_constraintTop_toBottomOf="@id/recipe_form_category_chips" />
 
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="20dp"
-            android:hint="Nom du repas"
-            android:textSize="28sp" />
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="20dp"
-            android:hint="Type du repas"
-            android:textSize="28sp"
-
-
-            />
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="20dp"
-            android:hint="Type de cuisine"
-            android:textSize="28sp" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="20dp"
-            android:hint="ingredients"
-            android:textSize="28sp" />
-
-<LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="match_parent"
-    android:orientation="horizontal"
-    >
+    <HorizontalScrollView
+        android:id="@+id/scroll"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:scrollbars="none"
+        app:layout_constraintStart_toStartOf="@id/recipe_form_course"
+        app:layout_constraintTop_toBottomOf="@id/recipe_form_categories">
         <com.google.android.material.chip.ChipGroup
+            android:id="@+id/recipe_form_ingredient_chips"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
-
-
-</LinearLayout>
-
-
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="20dp"
-            android:hint="allergénes"
-            android:textSize="28sp" />
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="20dp"
-            android:hint="Description"
-            android:inputType="number"
-            android:paddingRight="100dp"
-            android:paddingBottom="50dp"
-            android:textSize="28sp" />
-
-
-
-        <Button
-            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="20dp"
-            android:text="Ajoute repas "
-            android:id="@+id/recipe_form_submit_button"
+            app:layout_constraintStart_toStartOf="@id/recipe_form_course"
+            app:layout_constraintTop_toBottomOf="@id/recipe_form_categories" />
+        />
+    </HorizontalScrollView>
+    <EditText
+        android:id="@+id/recipe_form_ingredients"
+        android:layout_width="wrap_content"
+        android:layout_height="46dp"
+        android:layout_marginTop="5dp"
+        android:ems="10"
+        android:imeOptions="actionSend"
+        android:hint="@string/recipe_form_ingredients"
+        android:inputType="textAutoComplete"
+        android:singleLine="true"
+        app:layout_constraintEnd_toEndOf="@id/recipe_form_categories"
+        app:layout_constraintStart_toStartOf="@id/recipe_form_categories"
+        app:layout_constraintTop_toBottomOf="@id/scroll" />
 
-            />
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/recipe_form_allergen_chips"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        app:layout_constraintStart_toStartOf="@id/recipe_form_course"
+        app:layout_constraintTop_toBottomOf="@id/recipe_form_ingredients" />
+    />
+
+    <EditText
+        android:id="@+id/recipe_form_allergens"
+        android:layout_width="wrap_content"
+        android:layout_height="52dp"
+        android:layout_marginTop="5dp"
+        android:ems="10"
+        android:imeOptions="actionSend"
+        android:hint="@string/recipe_form_allergens"
+        android:inputType="text"
+        android:singleLine="true"
+        app:layout_constraintEnd_toEndOf="@id/recipe_form_ingredients"
+        app:layout_constraintStart_toStartOf="@id/recipe_form_ingredients"
+        app:layout_constraintTop_toBottomOf="@id/recipe_form_allergen_chips" />
 
 
-    </LinearLayout>
+    <EditText
+        android:id="@+id/recipe_form_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:ems="10"
+        android:hint="@string/recipe_form_price"
+        android:inputType="text"
+        android:maxLines="1"
+        app:layout_constraintEnd_toEndOf="@id/recipe_form_allergens"
+        app:layout_constraintStart_toStartOf="@id/recipe_form_allergens"
+        app:layout_constraintTop_toBottomOf="@id/recipe_form_allergens" />
+
+    <EditText
+        android:id="@+id/recipe_form_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:ems="10"
+        android:hint="@string/recipe_form_description"
+        android:inputType="text"
+        android:maxLines="1"
+        app:layout_constraintEnd_toEndOf="@id/recipe_form_price"
+        app:layout_constraintStart_toStartOf="@id/recipe_form_price"
+        app:layout_constraintTop_toBottomOf="@id/recipe_form_price" />
+
+    <Button
+        android:id="@+id/recipe_form_submit_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:text="@string/recipe_form_submit"
+        style="@style/CallToAction"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

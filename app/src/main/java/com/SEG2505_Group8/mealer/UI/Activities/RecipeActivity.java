@@ -57,7 +57,11 @@ public class RecipeActivity extends AppCompatActivity {
 
         Button saveButton = findViewById(R.id.recipe_save);
         saveButton.setOnClickListener(view -> {
-            Services.getDatabaseClient().updateRecipe(recipe);
+            Services.getDatabaseClient().updateRecipe(recipe, isSuccess -> {
+                if (isSuccess) {
+                    finish();
+                }
+            });
         });
 
         Button deleteButton = findViewById(R.id.recipe_delete);

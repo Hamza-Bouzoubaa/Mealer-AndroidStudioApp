@@ -64,4 +64,11 @@
     <string name="delete">Delete</string>
     <string name="save">Save</string>
     <string name="filters">filters:</string>
+    <string name="recipe_form_name">Name</string>
+    <string name="recipe_form_course">Course</string>
+    <string name="recipe_form_categories">Categories</string>
+    <string name="recipe_form_ingredients">Ingredients</string>
+    <string name="recipe_form_allergens">Allergens</string>
+    <string name="recipe_form_price">Price</string>
+    <string name="recipe_form_description">Description</string>
 </resources>

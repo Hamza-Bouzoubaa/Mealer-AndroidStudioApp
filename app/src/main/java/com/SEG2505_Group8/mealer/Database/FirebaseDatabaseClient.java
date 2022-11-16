@@ -299,8 +299,14 @@ public class FirebaseDatabaseClient implements DatabaseClient {
 
         firestore.collection(collectionName).document(documentId).set(mappedData).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
+                if (callback != null) {
+                    callback.onComplete(true);
+                }
                 future.set(true);
             } else {
+                if (callback != null) {
+                    callback.onComplete(false);
+                }
                 future.setException(new Exception("Failed to save data to firestore!"));
                 future.set(false);
             }
