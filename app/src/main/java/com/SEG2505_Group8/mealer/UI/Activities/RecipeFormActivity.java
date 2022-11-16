@@ -188,6 +188,6 @@ public class RecipeFormActivity extends AppCompatActivity {
      */
     private boolean validateFields() {
         // TODO: Price must be numeric
-        return validator.required(name) && validator.required(course) && validator.required(price);
+        return validator.required(name) && validator.required(course) && validator.required(categories, category) && validator.required(ingredients, ingredient) && validator.required(allergens, allergen) && validator.required(price) && validator.requireFloat(price) && validator.required(description);
     }
 }

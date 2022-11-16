@@ -24,6 +24,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:ems="10"
+        android:imeOptions="actionNext"
+        android:singleLine="true"
         android:hint="@string/recipe_form_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.184"
@@ -35,6 +37,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:imeOptions="actionNext"
+        android:singleLine="true"
         android:ems="10"
         android:hint="@string/recipe_form_course"
         app:layout_constraintEnd_toEndOf="@id/recipe_form_name"
@@ -121,7 +125,8 @@
         android:ems="10"
         android:hint="@string/recipe_form_price"
         android:inputType="text"
-        android:maxLines="1"
+        android:imeOptions="actionNext"
+        android:singleLine="true"
         app:layout_constraintEnd_toEndOf="@id/recipe_form_allergens"
         app:layout_constraintStart_toStartOf="@id/recipe_form_allergens"
         app:layout_constraintTop_toBottomOf="@id/recipe_form_allergens" />
@@ -134,8 +139,8 @@
         android:ems="10"
         android:hint="@string/recipe_form_description"
         android:inputType="text"
-        android:maxLines="1"
-        app:layout_constraintEnd_toEndOf="@id/recipe_form_price"
+        android:imeOptions="actionNext"
+        android:singleLine="true"        app:layout_constraintEnd_toEndOf="@id/recipe_form_price"
         app:layout_constraintStart_toStartOf="@id/recipe_form_price"
         app:layout_constraintTop_toBottomOf="@id/recipe_form_price" />
 
