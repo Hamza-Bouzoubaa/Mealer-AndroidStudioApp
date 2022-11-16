@@ -12,7 +12,6 @@ import com.SEG2505_Group8.mealer.Database.Models.MealerMenu;
 import com.SEG2505_Group8.mealer.Database.Models.MealerRecipe;
 import com.SEG2505_Group8.mealer.Database.Models.MealerUser;
 import com.SEG2505_Group8.mealer.Database.Serialize.MealerSerializable;
-import com.SEG2505_Group8.mealer.Services;
 import com.google.common.util.concurrent.SettableFuture;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -27,9 +26,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 public class FirebaseDatabaseClient implements DatabaseClient {
@@ -40,8 +36,6 @@ public class FirebaseDatabaseClient implements DatabaseClient {
     private static final String menuCollectionId = "menus";
     private static final String recipeCollectionId = "recipes";
     private static final String complaintCollectionId = "complaints";
-
-    private final ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     private final FirebaseFirestore firestore = FirebaseFirestore.getInstance();
 
@@ -56,9 +50,7 @@ public class FirebaseDatabaseClient implements DatabaseClient {
 
     @Override
     public Future<List<MealerUser>> getUsers(DatabaseFilterCallback filter) {
-        return getModels(MealerUser.class, userCollectionId, maxiumGetModels, reference -> {
-            return reference;
-        }, null);
+        return getModels(MealerUser.class, userCollectionId, maxiumGetModels, reference -> reference, null);
     }
 
     @Override
@@ -73,16 +65,11 @@ public class FirebaseDatabaseClient implements DatabaseClient {
         // Create a future.
         final SettableFuture<MealerMenu> future = SettableFuture.create();
 
-        // Get the user, then get their menu
-        executorService.submit(() -> {
-            try {
-                MealerUser user = getUser(userId).get();
-                MealerMenu menu = getMenu(user.getMenuId(), callback).get();
+        getUser(userId, user -> {
+            getMenu(user.getMenuId(), menu -> {
+                callback.onComplete(menu);
                 future.set(menu);
-            } catch (ExecutionException | InterruptedException e) {
-                e.printStackTrace();
-                future.setException(e);
-            }
+            });
         });
 
         return future;
