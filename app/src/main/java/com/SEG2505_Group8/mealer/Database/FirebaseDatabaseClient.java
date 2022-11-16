@@ -152,6 +152,11 @@ public class FirebaseDatabaseClient implements DatabaseClient {
         listener.addRegistration(listenForModel(activity, userCollectionId, userId, MealerUser.class, user -> {
             listener.addRegistration(listenForModel(activity, menuCollectionId, user.getMenuId(), MealerMenu.class, menu -> {
                 listener.addRegistration(listenForModels(activity, recipeCollectionId, MealerRecipe.class, reference -> {
+
+                    if (menu.getRecipeIds().isEmpty()) {
+                        return reference.whereEqualTo(FieldPath.documentId(), "invalid");
+                    }
+
                     Query q = reference.whereIn(FieldPath.documentId(), menu.getRecipeIds());
 
                     if (offeredRecipesOnly) {

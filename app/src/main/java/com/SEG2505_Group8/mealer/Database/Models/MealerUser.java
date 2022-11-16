@@ -167,7 +167,11 @@ public class MealerUser implements MealerSerializable {
      */
     public boolean isSuspended(DatabaseClient client) {
 
-        if (isSuspended && suspendedUntil != null && !suspendedUntil.equals("") && DateUtils.isPassed(suspendedUntil)) {
+        if (isSuspended == null) {
+            isSuspended = false;
+        }
+
+        if (suspendedUntil != null && !suspendedUntil.equals("") && DateUtils.isPassed(suspendedUntil)) {
             // Suspended, but date already passed. Disable suspension.
             isSuspended = false;
             suspendedUntil = null;
