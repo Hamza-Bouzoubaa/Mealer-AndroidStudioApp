@@ -3,6 +3,8 @@ package com.SEG2505_Group8.mealer.Database;
 import android.app.Activity;
 import android.widget.Toast;
 
+import com.SEG2505_Group8.mealer.Database.Models.MealerOrder;
+import com.SEG2505_Group8.mealer.Database.Models.MealerOrderStatus;
 import com.SEG2505_Group8.mealer.Database.Utils.DatabaseFilterCallback;
 import com.SEG2505_Group8.mealer.Database.Utils.DatabaseCompletionCallback;
 import com.SEG2505_Group8.mealer.Database.Utils.DatabaseListener;
@@ -12,6 +14,7 @@ import com.SEG2505_Group8.mealer.Database.Models.MealerMenu;
 import com.SEG2505_Group8.mealer.Database.Models.MealerRecipe;
 import com.SEG2505_Group8.mealer.Database.Models.MealerUser;
 import com.SEG2505_Group8.mealer.Database.Serialize.MealerSerializable;
+import com.SEG2505_Group8.mealer.UI.Activities.Utils.DateUtils;
 import com.google.common.util.concurrent.SettableFuture;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -22,6 +25,7 @@ import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -36,6 +40,7 @@ public class FirebaseDatabaseClient implements DatabaseClient {
     private static final String menuCollectionId = "menus";
     private static final String recipeCollectionId = "recipes";
     private static final String complaintCollectionId = "complaints";
+    private static final String orderCollectionId = "orders";
 
     private final FirebaseFirestore firestore = FirebaseFirestore.getInstance();
 
@@ -120,6 +125,32 @@ public class FirebaseDatabaseClient implements DatabaseClient {
     @Override
     public Future<Boolean> updateUser(MealerUser user, DatabaseSetCallback callback) {
         return saveModel(userCollectionId, user.getId(), user, callback);
+    }
+
+    @Override
+    public Future<Boolean> updateOrder(MealerOrder order, DatabaseSetCallback callback) {
+        return saveModel(orderCollectionId, order.getId(), order, callback);
+    }
+
+    @Override
+    public Future<Boolean> orderRecipe(String chefId, String recipeId, DatabaseSetCallback callback) {
+
+        String clientId = null;
+        try {
+            clientId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+
+        if (chefId == null || chefId.equals("") || recipeId == null || recipeId.equals("") || clientId == null || clientId.equals("")) {
+            SettableFuture<Boolean> future = SettableFuture.create();
+            future.set(false);
+            return future;
+        }
+
+        MealerOrder order = new MealerOrder(UUID.randomUUID().toString(), MealerOrderStatus.WAITING, chefId, clientId, recipeId, DateUtils.toString(new Date()));
+
+        return updateOrder(order, callback);
     }
 
     @Override

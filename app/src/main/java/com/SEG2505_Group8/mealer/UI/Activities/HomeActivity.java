@@ -28,6 +28,7 @@ import com.SEG2505_Group8.mealer.Services;
 import com.SEG2505_Group8.mealer.UI.Adapters.ViewPager2Adapter;
 import com.SEG2505_Group8.mealer.UI.Fragments.ComplaintListFragment;
 import com.SEG2505_Group8.mealer.UI.Fragments.MenuFragment;
+import com.SEG2505_Group8.mealer.UI.Fragments.OrderListFragment;
 import com.SEG2505_Group8.mealer.UI.Fragments.RecommendationsFragment;
 import com.SEG2505_Group8.mealer.UI.Fragments.SettingsFragment;
 import com.firebase.ui.auth.AuthUI;
@@ -53,6 +54,7 @@ public class HomeActivity extends AppCompatActivity {
 
     RecommendationsFragment recommendationsFragment;
     ComplaintListFragment complaintListFragment;
+    OrderListFragment orderListFragment;
     SettingsFragment settingsFragment;
     MenuFragment menuFragment;
 
@@ -74,6 +76,7 @@ public class HomeActivity extends AppCompatActivity {
         views = new ArrayList<>();
         views.add(R.id.bottom_navigation_menu_page_recommendations);
         views.add(R.id.bottom_navigation_menu_page_complaints);
+        views.add(R.id.bottom_navigation_menu_page_order);
         views.add(R.id.bottom_navigation_menu_page_settings);
         views.add(R.id.bottom_navigation_menu_page_menu);
 
@@ -91,6 +94,8 @@ public class HomeActivity extends AppCompatActivity {
                     id = R.id.bottom_navigation_menu_page_recommendations;
                 } else if (complaintListFragment.equals(f)) {
                     id = R.id.bottom_navigation_menu_page_complaints;
+                } else if (orderListFragment.equals(f)) {
+                    id = R.id.bottom_navigation_menu_page_order;
                 } else if (settingsFragment.equals(f)) {
                     id = R.id.bottom_navigation_menu_page_settings;
                 } else if (menuFragment.equals(f)) {
@@ -113,6 +118,9 @@ public class HomeActivity extends AppCompatActivity {
                 case R.id.bottom_navigation_menu_page_complaints:
                     viewPager.setCurrentItem(fragments.indexOf(complaintListFragment), false);
                     return true;
+                case R.id.bottom_navigation_menu_page_order:
+                    viewPager.setCurrentItem(fragments.indexOf(orderListFragment), false);
+                    return true;
                 case R.id.bottom_navigation_menu_page_settings:
                     viewPager.setCurrentItem(fragments.indexOf(settingsFragment), false);
                     return true;
@@ -134,6 +142,7 @@ public class HomeActivity extends AppCompatActivity {
     private void setupViewPager() {
         recommendationsFragment = new RecommendationsFragment();
         complaintListFragment = new ComplaintListFragment();
+        orderListFragment = new OrderListFragment();
         settingsFragment = new SettingsFragment();
         menuFragment = new MenuFragment();
 
@@ -160,10 +169,14 @@ public class HomeActivity extends AppCompatActivity {
                     case USER:
                         fragments.add(recommendationsFragment);
                         adapter.add(recommendationsFragment);
+                        fragments.add(orderListFragment);
+                        adapter.add(orderListFragment);
                         break;
                     case CHEF:
                         fragments.add(menuFragment);
                         adapter.add(menuFragment);
+                        fragments.add(orderListFragment);
+                        adapter.add(orderListFragment);
                         break;
                 }
             }
@@ -244,6 +257,10 @@ public class HomeActivity extends AppCompatActivity {
                         item.setVisible(true);
                     }
                 }
+            }
+
+            if (user.getRole() != null && user.getRole() == MealerRole.CHEF) {
+                Services.getDatabaseClient().orderRecipe(user.getId(), "recipe1", s -> {});
             }
 
             // If user is suspended, show suspension alert

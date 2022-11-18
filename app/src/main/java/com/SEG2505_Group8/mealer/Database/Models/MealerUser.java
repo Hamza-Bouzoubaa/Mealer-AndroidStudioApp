@@ -115,6 +115,9 @@ public class MealerUser implements MealerSerializable {
     @MealerSerializableElement(key = "suspendedUntil")
     String suspendedUntil;
 
+    @MealerSerializableElement(key = "orders")
+    List<String> orderIds;
+
     public MealerUser(String id, MealerRole role, String firstName, String lastName, String email, String address, String creditCard, String description, String voidCheckUrl) {
 
         this.id = id;
@@ -131,6 +134,7 @@ public class MealerUser implements MealerSerializable {
         this.totalSales = 0;
         this.isSuspended = false;
         this.suspendedUntil = "";
+        this.orderIds = new ArrayList<>();
 
         // TODO: Make this cleaner
         List<Integer> ratings = new ArrayList<>();
@@ -196,13 +200,15 @@ public class MealerUser implements MealerSerializable {
 
         List<Integer> userViews = new ArrayList<>();
         userViews.add(R.id.bottom_navigation_menu_page_recommendations);
+        userViews.add(R.id.bottom_navigation_menu_page_order);
         userViews.add(R.id.bottom_navigation_menu_page_settings);
 
         put(MealerRole.USER, userViews);
 
         List<Integer> chefViews = new ArrayList<>();
-        adminViews.add(R.id.bottom_navigation_menu_page_recommendations);
+        chefViews.add(R.id.bottom_navigation_menu_page_recommendations);
         chefViews.add(R.id.bottom_navigation_menu_page_menu);
+        chefViews.add(R.id.bottom_navigation_menu_page_order);
         chefViews.add(R.id.bottom_navigation_menu_page_settings);
 
         put(MealerRole.CHEF, chefViews);

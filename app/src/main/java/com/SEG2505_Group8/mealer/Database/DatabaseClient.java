@@ -2,6 +2,7 @@ package com.SEG2505_Group8.mealer.Database;
 
 import android.app.Activity;
 
+import com.SEG2505_Group8.mealer.Database.Models.MealerOrder;
 import com.SEG2505_Group8.mealer.Database.Utils.DatabaseFilterCallback;
 import com.SEG2505_Group8.mealer.Database.Utils.DatabaseCompletionCallback;
 import com.SEG2505_Group8.mealer.Database.Utils.DatabaseListener;
@@ -239,6 +240,26 @@ public interface DatabaseClient {
      * @return
      */
     Future<Boolean> updateUser(MealerUser user, DatabaseSetCallback callback);
+
+    /**
+     * Update a {@link MealerOrder} stored in Database.
+     * Executes callback on completion.
+     *
+     * @param order to place into database
+     * @param callback code to execute on completion
+     * @return
+     */
+    Future<Boolean> updateOrder(MealerOrder order, DatabaseSetCallback callback);
+
+    /**
+     * Create a {@link MealerOrder} for a specific {@link MealerRecipe}
+     * @param menuId
+     * @param recipeId
+     * @param clientId
+     * @param callback
+     * @return
+     */
+    Future<Boolean> orderRecipe(String menuId, String recipeId, DatabaseSetCallback callback);
 
     /**
      * Delete a {@link MealerRecipe} stored in Database.

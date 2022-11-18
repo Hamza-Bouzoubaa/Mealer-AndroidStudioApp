@@ -62,4 +62,5 @@
     <string name="recipe_form_name">Name</string>
     <string name="recipe_form_course">Course</string>
     <string name="recipe_form_ingredients">Ingredients</string>
+    <string name="bottom_navigation_menu_label_order">Orders</string>
 </resources>
