@@ -5,6 +5,11 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 
 import com.SEG2505_Group8.mealer.R;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Validate fields using standardized method
@@ -36,7 +41,29 @@ public class FieldValidator {
             return false;
         }
 
+        text.setError(null);
         return true;
+    }
+
+    public boolean required(ChipGroup chips, EditText text) {
+        if (chips.getChildCount() == 0) {
+            text.setError("Submit at least one item.");
+            return false;
+        }
+
+        text.setError(null);
+        return true;
+    }
+
+    public boolean requireFloat(EditText text) {
+        try {
+            Float.parseFloat(text.getText().toString());
+            text.setError(null);
+            return true;
+        } catch (NumberFormatException e) {
+            text.setError("Price is invalid");
+            return false;
+        }
     }
 
     /**
@@ -50,6 +77,7 @@ public class FieldValidator {
             return false;
         }
 
+        text.setError(null);
         return true;
     }
 
@@ -64,6 +92,7 @@ public class FieldValidator {
             return false;
         }
 
+        text.setError(null);
         return true;
     }
 
@@ -78,6 +107,7 @@ public class FieldValidator {
             return false;
         }
 
+        checkBox.setError(null);
         return true;
     }
 
@@ -92,6 +122,16 @@ public class FieldValidator {
             return false;
         }
 
+        text.setError(null);
         return true;
+    }
+
+    public List<String> aggregateChips(ChipGroup group) {
+        List<String> strings = new ArrayList<>();
+        for (int i = 0; i < group.getChildCount(); i++) {
+            strings.add(((Chip) group.getChildAt(i)).getText().toString());
+        }
+
+        return strings;
     }
 }

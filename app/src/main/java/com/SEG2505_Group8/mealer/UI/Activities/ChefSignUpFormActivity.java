@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.SEG2505_Group8.mealer.Database.Models.MealerChef;
+import com.SEG2505_Group8.mealer.Database.Models.MealerMenu;
+import com.SEG2505_Group8.mealer.Database.Models.MealerRole;
 import com.SEG2505_Group8.mealer.Database.Models.MealerUser;
 import com.SEG2505_Group8.mealer.R;
 import com.SEG2505_Group8.mealer.Services;
@@ -20,6 +22,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import android.widget.ImageView;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.UUID;
 
 /**
  * Presents form for creating a Chef account.
@@ -103,17 +107,26 @@ public class ChefSignUpFormActivity extends AppCompatActivity {
                     return;
                 }
 
-                // Create user data in Database
-                MealerUser user = new MealerChef(userId, firstName, lastName, email, address, description, email + "-void-check");
-                Services.getDatabaseClient().updateUser(user);
+                MealerMenu menu = new MealerMenu(UUID.randomUUID().toString(), userId, new ArrayList<>(), new ArrayList<>());
+                Services.getDatabaseClient().updateMenu(menu, success -> {
 
-                Services.getStorageClient().uploadFile(voidCheckBytes, "/" + email + "-void-check", (processed, total) -> {
-                    System.out.println("Uploaded: " + processed + " bytes");
+                    if (success) {
+                        MealerUser user = new MealerUser(userId, MealerRole.CHEF, firstName, lastName, email, address, "", description, email + "-void-check");
+                        user.setMenuId(menu.getId());
+                        Services.getDatabaseClient().updateUser(user, s -> {
+                            if (s) {
+                                // Create user data in Database
+                                Services.getStorageClient().uploadFile(voidCheckBytes, "/" + email + "-void-check", (processed, total) -> {
+                                    System.out.println("Uploaded: " + processed + " bytes");
+                                });
+
+                                // Send user back to Main. Restarts user experience flow.
+                                startActivity(new Intent(ChefSignUpFormActivity.this, MainActivity.class));
+                                finish();
+                            }
+                        });
+                    }
                 });
-
-                // Send user back to Main. Restarts user experience flow.
-                startActivity(new Intent(ChefSignUpFormActivity.this, MainActivity.class));
-                finish();
             } else {
                 // TODO: Handle failed account creation
                 Toast.makeText(ChefSignUpFormActivity.this, "Failed to user account!", Toast.LENGTH_SHORT).show();

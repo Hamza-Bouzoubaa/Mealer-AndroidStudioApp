@@ -86,7 +86,7 @@ public class UserSignUpFormActivity extends AppCompatActivity {
                 }
 
                 // Create user data in Database
-                MealerUser user = new MealerClient(userId, firstName, lastName, email, address, creditCard, description);
+                MealerUser user = new MealerUser(userId, MealerRole.USER, firstName, lastName, email, address, creditCard, description, "");
                 Services.getDatabaseClient().updateUser(user);
 
                 // Go to MainActivity, restart login flow.
