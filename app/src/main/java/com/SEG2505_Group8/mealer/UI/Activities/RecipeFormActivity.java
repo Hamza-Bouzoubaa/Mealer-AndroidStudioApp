@@ -41,15 +41,15 @@ public class RecipeFormActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_form);
 
-        recipePreview = findViewById(R.id.recipe_form_image);
-        Button recipeButton = findViewById(R.id.recipe_form_take_photo);
+        //recipePreview = findViewById(R.id.recipe_form_image);
+        //Button recipeButton = findViewById(R.id.recipe_form_take_photo);
 
         // Launch camera on button press.
-        recipeButton.setOnClickListener(v -> {
-            startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE),100);
-        });
+        //recipeButton.setOnClickListener(v -> {
+        //    startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE),100);
+        //});
 
-        submitButton = findViewById(R.id.recipe_form_submit_button);
+        //submitButton = findViewById(R.id.recipe_form_submit_button);
         submitButton.setOnClickListener(view -> {
             // Only submit if all fields are valid
             if(validateFields()){
@@ -82,9 +82,9 @@ public class RecipeFormActivity extends AppCompatActivity {
     /**
      * Submit form info to create a Chef account
      */
-    private void submit(String name, String course, List<String> categories, List<String> ingredients, List<String> allergens, float price, String description, boolean offered) {
-        Services.getDatabaseClient().updateRecipe(new MealerRecipe(UUID.randomUUID().toString(), name, course, categories, ingredients, allergens, price, description, offered));
-    }
+   // private void submit(String name, String course, List<String> categories, List<String> ingredients, List<String> allergens, float price, String description, boolean offered) {
+   //     Services.getDatabaseClient().updateRecipe(new MealerRecipe(UUID.randomUUID().toString(), name, course, categories, ingredients, allergens, price, description, offered));
+   // }
 
     /**
      * Assert all fields are valid
