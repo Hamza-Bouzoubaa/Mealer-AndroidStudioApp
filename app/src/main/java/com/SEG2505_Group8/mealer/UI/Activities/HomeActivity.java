@@ -173,6 +173,8 @@ public class HomeActivity extends AppCompatActivity {
                         adapter.add(orderListFragment);
                         break;
                     case CHEF:
+                        fragments.add(recommendationsFragment);
+                        adapter.add(recommendationsFragment);
                         fragments.add(menuFragment);
                         adapter.add(menuFragment);
                         fragments.add(orderListFragment);
