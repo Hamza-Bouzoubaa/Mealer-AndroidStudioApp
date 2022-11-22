@@ -138,7 +138,7 @@ public class FirebaseDatabaseClient implements DatabaseClient {
     }
 
     @Override
-    public Future<Boolean> orderRecipe(String chefId, String recipeId, DatabaseSetCallback callback) {
+    public Future<MealerOrder> orderRecipe(MealerRecipe recipe, DatabaseCompletionCallback<MealerOrder> callback) {
 
         String clientId = null;
         try {
@@ -147,15 +147,16 @@ public class FirebaseDatabaseClient implements DatabaseClient {
             e.printStackTrace();
         }
 
-        if (chefId == null || chefId.equals("") || recipeId == null || recipeId.equals("") || clientId == null || clientId.equals("")) {
-            SettableFuture<Boolean> future = SettableFuture.create();
-            future.set(false);
-            return future;
-        }
+        SettableFuture<MealerOrder> future = SettableFuture.create();
 
-        MealerOrder order = new MealerOrder(UUID.randomUUID().toString(), MealerOrderStatus.WAITING, chefId, clientId, recipeId, DateUtils.toString(new Date()));
+        MealerOrder order = new MealerOrder(UUID.randomUUID().toString(), MealerOrderStatus.WAITING, recipe.getChefId(), clientId, recipe.getId(), DateUtils.toString(new Date()));
 
-        return updateOrder(order, callback);
+        updateOrder(order, success -> {
+                callback.onComplete(success ? order : null);
+                future.set(success ? order : null);
+        });
+
+        return future;
     }
 
     @Override

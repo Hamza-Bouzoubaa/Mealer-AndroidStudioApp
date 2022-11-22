@@ -44,7 +44,7 @@ public class OrderRecyclerViewAdapter extends RecyclerView.Adapter<OrderRecycler
 
         holder.openButton.setOnClickListener(view -> {
             Intent i = new Intent(view.getContext(), ComplaintActivity.class);
-            i.putExtra("complaint", holder.mItem);
+            i.putExtra("order", holder.mItem);
             view.getContext().startActivity(i);
         });
         holder.rejectButton.setOnClickListener(v -> {

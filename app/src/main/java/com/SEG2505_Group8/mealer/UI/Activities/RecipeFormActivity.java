@@ -178,7 +178,7 @@ public class RecipeFormActivity extends AppCompatActivity {
      */
     private void submit(String name, String course, List<String> categories, List<String> ingredients, List<String> allergens, float price, String description, boolean offered) {
         Services.getDatabaseClient().getUserMenu(menu -> {
-            menu.addRecipe(new MealerRecipe(UUID.randomUUID().toString(), name, course, categories, ingredients, allergens, price, description, offered));
+            menu.addRecipe(new MealerRecipe(UUID.randomUUID().toString(), name, course, categories, ingredients, allergens, price, description, offered, FirebaseAuth.getInstance().getUid()));
         });
     }
 

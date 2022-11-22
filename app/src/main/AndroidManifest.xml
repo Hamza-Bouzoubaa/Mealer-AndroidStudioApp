@@ -13,6 +13,7 @@
         android:theme="@style/Theme.Mealer">
         <activity android:name=".UI.Activities.ComplaintActivity" />
         <activity android:name=".UI.Activities.RecipeActivity" />
+        <activity android:name=".UI.Activities.RecipeClientActivity" />
         <activity android:name=".UI.Activities.RecipeFormActivity" />
         <activity android:name=".UI.Activities.ComplaintFormActivity" />
         <activity android:name=".UI.Activities.ChooseUserTypeActivity" />

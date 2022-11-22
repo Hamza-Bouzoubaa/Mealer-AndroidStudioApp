@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/vv"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UI.Activities.RecipeActivity">
+
+    <TextView
+        android:id="@+id/recipe_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:text="@string/recipe_form_title"
+        android:textSize="28sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.436"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/recipe_course_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/recipe_course_label"
+        android:layout_marginTop="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.184"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recipe_title" />
+
+    <TextView
+        android:id="@+id/recipe_categories_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/recipe_categories_label"
+        android:layout_marginTop="30dp"
+        app:layout_constraintStart_toStartOf="@id/recipe_course_label"
+        app:layout_constraintTop_toBottomOf="@id/recipe_course_label" />
+
+    <TextView
+        android:id="@+id/recipe_ingredients_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/recipe_ingredients_label"
+        android:layout_marginTop="30dp"
+        app:layout_constraintStart_toStartOf="@id/recipe_course_label"
+        app:layout_constraintTop_toBottomOf="@id/recipe_categories_label" />
+
+
+    <TextView
+        android:id="@+id/recipe_allergens_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/recipe_allergens_label"
+        android:layout_marginTop="30dp"
+        app:layout_constraintStart_toStartOf="@id/recipe_course_label"
+        app:layout_constraintTop_toBottomOf="@id/recipe_ingredients_label" />
+
+
+    <TextView
+        android:id="@+id/recipe_price_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/recipe_price_label"
+        android:layout_marginTop="30dp"
+        app:layout_constraintStart_toStartOf="@id/recipe_course_label"
+        app:layout_constraintTop_toBottomOf="@id/recipe_allergens_label" />
+
+
+    <TextView
+        android:id="@+id/recipe_course"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:layout_marginLeft="50dp"
+        app:layout_constraintStart_toEndOf="@id/recipe_course_label"
+        app:layout_constraintTop_toTopOf="@id/recipe_course_label" />
+
+    <TextView
+        android:id="@+id/recipe_categories"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        app:layout_constraintStart_toStartOf="@id/recipe_course"
+        app:layout_constraintTop_toTopOf="@id/recipe_categories_label" />
+
+    <TextView
+        android:id="@+id/recipe_ingredients"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        app:layout_constraintStart_toStartOf="@id/recipe_course"
+        app:layout_constraintTop_toTopOf="@id/recipe_ingredients_label" />
+
+    <TextView
+        android:id="@+id/recipe_allergens"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        app:layout_constraintStart_toStartOf="@id/recipe_course"
+        app:layout_constraintTop_toTopOf="@id/recipe_allergens_label" />
+
+    <TextView
+        android:id="@+id/recipe_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        app:layout_constraintStart_toStartOf="@id/recipe_course"
+        app:layout_constraintTop_toTopOf="@id/recipe_price_label" />
+
+
+
+    <Button
+        android:id="@+id/recipe_close"
+        android:text="@string/close"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="5dp"
+        app:layout_constraintTop_toBottomOf="@id/recipe_price"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/recipe_order"/>
+
+    <Button
+        android:id="@+id/recipe_order"
+        android:text="@string/order"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="40dp"
+        app:layout_constraintTop_toBottomOf="@id/recipe_price"
+        app:layout_constraintStart_toEndOf="@id/recipe_close"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

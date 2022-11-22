@@ -72,4 +72,6 @@
     <string name="recipe_form_price">Price</string>
     <string name="recipe_form_description">Description</string>
     <string name="bottom_navigation_menu_label_order">Orders</string>
+    <string name="close">Close</string>
+    <string name="order">Order</string>
 </resources>

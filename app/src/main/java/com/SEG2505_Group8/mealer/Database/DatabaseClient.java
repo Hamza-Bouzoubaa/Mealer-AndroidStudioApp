@@ -271,7 +271,7 @@ public interface DatabaseClient {
      * @param callback
      * @return
      */
-    Future<Boolean> orderRecipe(String menuId, String recipeId, DatabaseSetCallback callback);
+    Future<MealerOrder> orderRecipe(MealerRecipe recipe, DatabaseCompletionCallback<MealerOrder> callback);
 
     /**
      * Delete a {@link MealerRecipe} stored in Database.
