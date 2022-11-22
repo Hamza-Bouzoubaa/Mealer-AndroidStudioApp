@@ -88,6 +88,11 @@ public class FirebaseDatabaseClient implements DatabaseClient {
     }
 
     @Override
+    public Future<MealerOrder> getOrder(String id, DatabaseCompletionCallback<MealerOrder> callback) {
+        return getModel(orderCollectionId, id, MealerOrder.class, callback);
+    }
+
+    @Override
     public Future<MealerMenu> getMenu(String id, DatabaseCompletionCallback<MealerMenu> callback) {
         return getModel(menuCollectionId, id, MealerMenu.class, callback);
     }
