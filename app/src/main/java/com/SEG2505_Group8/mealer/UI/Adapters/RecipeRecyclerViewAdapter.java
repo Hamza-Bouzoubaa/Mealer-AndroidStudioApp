@@ -42,7 +42,8 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
         holder.title.setText(holder.mItem.getName());
-        holder.offeredChip.setVisibility(holder.mItem.getIsOffered() ? View.VISIBLE : View.GONE);
+
+        holder.offeredChip.setVisibility(holder.mItem.getIsOffered() != null && holder.mItem.getIsOffered() ? View.VISIBLE : View.GONE);
 
         holder.openButton.setOnClickListener(view -> {
             Intent i = new Intent(view.getContext(), RecipeActivity.class);

@@ -118,6 +118,11 @@ public class FirebaseDatabaseClient implements DatabaseClient {
     }
 
     @Override
+    public Future<List<MealerRecipe>> searchRecipes(int limit, DatabaseFilterCallback filter, DatabaseCompletionCallback<List<MealerRecipe>> callback) {
+        return getModels(MealerRecipe.class, recipeCollectionId, limit, filter, callback);
+    }
+
+    @Override
     public Future<Boolean> updateRecipe(MealerRecipe recipe, DatabaseSetCallback callback) {
         return saveModel(recipeCollectionId, recipe.getId(), recipe, callback);
     }
@@ -186,10 +191,21 @@ public class FirebaseDatabaseClient implements DatabaseClient {
         DatabaseListener listener = new DatabaseListener();
 
         listener.addRegistration(listenForModel(activity, userCollectionId, userId, MealerUser.class, user -> {
-            listener.addRegistration(listenForModel(activity, menuCollectionId, user.getMenuId(), MealerMenu.class, menu -> {
-                listener.addRegistration(listenForModels(activity, recipeCollectionId, MealerRecipe.class, reference -> {
 
-                    if (menu.getRecipeIds().isEmpty()) {
+            if (user == null) {
+                callback.onComplete(null);
+                return;
+            }
+
+            listener.addRegistration(listenForModel(activity, menuCollectionId, user.getMenuId(), MealerMenu.class, menu -> {
+
+                if (menu == null) {
+                    callback.onComplete(null);
+                    return;
+                }
+
+                listener.addRegistration(listenForModels(activity, recipeCollectionId, MealerRecipe.class, reference -> {
+                    if (menu == null || menu.getRecipeIds() == null || menu.getRecipeIds().isEmpty()) {
                         return reference.whereEqualTo(FieldPath.documentId(), "invalid");
                     }
 

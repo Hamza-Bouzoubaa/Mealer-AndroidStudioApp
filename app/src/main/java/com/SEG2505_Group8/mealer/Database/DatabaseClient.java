@@ -192,6 +192,19 @@ public interface DatabaseClient {
     Future<List<MealerComplaint>> getComplaints(DatabaseFilterCallback filter, DatabaseCompletionCallback<List<MealerComplaint>> callback);
 
     /**
+     * Search database for recipes matching filter
+     * @param name to search for as substring
+     * @param limit maximum number of recipes to return
+     * @param callback to execute on search completion
+     * @return
+     */
+    default Future<List<MealerRecipe>> searchRecipesByName(String name, int limit, DatabaseCompletionCallback<List<MealerRecipe>> callback) {
+        return searchRecipes(limit, reference -> reference.whereGreaterThanOrEqualTo("name", name + '\uf8ff'), callback);
+    }
+
+    Future<List<MealerRecipe>> searchRecipes(int limit, DatabaseFilterCallback filter, DatabaseCompletionCallback<List<MealerRecipe>> callback);
+
+    /**
      * Update {@link MealerRecipe} stored in database
      * @param recipe
      * @return
@@ -263,7 +276,6 @@ public interface DatabaseClient {
      * Create a {@link MealerOrder} for a specific {@link MealerRecipe}
      * @param menuId
      * @param recipeId
-     * @param clientId
      * @param callback
      * @return
      */
