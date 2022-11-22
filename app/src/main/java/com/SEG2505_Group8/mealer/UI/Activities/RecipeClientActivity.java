@@ -55,8 +55,9 @@ public class RecipeClientActivity extends AppCompatActivity {
 
                 Services.getDatabaseClient().orderRecipe(recipe, order -> {
                     if (order != null) {
-//                        Intent i = new Intent(RecipeClientActivity.this, OrderAc);
-//                        startActivity();
+                        Intent i = new Intent(RecipeClientActivity.this, OrderPageActivity.class);
+                        i.putExtra("order", order);
+                        startActivity(i);
                         System.out.println("Launching activity");
                     }
                 });

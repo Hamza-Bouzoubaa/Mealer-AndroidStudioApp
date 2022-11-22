@@ -13,6 +13,7 @@ import com.SEG2505_Group8.mealer.Database.Models.MealerComplaint;
 import com.SEG2505_Group8.mealer.Database.Models.MealerOrder;
 import com.SEG2505_Group8.mealer.Services;
 import com.SEG2505_Group8.mealer.UI.Activities.ComplaintActivity;
+import com.SEG2505_Group8.mealer.UI.Activities.OrderPageActivity;
 import com.SEG2505_Group8.mealer.databinding.FragmentComplaintItemBinding;
 import com.SEG2505_Group8.mealer.databinding.FragmentOrderItemBinding;
 
@@ -43,7 +44,7 @@ public class OrderRecyclerViewAdapter extends RecyclerView.Adapter<OrderRecycler
         holder.title.setText("Order");
 
         holder.openButton.setOnClickListener(view -> {
-            Intent i = new Intent(view.getContext(), ComplaintActivity.class);
+            Intent i = new Intent(view.getContext(), OrderPageActivity.class);
             i.putExtra("order", holder.mItem);
             view.getContext().startActivity(i);
         });

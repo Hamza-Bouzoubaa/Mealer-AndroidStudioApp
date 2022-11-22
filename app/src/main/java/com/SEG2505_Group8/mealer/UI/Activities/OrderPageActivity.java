@@ -23,10 +23,10 @@ public class OrderPageActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.order_page);
 
-        deliveryProgress.findViewById(R.id.deliveryProgress);
-        deliveryProgress.setProgress(0);
+//        deliveryProgress.findViewById(R.id.deliveryProgress);
+//        deliveryProgress.setProgress(0);
 
         order = (MealerOrder) getIntent().getSerializableExtra("order");
 
