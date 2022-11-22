@@ -13,6 +13,7 @@ import android.widget.Button;
 import com.SEG2505_Group8.mealer.Database.Models.MealerRecipe;
 import com.SEG2505_Group8.mealer.R;
 import com.SEG2505_Group8.mealer.Services;
+import com.SEG2505_Group8.mealer.UI.Activities.ComplaintFormActivity;
 import com.SEG2505_Group8.mealer.UI.Activities.RecipeActivity;
 
 /*
@@ -37,6 +38,14 @@ public class RecommendationsFragment extends Fragment {
                 i.putExtra("recipe", object);
                 startActivity(i);
             });
+        });
+
+        Button b1 = v.findViewById(R.id.recommendations_create_complaint);
+        b1.setOnClickListener(view -> {
+            Intent i = new Intent(getContext(), ComplaintFormActivity.class);
+                i.putExtra("chef", "ChefID");
+                i.putExtra("user", "UserID");
+                startActivity(i);
         });
         return v;
     }

@@ -14,6 +14,7 @@
         <activity android:name=".UI.Activities.ComplaintActivity" />
         <activity android:name=".UI.Activities.RecipeActivity" />
         <activity android:name=".UI.Activities.RecipeFormActivity" />
+        <activity android:name=".UI.Activities.ComplaintFormActivity" />
         <activity android:name=".UI.Activities.ChooseUserTypeActivity" />
         <activity android:name=".UI.Activities.UserSignUpFormActivity" />
         <activity android:name=".UI.Activities.ChefSignUpFormActivity" />

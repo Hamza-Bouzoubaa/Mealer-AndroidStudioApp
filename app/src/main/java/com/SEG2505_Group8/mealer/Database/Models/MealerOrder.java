@@ -25,6 +25,9 @@ public class MealerOrder implements MealerSerializable {
     @MealerSerializableElement(key = "status")
     MealerOrderStatus status;
 
+    @MealerSerializableElement(key = "chef")
+    String chefId;
+
     /**
      * Id of user who created order
      */

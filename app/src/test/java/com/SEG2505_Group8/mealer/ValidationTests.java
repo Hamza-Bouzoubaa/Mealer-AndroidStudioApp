@@ -14,6 +14,8 @@ import org.mockito.stubbing.Answer;
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.isNull;
+import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.only;
@@ -78,7 +80,7 @@ public class ValidationTests {
 
         validator.required(editText);
 
-        verify(editText, never()).setError(any());
+        verify(editText, atLeastOnce()).setError(isNull());
     }
 
     @Test
@@ -113,6 +115,6 @@ public class ValidationTests {
 
         validator.creditCard(editText);
 
-        verify(editText, never()).setError(any());
+        verify(editText, atLeastOnce()).setError(isNull());
     }
 }
