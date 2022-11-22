@@ -195,6 +195,10 @@ public class HomeActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+        Services.getDatabaseClient().searchRecipesByName("pizza", 10, recipes -> {
+
+        });
+
         // Listen for current user's name and role
         Services.getDatabaseClient().listenForModel(this, "users", FirebaseAuth.getInstance().getCurrentUser().getUid(), MealerUser.class, user -> {
 
