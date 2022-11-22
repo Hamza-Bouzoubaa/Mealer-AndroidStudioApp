@@ -173,6 +173,8 @@ public class HomeActivity extends AppCompatActivity {
                         adapter.add(orderListFragment);
                         break;
                     case CHEF:
+                        fragments.add(recommendationsFragment);
+                        adapter.add(recommendationsFragment);
                         fragments.add(menuFragment);
                         adapter.add(menuFragment);
                         fragments.add(orderListFragment);
@@ -194,6 +196,10 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
+        Services.getDatabaseClient().searchRecipesByName("pizza", 10, recipes -> {
+
+        });
 
         // Listen for current user's name and role
         Services.getDatabaseClient().listenForModel(this, "users", FirebaseAuth.getInstance().getCurrentUser().getUid(), MealerUser.class, user -> {
