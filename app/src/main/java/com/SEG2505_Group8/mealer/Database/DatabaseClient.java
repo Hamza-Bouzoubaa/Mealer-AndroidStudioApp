@@ -134,6 +134,14 @@ public interface DatabaseClient {
     }
 
     /**
+     * Get {@link MealerOrder} with Document Id.
+     *
+     * @param id
+     * @return
+     */
+    Future<MealerOrder> getOrder(String id, DatabaseCompletionCallback<MealerOrder> callback);
+
+    /**
      * Get {@link MealerMenu} with Document Id.
      * Calls callback on completion
      *
