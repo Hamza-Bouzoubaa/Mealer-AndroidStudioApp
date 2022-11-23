@@ -266,7 +266,7 @@ public class HomeActivity extends AppCompatActivity {
             }
 
             if (user.getRole() != null && user.getRole() == MealerRole.CHEF) {
-                Services.getDatabaseClient().orderRecipe(user.getId(), "recipe1", s -> {});
+//                Services.getDatabaseClient().orderRecipe(user.getId(), "recipe1", s -> {});
             }
 
             // If user is suspended, show suspension alert
