@@ -175,6 +175,18 @@ public class FirebaseDatabaseClient implements DatabaseClient {
     }
 
     @Override
+    public Future<Boolean> rejectOrder(MealerOrder order, DatabaseSetCallback callback) {
+
+        Future<Boolean> future = SettableFuture.create();
+
+        order.setStatus(MealerOrderStatus.REJECTED);
+
+        saveModel(orderCollectionId, order.getId(), order, callback);
+
+        return future;
+    }
+
+    @Override
     public Future<Boolean> userInfoRequired(DatabaseCompletionCallback<Boolean> callback) {
 
         //TODO: Implement logic for user info missing fields. We currently only check if document exists.

@@ -13,15 +13,27 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.SEG2505_Group8.mealer.Database.Models.MealerComplaint;
 import com.SEG2505_Group8.mealer.Database.Models.MealerOrder;
+import com.SEG2505_Group8.mealer.Database.Models.MealerOrderStatus;
+import com.SEG2505_Group8.mealer.Database.Models.MealerOrderStatusUtils;
+import com.SEG2505_Group8.mealer.Database.Utils.DatabaseListener;
 import com.SEG2505_Group8.mealer.R;
 import com.SEG2505_Group8.mealer.Services;
 import com.SEG2505_Group8.mealer.UI.Adapters.ComplaintRecyclerViewAdapter;
 import com.SEG2505_Group8.mealer.UI.Adapters.OrderRecyclerViewAdapter;
+import com.SEG2505_Group8.mealer.UI.Adapters.RecipeRecyclerViewAdapter;
+import com.google.android.material.chip.Chip;
+import com.google.firebase.auth.FirebaseAuth;
 
 /**
  * A fragment representing a list of Items.
  */
 public class OrderListFragment extends Fragment {
+
+    DatabaseListener listener;
+
+    View orderView;
+
+    Chip showResolvedChip;
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -59,10 +71,19 @@ public class OrderListFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_order_list, container, false);
 
+        orderView = view.findViewById(R.id.order_list);
+        showResolvedChip = view.findViewById(R.id.order_list_chips_offered);
+
+        showResolvedChip.setCheckable(true);
+
+        showResolvedChip.setOnCheckedChangeListener((v, checked) -> {
+            listenForOrders(checked);
+        });
+
         // Set the adapter
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
+        if (orderView instanceof RecyclerView) {
+            Context context = orderView.getContext();
+            RecyclerView recyclerView = (RecyclerView) orderView;
             if (mColumnCount <= 1) {
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
             } else {
@@ -75,11 +96,29 @@ public class OrderListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        listenForOrders(showResolvedChip.isChecked());
+    }
 
-        // Listen for orders from Database
-        Services.getDatabaseClient().listenForModels(getActivity(), "orders", MealerOrder.class, orders -> {
+    @Override
+    public void onPause() {
+        super.onPause();
+        listener.remove();
+    }
+
+    private void listenForOrders(boolean showResolved) {
+        if (listener != null) {
+            listener.remove();
+        }
+
+        listener = Services.getDatabaseClient().listenForModels(getActivity(), "orders", MealerOrder.class, reference -> {
+            if (showResolved) {
+                return reference.limit(100);
+            } else {
+                return reference.whereNotIn("status", MealerOrderStatusUtils.getHiddenOrderStatus());
+            }
+        }, orders -> {
             // Give updated orders to adapter
-            ((RecyclerView)getView()).setAdapter(new OrderRecyclerViewAdapter(orders));
+            ((RecyclerView)orderView).setAdapter(new OrderRecyclerViewAdapter(orders));
         });
     }
 }
