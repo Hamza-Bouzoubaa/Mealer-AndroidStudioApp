@@ -144,13 +144,11 @@
         >
 
         <Button
+            android:id="@+id/order_status_write_complaint"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Voir le recu"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/order_status_variable" />
+            android:text="@string/order_status_write_complaint"
+            app:layout_constraintHorizontal_bias="0.5" />
 
         <Button
             android:id="@+id/order_status_save"
@@ -158,20 +156,14 @@
             android:layout_height="wrap_content"
             android:text="@string/save"
             android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/order_status_variable" />
+            app:layout_constraintHorizontal_bias="0.5" />
 
 
         <Button
             android:id="@+id/order_status_close"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/order_status_progress"
             android:text="@string/close"
             />
 

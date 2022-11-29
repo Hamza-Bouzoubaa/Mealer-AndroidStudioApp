@@ -81,4 +81,7 @@
     <string name="order_status_progress_label">Avancement de votre commande</string>
     <string name="show_resolved">Show Resolved</string>
     <string name="set_status">Set status:</string>
+    <string name="order_status_write_complaint">Write Complaint</string>
+    <string name="complaint_form_title">Complaint</string>
+    <string name="complaint_form_description">Description</string>
 </resources>
