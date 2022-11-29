@@ -5,17 +5,13 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 
-import com.SEG2505_Group8.mealer.Database.Models.MealerOrder;
 import com.SEG2505_Group8.mealer.R;
 import com.SEG2505_Group8.mealer.Services;
 import com.SEG2505_Group8.mealer.UI.Activities.MainActivity;
-import com.SEG2505_Group8.mealer.UI.Activities.OrderPageActivity;
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -24,6 +20,10 @@ import java.util.Map;
 public class MealerMessagingService extends FirebaseMessagingService {
 
     private static final String orderStatusType = "orderStatus";
+
+    public void onNewToken(@NonNull String token) {
+        Services.getDatabaseClient().updateUserToken();
+    }
 
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {

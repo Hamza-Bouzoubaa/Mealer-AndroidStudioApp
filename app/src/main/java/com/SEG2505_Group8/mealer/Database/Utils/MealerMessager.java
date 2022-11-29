@@ -19,6 +19,7 @@ import java.util.Map;
 
 /**
  * Inspired from https://stackoverflow.com/questions/66919302/how-can-i-send-notification-to-specific-user-using-the-users-token-in-firebase
+ * Updated to follow Firebase's v1 auth endpoints and message implementation
  */
 public class MealerMessager {
 
