@@ -1,6 +1,7 @@
 package com.SEG2505_Group8.mealer.Database.Models;
 
 import com.SEG2505_Group8.mealer.Database.DatabaseClient;
+import com.SEG2505_Group8.mealer.Database.MealerMessagingService;
 import com.SEG2505_Group8.mealer.Database.Serialize.MealerSerializable;
 import com.SEG2505_Group8.mealer.Database.Serialize.MealerSerializableElement;
 import com.SEG2505_Group8.mealer.R;
@@ -118,6 +119,9 @@ public class MealerUser implements MealerSerializable {
     @MealerSerializableElement(key = "orders")
     List<String> orderIds;
 
+    @MealerSerializableElement(key = "messageToken")
+    String messageToken;
+
     public MealerUser(String id, MealerRole role, String firstName, String lastName, String email, String address, String creditCard, String description, String voidCheckUrl) {
 
         this.id = id;
@@ -135,6 +139,7 @@ public class MealerUser implements MealerSerializable {
         this.isSuspended = false;
         this.suspendedUntil = "";
         this.orderIds = new ArrayList<>();
+        this.messageToken = "";
 
         // TODO: Make this cleaner
         List<Integer> ratings = new ArrayList<>();

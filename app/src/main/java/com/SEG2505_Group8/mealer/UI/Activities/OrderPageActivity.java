@@ -5,12 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.SEG2505_Group8.mealer.Database.FirebaseDatabaseClient;
+import com.SEG2505_Group8.mealer.Database.MealerMessagingService;
 import com.SEG2505_Group8.mealer.Database.Models.MealerComplaint;
 import com.SEG2505_Group8.mealer.Database.Models.MealerOrder;
 import com.SEG2505_Group8.mealer.Database.Models.MealerOrderStatus;
 import com.SEG2505_Group8.mealer.Database.Models.MealerOrderStatusUtils;
 import com.SEG2505_Group8.mealer.Database.Models.MealerRole;
 import com.SEG2505_Group8.mealer.Database.Utils.DatabaseListener;
+import com.SEG2505_Group8.mealer.Database.Utils.MealerMessager;
 import com.SEG2505_Group8.mealer.Services;
 
 import android.os.Bundle;
@@ -76,10 +78,27 @@ public class OrderPageActivity extends AppCompatActivity {
             Button saveButton = findViewById(R.id.order_status_save);
             saveButton.setVisibility(user.getRole() == MealerRole.USER ? View.GONE : View.VISIBLE);
             saveButton.setOnClickListener(v -> {
-                order.setStatus(MealerOrderStatus.valueOf(statusSpinner.getSelectedItem().toString()));
+
+                MealerOrderStatus newStatus = MealerOrderStatus.valueOf(statusSpinner.getSelectedItem().toString());
+                boolean dirtyStatus = order.getStatus() != newStatus;
+
+
+                if (dirtyStatus) {
+                    order.setStatus(newStatus);
+                }
                 Services.getDatabaseClient().updateOrder(order, isSuccessful -> {
-                    Toast.makeText(OrderPageActivity.this, "Updated order!", Toast.LENGTH_SHORT).show();
-                    finish();
+
+                    if (isSuccessful && dirtyStatus) {
+                        Services.getDatabaseClient().getUser(order.getClientId(), u -> {
+                            if (u != null) {
+                                MealerMessager messager = new MealerMessager(getApplicationContext());
+                                messager.notifyClientOrder(order.getId(), u.getMessageToken());
+                            }
+
+                            Toast.makeText(OrderPageActivity.this, "Updated order!", Toast.LENGTH_SHORT).show();
+                            finish();
+                        });
+                    }
                 });
             });
 

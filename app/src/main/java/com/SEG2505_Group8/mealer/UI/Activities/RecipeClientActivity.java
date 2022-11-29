@@ -14,6 +14,9 @@ import com.SEG2505_Group8.mealer.Database.Models.MealerRecipe;
 import com.SEG2505_Group8.mealer.R;
 import com.SEG2505_Group8.mealer.Services;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class RecipeClientActivity extends AppCompatActivity {
 
@@ -55,10 +58,24 @@ public class RecipeClientActivity extends AppCompatActivity {
 
                 Services.getDatabaseClient().orderRecipe(recipe, order -> {
                     if (order != null) {
-                        Intent i = new Intent(RecipeClientActivity.this, OrderPageActivity.class);
-                        i.putExtra("orderId", order.getId());
-                        startActivity(i);
-                        System.out.println("Launching activity");
+
+                        Services.getDatabaseClient().getUser(user -> {
+
+                            List<String> ids = user.getOrderIds();
+
+                            if (ids == null) {
+                               ids = new ArrayList<>();
+                           }
+
+                            ids.add(order.getId());
+
+                            Services.getDatabaseClient().updateUser(user, s -> {
+                                Intent i = new Intent(RecipeClientActivity.this, OrderPageActivity.class);
+                                i.putExtra("orderId", order.getId());
+                                startActivity(i);
+                                System.out.println("Launching activity");
+                            });
+                        });
                     }
                 });
             } else {
