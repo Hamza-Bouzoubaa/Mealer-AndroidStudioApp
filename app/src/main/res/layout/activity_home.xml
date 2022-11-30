@@ -9,9 +9,13 @@
     android:animateLayoutChanges="true">
 
     <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/home_view_pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/home_view_pager"/>
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/coordinator"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+    />
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/coordinator"
@@ -37,6 +41,14 @@
             android:src="@drawable/ic_baseline_add_24"
             app:layout_anchor="@id/home_bottom_app_bar"
             />
+
+        <AutoCompleteTextView
+            android:id="@+id/autoCompleteTextView"
+            android:layout_width="269dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/search_for_food" />
+
+
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

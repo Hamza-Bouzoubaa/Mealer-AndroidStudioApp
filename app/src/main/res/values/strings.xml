@@ -84,4 +84,9 @@
     <string name="order_status_write_complaint">Write Complaint</string>
     <string name="complaint_form_title">Complaint</string>
     <string name="complaint_form_description">Description</string>
+
+
+
+    <string name="search_for_food">Search food or restaurants</string>
+    @string/search_for_food
 </resources>
