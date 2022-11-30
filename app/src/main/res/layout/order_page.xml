@@ -143,6 +143,58 @@
         android:layout_marginHorizontal="20dp"
         >
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <ImageButton
+                android:id="@+id/order_status_1_star"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:src="@drawable/ic_baseline_star_border_24"
+                android:scaleType="fitCenter"
+                android:background="#00000000"
+                app:tint="@color/primary"
+                android:contentDescription="@string/order_1_star_rating" />
+            <ImageButton
+                android:id="@+id/order_status_2_star"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:src="@drawable/ic_baseline_star_border_24"
+                android:scaleType="fitCenter"
+                android:background="#00000000"
+                app:tint="@color/primary"
+                android:contentDescription="@string/order_2_star_rating" />
+            <ImageButton
+                android:id="@+id/order_status_3_star"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:src="@drawable/ic_baseline_star_border_24"
+                android:scaleType="fitCenter"
+                android:background="#00000000"
+                app:tint="@color/primary"
+                android:contentDescription="@string/order_3_star_rating" />
+            <ImageButton
+                android:id="@+id/order_status_4_star"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:src="@drawable/ic_baseline_star_border_24"
+                android:scaleType="fitCenter"
+                android:background="#00000000"
+                app:tint="@color/primary"
+                android:contentDescription="@string/order_4_star_rating" />
+            <ImageButton
+                android:id="@+id/order_status_5_star"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:src="@drawable/ic_baseline_star_border_24"
+                android:scaleType="fitCenter"
+                android:background="#00000000"
+                app:tint="@color/primary"
+                android:contentDescription="@string/order_5_star_rating" />
+        </LinearLayout>
+
         <Button
             android:id="@+id/order_status_write_complaint"
             android:layout_width="match_parent"

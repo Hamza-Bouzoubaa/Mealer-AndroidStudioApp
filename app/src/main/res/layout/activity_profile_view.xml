@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UI.Activities.ProfileActivity">
+
+    <TextView
+        android:id="@+id/profile_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="33dp"
+        android:text="@string/profile_title"
+        android:textSize="45sp"
+        android:textColor="#D96545"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/profile_image"
+        android:layout_width="0dp"
+        android:layout_height="140dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/catburger"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profile_title"/>
+
+    <TextView
+        android:id="@+id/profile_first_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="First name"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profile_image" />
+
+    <TextView
+        android:id="@+id/profile_last_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Last name"
+        android:textSize="20sp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="@id/profile_first_name"
+        app:layout_constraintTop_toBottomOf="@id/profile_first_name" />
+
+    <TextView
+        android:id="@+id/profile_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="email adress"
+        android:textSize="20sp"
+        android:layout_marginTop="30dp"
+        app:layout_constraintStart_toStartOf="@id/profile_first_name"
+        app:layout_constraintTop_toBottomOf="@id/profile_last_name" />
+
+    <TextView
+        android:id="@+id/profile_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Adress"
+        android:textSize="20sp"
+        android:layout_marginTop="30dp"
+        app:layout_constraintStart_toStartOf="@id/profile_first_name"
+        app:layout_constraintTop_toBottomOf="@id/profile_email"/>
+
+    <TextView
+        android:id="@+id/profile_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Description"
+        android:textSize="20sp"
+        android:layout_marginTop="30dp"
+        app:layout_constraintStart_toStartOf="@id/profile_first_name"
+        app:layout_constraintTop_toBottomOf="@id/profile_address"/>
+
+    <LinearLayout
+        android:id="@+id/profile_stars"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profile_description"
+        app:layout_constraintBottom_toTopOf="@id/profile_close">
+        <ImageView
+            android:id="@+id/profile_1_star"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:src="@drawable/ic_baseline_star_border_24"
+            android:scaleType="fitCenter"
+            android:background="#00000000"
+            app:tint="@color/primary"
+            android:contentDescription="@string/order_1_star_rating" />
+        <ImageView
+            android:id="@+id/profile_2_star"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:src="@drawable/ic_baseline_star_border_24"
+            android:scaleType="fitCenter"
+            android:background="#00000000"
+            app:tint="@color/primary"
+            android:contentDescription="@string/order_2_star_rating" />
+        <ImageView
+            android:id="@+id/profile_3_star"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:src="@drawable/ic_baseline_star_border_24"
+            android:scaleType="fitCenter"
+            android:background="#00000000"
+            app:tint="@color/primary"
+            android:contentDescription="@string/order_3_star_rating" />
+        <ImageView
+            android:id="@+id/profile_4_star"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:src="@drawable/ic_baseline_star_border_24"
+            android:scaleType="fitCenter"
+            android:background="#00000000"
+            app:tint="@color/primary"
+            android:contentDescription="@string/order_4_star_rating" />
+        <ImageView
+            android:id="@+id/profile_5_star"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:src="@drawable/ic_baseline_star_border_24"
+            android:scaleType="fitCenter"
+            android:background="#00000000"
+            app:tint="@color/primary"
+            android:contentDescription="@string/order_5_star_rating" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/profile_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/close"
+        app:layout_constraintTop_toBottomOf="@id/profile_stars"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

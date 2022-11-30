@@ -38,12 +38,6 @@ public class MealerMenu implements MealerSerializable {
     @MealerSerializableElement(key = "recipeIds")
     List<String> recipeIds;
 
-    /**
-     * Number of 1, 2, 3, 4, 5 star ratings.
-     */
-    @MealerSerializableElement(key = "ratings")
-    List<Integer> ratings;
-
     @Override
     public String getId() {
         return id;

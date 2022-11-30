@@ -2,6 +2,11 @@
 
     <PreferenceCategory app:title="@string/account_header">
 
+        <Preference
+            app:key="view_profile"
+            app:title="@string/view_profile"
+            app:allowDividerBelow="true"/>
+
         <EditTextPreference
             app:key="first_name"
             app:title="@string/account_first_name"
@@ -24,7 +29,8 @@
         <Preference
             app:key="sign_out"
             app:title="@string/account_sign_out"
-            app:useSimpleSummaryProvider="true" />
+            app:useSimpleSummaryProvider="true"
+            app:allowDividerAbove="true"/>
 
     </PreferenceCategory>
 

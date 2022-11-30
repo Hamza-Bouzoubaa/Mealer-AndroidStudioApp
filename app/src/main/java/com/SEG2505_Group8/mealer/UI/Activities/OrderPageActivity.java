@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -37,11 +38,15 @@ public class OrderPageActivity extends AppCompatActivity {
     TextView status;
     TextView recipeName;
 
+    // Array holding the 5 stars for ratings. Idx 0 = 1 star review. idx 4 = 5 star review.
+    ImageButton[] stars = new ImageButton[5];
+    Integer rating = null;
+
     Spinner statusSpinner;
 
     ProgressBar progress;
-    String orderId;
 
+    String orderId;
     DatabaseListener listener;
 
     @Override
@@ -56,6 +61,12 @@ public class OrderPageActivity extends AppCompatActivity {
         progress = findViewById(R.id.order_status_progress);
         progress.setMin(0);
         progress.setMax(MealerOrderStatusUtils.getMaxStatusStep());
+
+        stars[0] = findViewById(R.id.order_status_1_star);
+        stars[1] = findViewById(R.id.order_status_2_star);
+        stars[2] = findViewById(R.id.order_status_3_star);
+        stars[3] = findViewById(R.id.order_status_4_star);
+        stars[4] = findViewById(R.id.order_status_5_star);
 
         statusSpinner = findViewById(R.id.order_status_select);
 
@@ -89,21 +100,28 @@ public class OrderPageActivity extends AppCompatActivity {
                 }
                 Services.getDatabaseClient().updateOrder(order, isSuccessful -> {
 
-                    if (isSuccessful && dirtyStatus) {
+                    if (isSuccessful) {
                         Services.getDatabaseClient().getUser(order.getClientId(), u -> {
                             if (u != null) {
-                                MealerMessager messager = new MealerMessager(getApplicationContext());
-                                messager.notifyClientOrder(order.getId(), u.getMessageToken());
-                            }
 
-                            Toast.makeText(OrderPageActivity.this, "Updated order!", Toast.LENGTH_SHORT).show();
-                            finish();
+                                if (dirtyStatus) {
+                                    MealerMessager messager = new MealerMessager(getApplicationContext());
+                                    messager.notifyClientOrder(order.getId(), u.getMessageToken());
+                                }
+                            }
                         });
                     }
                 });
             });
 
         });
+
+        for (int i = 0; i < stars.length; i++) {
+            int finalI = i;
+            stars[i].setOnClickListener(v -> {
+                clickStar(finalI);
+            });
+        }
 
         listenForOrder();
     }
@@ -154,5 +172,29 @@ public class OrderPageActivity extends AppCompatActivity {
                 complaintButton.setVisibility(FirebaseAuth.getInstance().getUid().equals(order.getClientId()) ? View.VISIBLE : View.GONE);
             }
         });
+    }
+
+    public void clickStar(int idx) {
+
+        rating = idx;
+
+        for (int i = 0; i < stars.length; i++) {
+            stars[i].setImageResource(i <= idx ? R.drawable.ic_baseline_star_24 : R.drawable.ic_baseline_star_border_24);
+        }
+
+        if (rating != null) {
+            Services.getDatabaseClient().getRecipe(order.getRecipeId(), recipe -> {
+                recipe.rate(rating, order.getClientId());
+
+                Services.getDatabaseClient().updateRecipe(recipe, isSuccess -> {
+                    Services.getDatabaseClient().getUser(order.getChefId(), chef -> {
+                        chef.rate(rating, order.getClientId());
+                        Services.getDatabaseClient().updateUser(chef, s -> {
+                            Toast.makeText(OrderPageActivity.this, "Updated rating!", Toast.LENGTH_SHORT).show();
+                        });
+                    });
+                });
+            });
+        }
     }
 }
