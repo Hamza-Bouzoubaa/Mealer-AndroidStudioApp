@@ -16,7 +16,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:hint="@string/search_for_food" />
+        android:padding="4dp"
+        app:queryHint="Search HEre"
+        app:iconifiedByDefault="false"
+        android:background="@color/primary"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recommendation_list"
