@@ -322,6 +322,17 @@ public interface DatabaseClient {
      */
     Future<Boolean> deleteComplaint(String id, DatabaseSetCallback callback);
 
+    Future<Boolean> updateUserToken();
+
+    /**
+     * Set status of a {@link MealerOrder} to REJECTED
+     * Executes callback on completion
+     * @param order
+     * @param callback
+     * @return
+     */
+    Future<Boolean> rejectOrder(MealerOrder order, DatabaseSetCallback callback);
+
     /**
      * Return true if sign in user's info needs to be updated
      *

@@ -18,6 +18,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+import com.SEG2505_Group8.mealer.Database.MealerMessagingService;
 import com.SEG2505_Group8.mealer.Database.Models.MealerComplaint;
 import com.SEG2505_Group8.mealer.Database.Models.MealerMenu;
 import com.SEG2505_Group8.mealer.Database.Models.MealerRecipe;
@@ -190,6 +191,7 @@ public class HomeActivity extends AppCompatActivity {
 
             viewPager.setAdapter(adapter);
 
+            Services.getDatabaseClient().updateUserToken();
         });
     }
 

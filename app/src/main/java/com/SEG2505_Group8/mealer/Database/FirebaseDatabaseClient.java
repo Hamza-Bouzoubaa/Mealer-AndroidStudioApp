@@ -23,9 +23,11 @@ import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -172,6 +174,31 @@ public class FirebaseDatabaseClient implements DatabaseClient {
     @Override
     public Future<Boolean> deleteComplaint(String id, DatabaseSetCallback callback) {
         return deleteModel(complaintCollectionId, id, callback);
+    }
+
+    @Override
+    public Future<Boolean> updateUserToken() {
+        SettableFuture<Boolean> future = SettableFuture.create();
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(token -> {
+            getUser(u -> {
+               u.setMessageToken(token.getResult());
+               System.out.println(token.getResult());
+               saveModel(userCollectionId, FirebaseAuth.getInstance().getUid(), u, future::set);
+            });
+        });
+        return future;
+    }
+
+    @Override
+    public Future<Boolean> rejectOrder(MealerOrder order, DatabaseSetCallback callback) {
+
+        Future<Boolean> future = SettableFuture.create();
+
+        order.setStatus(MealerOrderStatus.REJECTED);
+
+        saveModel(orderCollectionId, order.getId(), order, callback);
+
+        return future;
     }
 
     @Override

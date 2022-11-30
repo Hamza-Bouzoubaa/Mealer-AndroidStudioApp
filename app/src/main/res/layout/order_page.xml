@@ -6,18 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".UI.Activities.ChefSignUpFormActivity">
 
-    <TextView
-        android:id="@+id/Order_title_page"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:text="Order n. XXXX"
-        android:textSize="28sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.436"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <ImageView
         android:layout_margin="20dp"
         android:id="@+id/Order_Image"
@@ -27,8 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/Order_title_page"
-
+        app:layout_constraintTop_toTopOf="parent"
         />
 
     <TextView
@@ -36,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
-        android:text="Your Order:"
+        android:text="@string/your_order"
         android:textSize="28sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.509"
@@ -44,11 +31,11 @@
         app:layout_constraintTop_toBottomOf="@id/Order_Image" />
 
     <TextView
-        android:id="@+id/order_list"
+        android:id="@+id/order_status_recipe_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
-        android:text="1- Pizza Peperoni"
+        android:text="Pizza Peperoni"
         android:textSize="24sp"
     android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -62,20 +49,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:text="_________________________"
+        android:text="@string/spacer"
         android:textSize="28sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.515"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/order_list" />
+        app:layout_constraintTop_toBottomOf="@id/order_status_recipe_name" />
 
 
     <TextView
 
-        android:id="@+id/Order_status"
+        android:id="@+id/order_status_status_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Order status: In delivery"
+        android:text="@string/order_status_text"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -84,35 +71,65 @@
         app:layout_constraintTop_toBottomOf="@id/line"
 
         />
-    <TextView
-        android:id="@+id/order_progress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:text="Avancement de votre commande"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.184"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/Order_status"  />
 
-
-
-    <ProgressBar
-
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/order_status_variable"
         android:layout_width="match_parent"
-        android:id="@+id/deliveryProgress"
         android:layout_height="wrap_content"
-        android:max="100"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-        android:progress="75"
-        android:layout_margin="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.184"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/order_progress"
+        app:layout_constraintTop_toBottomOf="@id/order_status_status_text">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/order_status_variable_client"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+            <TextView
+                android:id="@+id/order_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:text="@string/order_status_progress_label"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.184"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+            <ProgressBar
+                android:layout_width="match_parent"
+                android:id="@+id/order_status_progress"
+                android:layout_height="wrap_content"
+                android:max="100"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:progress="75"
+                android:layout_margin="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.184"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/order_progress"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/order_status_variable_chef"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/order_status_select_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/set_status"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+            <Spinner
+                android:id="@+id/order_status_select"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/order_status_select_label"
+                app:layout_constraintEnd_toEndOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-        />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -121,28 +138,33 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/deliveryProgress"
+        app:layout_constraintTop_toBottomOf="@id/order_status_variable"
         android:layout_marginTop="50dp"
         android:layout_marginHorizontal="20dp"
         >
 
         <Button
+            android:id="@+id/order_status_write_complaint"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Voir le recu"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/deliveryProgress" />
+            android:text="@string/order_status_write_complaint"
+            app:layout_constraintHorizontal_bias="0.5" />
 
         <Button
+            android:id="@+id/order_status_save"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:text="@string/save"
+            android:visibility="gone"
+            app:layout_constraintHorizontal_bias="0.5" />
+
+
+        <Button
+            android:id="@+id/order_status_close"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/deliveryProgress"
-            android:text="Aide"
+            android:text="@string/close"
             />
 
 
