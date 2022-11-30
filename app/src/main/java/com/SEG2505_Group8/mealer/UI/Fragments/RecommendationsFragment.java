@@ -6,24 +6,28 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.SEG2505_Group8.mealer.Database.Models.MealerComplaint;
-import com.SEG2505_Group8.mealer.Database.Models.MealerOrder;
+
 import com.SEG2505_Group8.mealer.Database.Models.MealerRecipe;
+import com.SEG2505_Group8.mealer.Database.Utils.DatabaseListener;
 import com.SEG2505_Group8.mealer.R;
 import com.SEG2505_Group8.mealer.Services;
-import com.SEG2505_Group8.mealer.UI.Adapters.ComplaintRecyclerViewAdapter;
-import com.SEG2505_Group8.mealer.UI.Adapters.OrderRecyclerViewAdapter;
 import com.SEG2505_Group8.mealer.UI.Adapters.RecommendationRecyclerViewAdapter;
 
 /**
  * A fragment representing a list of Items.
  */
 public class RecommendationsFragment extends Fragment {
+
+    SearchView search;
+    RecyclerView results;
+
+    DatabaseListener listener;
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -61,18 +65,37 @@ public class RecommendationsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_recommendations, container, false);
 
-        View view = v.findViewById(R.id.recommendation_list);
+        results = v.findViewById(R.id.recommendation_list);
 
         // Set the adapter
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
+        if (results != null) {
+            Context context = results.getContext();
+            RecyclerView recyclerView = results;
             if (mColumnCount <= 1) {
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
         }
+
+        search = v.findViewById(R.id.recommendation_search);
+        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String query) {
+
+                Services.getDatabaseClient().searchRecipesByName(query, 10, recipes -> {
+                    results.setAdapter(new RecommendationRecyclerViewAdapter(recipes));
+                });
+
+                return true;
+            }
+        });
+
         return v;
     }
 
@@ -80,10 +103,14 @@ public class RecommendationsFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
+        if (listener != null) {
+            listener.remove();
+        }
+
         // Listen for orders from Database
-        Services.getDatabaseClient().listenForModels(getActivity(), "recipes", MealerRecipe.class, reference -> reference.whereEqualTo("isOffered", true).limit(10), recipes -> {
+        listener = Services.getDatabaseClient().listenForModels(getActivity(), "recipes", MealerRecipe.class, reference -> reference.whereEqualTo("isOffered", true).limit(10), recipes -> {
             // Give updated orders to adapter
-            ((RecyclerView)getView().findViewById(R.id.recommendation_list)).setAdapter(new RecommendationRecyclerViewAdapter(recipes));
+            results.setAdapter(new RecommendationRecyclerViewAdapter(recipes));
         });
     }
 }
