@@ -198,8 +198,8 @@ public interface DatabaseClient {
      * @param callback to execute on search completion
      * @return
      */
-    default Future<List<MealerRecipe>> searchRecipesByName(String name, int limit, boolean orderable, DatabaseCompletionCallback<List<MealerRecipe>> callback) {
-        return searchRecipes(limit, reference -> reference.whereGreaterThanOrEqualTo("name", name).whereLessThanOrEqualTo("name", name + '\uF7FF'), callback);
+    default Future<List<MealerRecipe>> searchRecipesByName(String name, int limit, DatabaseCompletionCallback<List<MealerRecipe>> callback) {
+        return searchRecipes(limit, reference -> reference.whereEqualTo("isOffered", true).whereGreaterThanOrEqualTo("name", name).whereLessThanOrEqualTo("name", name + '\uF7FF'), callback);
     }
 
     Future<List<MealerRecipe>> searchRecipes(int limit, DatabaseFilterCallback filter, DatabaseCompletionCallback<List<MealerRecipe>> callback);

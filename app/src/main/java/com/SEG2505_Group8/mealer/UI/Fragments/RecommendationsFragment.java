@@ -90,7 +90,7 @@ public class RecommendationsFragment extends Fragment {
             @Override
             public boolean onQueryTextChange(String query) {
 
-                Services.getDatabaseClient().searchRecipesByName(query, 10, true, recipes -> {
+                Services.getDatabaseClient().searchRecipesByName(query, 10, recipes -> {
                     if (recipes == null) {
                         recipes = new ArrayList<>();
                     }
