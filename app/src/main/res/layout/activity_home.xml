@@ -8,6 +8,7 @@
     android:id="@+id/relativeLayout"
     android:animateLayoutChanges="true">
 
+
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/home_view_pager"
         android:layout_width="match_parent"
@@ -15,18 +16,23 @@
         app:layout_constraintBottom_toTopOf="@+id/coordinator"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-    />
+    >
+
+    </androidx.viewpager2.widget.ViewPager2>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/coordinator"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="0dp">
+
         <com.google.android.material.bottomappbar.BottomAppBar
             android:id="@+id/home_bottom_app_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom">
+
             <com.google.android.material.bottomnavigation.BottomNavigationView
                 android:id="@+id/home_bottom_navigation_view"
                 android:layout_width="match_parent"
@@ -34,19 +40,26 @@
                 android:layout_marginEnd="16dp"
                 app:menu="@menu/bottom_navigation_menu" />
         </com.google.android.material.bottomappbar.BottomAppBar>
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/home_bottom_navigation_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_baseline_add_24"
-            app:layout_anchor="@id/home_bottom_app_bar"
-            />
+            app:layout_anchor="@id/home_bottom_app_bar" />
 
         <AutoCompleteTextView
             android:id="@+id/autoCompleteTextView"
-            android:layout_width="269dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="@string/search_for_food" />
+
+        <SearchView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:layout_marginStart="20dp"
+             />
 
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
