@@ -107,7 +107,7 @@ public class ChefSignUpFormActivity extends AppCompatActivity {
                     return;
                 }
 
-                MealerMenu menu = new MealerMenu(UUID.randomUUID().toString(), userId, new ArrayList<>(), new ArrayList<>());
+                MealerMenu menu = new MealerMenu(UUID.randomUUID().toString(), userId, new ArrayList<>());
                 Services.getDatabaseClient().updateMenu(menu, success -> {
 
                     if (success) {

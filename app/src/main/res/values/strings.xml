@@ -85,8 +85,14 @@
     <string name="complaint_form_title">Complaint</string>
     <string name="complaint_form_description">Description</string>
 
-
+    <string name="order_1_star_rating">1 Star rating</string>
+    <string name="order_2_star_rating">2 star rating</string>
+    <string name="order_3_star_rating">3 star rating</string>
+    <string name="order_4_star_rating">4 star rating</string>
+    <string name="order_5_star_rating">5 star rating</string>
+    <string name="profile_title">Profil</string>
+    <string name="profile_subtitle">A profile</string>
+    <string name="view_profile">View Profile</string>
 
     <string name="search_for_food">Search food or restaurants</string>
-    @string/search_for_food
 </resources>
