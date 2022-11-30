@@ -52,6 +52,13 @@ public class RecipeClientActivity extends AppCompatActivity {
             finish();
         });
 
+        Button profileButton = findViewById(R.id.recipe_profile_button);
+        profileButton.setOnClickListener(v -> {
+            Intent i = new Intent(this, ProfileActivity.class);
+            i.putExtra("userId", recipe.getChefId());
+            startActivity(i);
+        });
+
         Button orderButton = findViewById(R.id.recipe_order);
         orderButton.setOnClickListener(view -> {
             if (recipe.getIsOffered()) {
