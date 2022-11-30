@@ -17,7 +17,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:padding="4dp"
-        app:queryHint="Search HEre"
+        app:queryHint="Search Here"
         app:iconifiedByDefault="false"
         android:background="@color/primary"/>
 
