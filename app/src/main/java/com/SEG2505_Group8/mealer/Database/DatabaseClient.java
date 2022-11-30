@@ -134,6 +134,14 @@ public interface DatabaseClient {
     }
 
     /**
+     * Get {@link MealerOrder} with Document Id.
+     *
+     * @param id
+     * @return
+     */
+    Future<MealerOrder> getOrder(String id, DatabaseCompletionCallback<MealerOrder> callback);
+
+    /**
      * Get {@link MealerMenu} with Document Id.
      * Calls callback on completion
      *
@@ -271,7 +279,7 @@ public interface DatabaseClient {
      * @param callback
      * @return
      */
-    Future<Boolean> orderRecipe(String menuId, String recipeId, DatabaseSetCallback callback);
+    Future<MealerOrder> orderRecipe(MealerRecipe recipe, DatabaseCompletionCallback<MealerOrder> callback);
 
     /**
      * Delete a {@link MealerRecipe} stored in Database.
@@ -313,6 +321,17 @@ public interface DatabaseClient {
      * @return
      */
     Future<Boolean> deleteComplaint(String id, DatabaseSetCallback callback);
+
+    Future<Boolean> updateUserToken();
+
+    /**
+     * Set status of a {@link MealerOrder} to REJECTED
+     * Executes callback on completion
+     * @param order
+     * @param callback
+     * @return
+     */
+    Future<Boolean> rejectOrder(MealerOrder order, DatabaseSetCallback callback);
 
     /**
      * Return true if sign in user's info needs to be updated

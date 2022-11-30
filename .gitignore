@@ -35,3 +35,7 @@ google-services.json
 .DS_Store
 
 android/
+caches/
+wrapper/
+
+serviceaccount.json

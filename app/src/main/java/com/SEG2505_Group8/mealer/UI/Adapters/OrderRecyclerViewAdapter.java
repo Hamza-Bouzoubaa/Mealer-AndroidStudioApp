@@ -9,11 +9,9 @@ import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.SEG2505_Group8.mealer.Database.Models.MealerComplaint;
 import com.SEG2505_Group8.mealer.Database.Models.MealerOrder;
 import com.SEG2505_Group8.mealer.Services;
-import com.SEG2505_Group8.mealer.UI.Activities.ComplaintActivity;
-import com.SEG2505_Group8.mealer.databinding.FragmentComplaintItemBinding;
+import com.SEG2505_Group8.mealer.UI.Activities.OrderPageActivity;
 import com.SEG2505_Group8.mealer.databinding.FragmentOrderItemBinding;
 
 import java.util.List;
@@ -40,17 +38,18 @@ public class OrderRecyclerViewAdapter extends RecyclerView.Adapter<OrderRecycler
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
 
-        holder.title.setText("Order");
+        holder.title.setText("Order: " + holder.mItem.getId());
 
         holder.openButton.setOnClickListener(view -> {
-            Intent i = new Intent(view.getContext(), ComplaintActivity.class);
-            i.putExtra("complaint", holder.mItem);
+            Intent i = new Intent(view.getContext(), OrderPageActivity.class);
+            i.putExtra("orderId", holder.mItem.getId());
             view.getContext().startActivity(i);
         });
         holder.rejectButton.setOnClickListener(v -> {
-            Services.getDatabaseClient().deleteComplaint(holder.mItem.getId(), isSuccessful -> {
+
+            Services.getDatabaseClient().rejectOrder(holder.mItem, isSuccessful -> {
                 if (isSuccessful) {
-                    Toast.makeText(v.getContext(), "Complaint rejected", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(v.getContext(), "Order rejected", Toast.LENGTH_SHORT).show();
                     mValues.remove(position);
                     notifyItemRemoved(position);
                     notifyItemChanged(position, mValues.size());

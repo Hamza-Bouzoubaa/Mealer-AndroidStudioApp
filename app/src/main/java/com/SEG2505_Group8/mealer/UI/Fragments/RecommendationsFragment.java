@@ -1,52 +1,87 @@
 package com.SEG2505_Group8.mealer.UI.Fragments;
 
-import android.content.Intent;
+import android.content.Context;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.SEG2505_Group8.mealer.Database.Models.MealerComplaint;
+import com.SEG2505_Group8.mealer.Database.Models.MealerOrder;
 import com.SEG2505_Group8.mealer.Database.Models.MealerRecipe;
 import com.SEG2505_Group8.mealer.R;
 import com.SEG2505_Group8.mealer.Services;
-import com.SEG2505_Group8.mealer.UI.Activities.ComplaintFormActivity;
-import com.SEG2505_Group8.mealer.UI.Activities.RecipeActivity;
+import com.SEG2505_Group8.mealer.UI.Adapters.ComplaintRecyclerViewAdapter;
+import com.SEG2505_Group8.mealer.UI.Adapters.OrderRecyclerViewAdapter;
+import com.SEG2505_Group8.mealer.UI.Adapters.RecommendationRecyclerViewAdapter;
 
-/*
- * A simple {@link Fragment} subclass.
- * Use the {@link RecommendationsFragment} factory method to
- * create an instance of this fragment.
+/**
+ * A fragment representing a list of Items.
  */
 public class RecommendationsFragment extends Fragment {
 
+    // TODO: Customize parameter argument names
+    private static final String ARG_COLUMN_COUNT = "column-count";
+    // TODO: Customize parameters
+    private int mColumnCount = 1;
+
+    /**
+     * Mandatory empty constructor for the fragment manager to instantiate the
+     * fragment (e.g. upon screen orientation changes).
+     */
     public RecommendationsFragment() {
+    }
+
+    // TODO: Customize parameter initialization
+    @SuppressWarnings("unused")
+    public static RecommendationsFragment newInstance(int columnCount) {
+        RecommendationsFragment fragment = new RecommendationsFragment();
+        Bundle args = new Bundle();
+        args.putInt(ARG_COLUMN_COUNT, columnCount);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if (getArguments() != null) {
+            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_recommendations, container, false);
-        Button b = v.findViewById(R.id.recommendations_open_recipe);
-        b.setOnClickListener(view -> {
-            Services.getDatabaseClient().getRecipe("recipe1", object -> {
-                Intent i = new Intent(getContext(), RecipeActivity.class);
-                i.putExtra("recipe", object);
-                startActivity(i);
-            });
-        });
+        View view = inflater.inflate(R.layout.fragment_recommendations, container, false);
 
-        Button b1 = v.findViewById(R.id.recommendations_create_complaint);
-        b1.setOnClickListener(view -> {
-            Intent i = new Intent(getContext(), ComplaintFormActivity.class);
-                i.putExtra("chef", "ChefID");
-                i.putExtra("user", "UserID");
-                startActivity(i);
+        // Set the adapter
+        if (view instanceof RecyclerView) {
+            Context context = view.getContext();
+            RecyclerView recyclerView = (RecyclerView) view;
+            if (mColumnCount <= 1) {
+                recyclerView.setLayoutManager(new LinearLayoutManager(context));
+            } else {
+                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
+            }
+        }
+        return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        // Listen for orders from Database
+        Services.getDatabaseClient().listenForModels(getActivity(), "recipes", MealerRecipe.class, reference -> reference.whereEqualTo("isOffered", true).limit(10), recipes -> {
+            // Give updated orders to adapter
+            ((RecyclerView)getView()).setAdapter(new RecommendationRecyclerViewAdapter(recipes));
         });
-        return v;
     }
 }

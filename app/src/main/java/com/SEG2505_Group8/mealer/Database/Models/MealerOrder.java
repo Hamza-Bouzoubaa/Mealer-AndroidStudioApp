@@ -25,19 +25,19 @@ public class MealerOrder implements MealerSerializable {
     @MealerSerializableElement(key = "status")
     MealerOrderStatus status;
 
-    @MealerSerializableElement(key = "chef")
+    @MealerSerializableElement(key = "chefId")
     String chefId;
 
     /**
      * Id of user who created order
      */
-    @MealerSerializableElement(key = "client")
+    @MealerSerializableElement(key = "clientId")
     String clientId;
 
     /**
      * Id of recipe that was ordered
      */
-    @MealerSerializableElement(key = "recipe")
+    @MealerSerializableElement(key = "recipeId")
     String recipeId;
 
     /**
@@ -54,5 +54,9 @@ public class MealerOrder implements MealerSerializable {
     @Override
     public void setId(String id) {
         this.id = id;
+    }
+
+    public int getStatusStep() {
+        return MealerOrderStatusUtils.toStep(status);
     }
 }

@@ -72,4 +72,16 @@
     <string name="recipe_form_price">Price</string>
     <string name="recipe_form_description">Description</string>
     <string name="bottom_navigation_menu_label_order">Orders</string>
+    <string name="close">Close</string>
+    <string name="order">Order</string>
+    <string name="your_order">Your Order:</string>
+    <string name="spacer">_________________________</string>
+    <string name="OrderLabel">O: %1$s</string>
+    <string name="order_status_text">Order status: %1$s</string>
+    <string name="order_status_progress_label">Avancement de votre commande</string>
+    <string name="show_resolved">Show Resolved</string>
+    <string name="set_status">Set status:</string>
+    <string name="order_status_write_complaint">Write Complaint</string>
+    <string name="complaint_form_title">Complaint</string>
+    <string name="complaint_form_description">Description</string>
 </resources>

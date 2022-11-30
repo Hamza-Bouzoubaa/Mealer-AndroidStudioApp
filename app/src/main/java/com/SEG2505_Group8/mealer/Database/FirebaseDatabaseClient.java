@@ -23,9 +23,11 @@ import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -88,6 +90,11 @@ public class FirebaseDatabaseClient implements DatabaseClient {
     }
 
     @Override
+    public Future<MealerOrder> getOrder(String id, DatabaseCompletionCallback<MealerOrder> callback) {
+        return getModel(orderCollectionId, id, MealerOrder.class, callback);
+    }
+
+    @Override
     public Future<MealerMenu> getMenu(String id, DatabaseCompletionCallback<MealerMenu> callback) {
         return getModel(menuCollectionId, id, MealerMenu.class, callback);
     }
@@ -138,7 +145,7 @@ public class FirebaseDatabaseClient implements DatabaseClient {
     }
 
     @Override
-    public Future<Boolean> orderRecipe(String chefId, String recipeId, DatabaseSetCallback callback) {
+    public Future<MealerOrder> orderRecipe(MealerRecipe recipe, DatabaseCompletionCallback<MealerOrder> callback) {
 
         String clientId = null;
         try {
@@ -147,15 +154,16 @@ public class FirebaseDatabaseClient implements DatabaseClient {
             e.printStackTrace();
         }
 
-        if (chefId == null || chefId.equals("") || recipeId == null || recipeId.equals("") || clientId == null || clientId.equals("")) {
-            SettableFuture<Boolean> future = SettableFuture.create();
-            future.set(false);
-            return future;
-        }
+        SettableFuture<MealerOrder> future = SettableFuture.create();
 
-        MealerOrder order = new MealerOrder(UUID.randomUUID().toString(), MealerOrderStatus.WAITING, chefId, clientId, recipeId, DateUtils.toString(new Date()));
+        MealerOrder order = new MealerOrder(UUID.randomUUID().toString(), MealerOrderStatus.WAITING, recipe.getChefId(), clientId, recipe.getId(), DateUtils.toString(new Date()));
 
-        return updateOrder(order, callback);
+        updateOrder(order, success -> {
+                callback.onComplete(success ? order : null);
+                future.set(success ? order : null);
+        });
+
+        return future;
     }
 
     @Override
@@ -166,6 +174,31 @@ public class FirebaseDatabaseClient implements DatabaseClient {
     @Override
     public Future<Boolean> deleteComplaint(String id, DatabaseSetCallback callback) {
         return deleteModel(complaintCollectionId, id, callback);
+    }
+
+    @Override
+    public Future<Boolean> updateUserToken() {
+        SettableFuture<Boolean> future = SettableFuture.create();
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(token -> {
+            getUser(u -> {
+               u.setMessageToken(token.getResult());
+               System.out.println(token.getResult());
+               saveModel(userCollectionId, FirebaseAuth.getInstance().getUid(), u, future::set);
+            });
+        });
+        return future;
+    }
+
+    @Override
+    public Future<Boolean> rejectOrder(MealerOrder order, DatabaseSetCallback callback) {
+
+        Future<Boolean> future = SettableFuture.create();
+
+        order.setStatus(MealerOrderStatus.REJECTED);
+
+        saveModel(orderCollectionId, order.getId(), order, callback);
+
+        return future;
     }
 
     @Override
