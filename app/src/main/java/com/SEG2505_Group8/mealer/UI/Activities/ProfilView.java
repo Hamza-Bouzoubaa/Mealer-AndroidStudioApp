@@ -14,7 +14,7 @@ public class ProfilView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profil_view);
     }
-
+// test
     @Override
     protected void onResume() {
         super.onResume();
