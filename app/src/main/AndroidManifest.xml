@@ -11,6 +11,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Mealer">
+        <activity
+            android:name=".ProfilView"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity android:name=".UI.Activities.ComplaintActivity" />
         <activity android:name=".UI.Activities.RecipeActivity" />
         <activity android:name=".UI.Activities.RecipeFormActivity" />
