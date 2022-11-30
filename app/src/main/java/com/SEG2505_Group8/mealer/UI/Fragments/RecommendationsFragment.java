@@ -19,6 +19,8 @@ import com.SEG2505_Group8.mealer.R;
 import com.SEG2505_Group8.mealer.Services;
 import com.SEG2505_Group8.mealer.UI.Adapters.RecommendationRecyclerViewAdapter;
 
+import java.util.ArrayList;
+
 /**
  * A fragment representing a list of Items.
  */
@@ -88,7 +90,10 @@ public class RecommendationsFragment extends Fragment {
             @Override
             public boolean onQueryTextChange(String query) {
 
-                Services.getDatabaseClient().searchRecipesByName(query, 10, recipes -> {
+                Services.getDatabaseClient().searchRecipesByName(query, 10, true, recipes -> {
+                    if (recipes == null) {
+                        recipes = new ArrayList<>();
+                    }
                     results.setAdapter(new RecommendationRecyclerViewAdapter(recipes));
                 });
 
@@ -109,7 +114,6 @@ public class RecommendationsFragment extends Fragment {
 
         // Listen for orders from Database
         listener = Services.getDatabaseClient().listenForModels(getActivity(), "recipes", MealerRecipe.class, reference -> reference.whereEqualTo("isOffered", true).limit(10), recipes -> {
-            // Give updated orders to adapter
             results.setAdapter(new RecommendationRecyclerViewAdapter(recipes));
         });
     }
