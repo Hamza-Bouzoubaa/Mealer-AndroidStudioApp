@@ -59,7 +59,9 @@ public class RecommendationsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_recommendations, container, false);
+        View v = inflater.inflate(R.layout.fragment_recommendations, container, false);
+
+        View view = v.findViewById(R.id.recommendation_list);
 
         // Set the adapter
         if (view instanceof RecyclerView) {
@@ -71,7 +73,7 @@ public class RecommendationsFragment extends Fragment {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
         }
-        return view;
+        return v;
     }
 
     @Override
@@ -81,7 +83,7 @@ public class RecommendationsFragment extends Fragment {
         // Listen for orders from Database
         Services.getDatabaseClient().listenForModels(getActivity(), "recipes", MealerRecipe.class, reference -> reference.whereEqualTo("isOffered", true).limit(10), recipes -> {
             // Give updated orders to adapter
-            ((RecyclerView)getView()).setAdapter(new RecommendationRecyclerViewAdapter(recipes));
+            ((RecyclerView)getView().findViewById(R.id.recommendation_list)).setAdapter(new RecommendationRecyclerViewAdapter(recipes));
         });
     }
 }
