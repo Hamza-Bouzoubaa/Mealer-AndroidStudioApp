@@ -1,6 +1,7 @@
 package com.SEG2505_Group8.mealer.Database;
 
 import android.app.Activity;
+import android.content.Context;
 import android.widget.Toast;
 
 import com.SEG2505_Group8.mealer.Database.Models.MealerOrder;
@@ -14,6 +15,7 @@ import com.SEG2505_Group8.mealer.Database.Models.MealerMenu;
 import com.SEG2505_Group8.mealer.Database.Models.MealerRecipe;
 import com.SEG2505_Group8.mealer.Database.Models.MealerUser;
 import com.SEG2505_Group8.mealer.Database.Serialize.MealerSerializable;
+import com.SEG2505_Group8.mealer.Database.Utils.MealerMessager;
 import com.SEG2505_Group8.mealer.UI.Activities.Utils.DateUtils;
 import com.google.common.util.concurrent.SettableFuture;
 import com.google.firebase.auth.FirebaseAuth;
@@ -190,14 +192,17 @@ public class FirebaseDatabaseClient implements DatabaseClient {
     }
 
     @Override
-    public Future<Boolean> rejectOrder(MealerOrder order, DatabaseSetCallback callback) {
+    public Future<Boolean> rejectOrder(MealerOrder order, Context context, DatabaseSetCallback callback) {
 
         Future<Boolean> future = SettableFuture.create();
 
         order.setStatus(MealerOrderStatus.REJECTED);
+        MealerMessager messager = new MealerMessager(context);
 
-        saveModel(orderCollectionId, order.getId(), order, callback);
-
+        getUser(order.getClientId(), u -> {
+            messager.notifyClientOrder(order.getId(), u.getMessageToken());
+            saveModel(orderCollectionId, order.getId(), order, callback);
+        });
         return future;
     }
 

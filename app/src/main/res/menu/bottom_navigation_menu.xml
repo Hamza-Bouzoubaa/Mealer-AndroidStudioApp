@@ -2,17 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/bottom_navigation_menu_page_recommendations"
-        android:icon="@drawable/ic_baseline_message_24"
+        android:icon="@drawable/ic_baseline_search_24"
         android:title="@string/bottom_navigation_menu_label_recommendations"/>
     <item
         android:id="@+id/bottom_navigation_menu_page_menu"
         android:visible="false"
-        android:icon="@drawable/ic_baseline_message_24"
+        android:icon="@drawable/ic_baseline_menu_book_24"
         android:title="@string/bottom_navigation_menu_label_menu"/>
     <item
         android:id="@+id/bottom_navigation_menu_page_order"
         android:visible="false"
-        android:icon="@drawable/ic_baseline_message_24"
+        android:icon="@drawable/ic_baseline_attach_money_24"
         android:title="@string/bottom_navigation_menu_label_order"/>
     <item
         android:id="@+id/bottom_navigation_menu_page_complaints"

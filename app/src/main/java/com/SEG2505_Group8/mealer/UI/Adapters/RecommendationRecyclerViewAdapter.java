@@ -54,7 +54,7 @@ public class RecommendationRecyclerViewAdapter extends RecyclerView.Adapter<Reco
         });
 
         for (int i = 0; i < holder.stars.length; i++) {
-            holder.stars[i].setImageResource(i <= holder.mItem.averageRating() ? R.drawable.ic_baseline_star_24 : R.drawable.ic_baseline_star_border_24);
+            holder.stars[i].setImageResource(i + 1 <= holder.mItem.averageRating() ? R.drawable.ic_baseline_star_24 : R.drawable.ic_baseline_star_border_24);
         }
     }
 

@@ -47,7 +47,7 @@ public class MealerMessagingService extends FirebaseMessagingService {
             PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
 
             NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), "orders");
-//            builder.setSmallIcon(R.drawable.mealerlogo);
+            builder.setSmallIcon(R.drawable.mealer);
             builder.setAutoCancel(true);
             builder.setVibrate(new long[]{1000,1000,1000,1000,1000});
             builder.setOnlyAlertOnce(true);

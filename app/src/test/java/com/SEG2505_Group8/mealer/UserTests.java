@@ -20,8 +20,11 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.MockitoSession;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 
 @RunWith(MockitoJUnitRunner.class)
@@ -140,5 +143,117 @@ public class UserTests {
         // Ensure they were permanently suspended
         Assert.assertTrue(user.isSuspended(databaseClient));
         Assert.assertNotNull(user.getSuspendedUntil());
+    }
+
+    /**
+     * Test average ratings are being calculated properly
+     */
+    @Test
+    public void averageRatings() {
+        MealerUser user = new MealerUser("id", MealerRole.CHEF, "firstName", "lastName", "email@mealer.com", "100 adr st", "1111111111111111", "a desc", "void");
+
+        HashMap<String, List<String>> ratings = new HashMap<>();
+
+        // Two 1 star reviews
+        List<String> rate1Star = new ArrayList<>();
+        rate1Star.add("userId1");
+        rate1Star.add("userId2");
+        ratings.put("0", rate1Star);
+
+        // One 5 star review
+        List<String> rate5Star = new ArrayList<>();
+        rate5Star.add("userId3");
+        ratings.put("4", rate5Star);
+
+        user.setRatings(ratings);
+
+        Assert.assertEquals(7f / 3, user.averageRating(), 0.1f);
+    }
+
+    @Test
+    public void rateAddRating() {
+        MealerUser user = new MealerUser("id", MealerRole.CHEF, "firstName", "lastName", "email@mealer.com", "100 adr st", "1111111111111111", "a desc", "void");
+
+        HashMap<String, List<String>> ratings = new HashMap<>();
+
+        // Two 1 star reviews
+        List<String> rate1Star = new ArrayList<>();
+        rate1Star.add("userId1");
+        rate1Star.add("userId2");
+        ratings.put("0", rate1Star);
+
+        // One 5 star review
+        List<String> rate5Star = new ArrayList<>();
+        rate5Star.add("userId3");
+        ratings.put("4", rate5Star);
+
+        user.setRatings(ratings);
+
+        Assert.assertEquals(7f / 3, user.averageRating(), 0.1f);
+
+        user.rate(4, "userId4");
+
+        Assert.assertEquals(12f / 4, user.averageRating(), 0.1f);
+    }
+
+    @Test
+    public void rateChangeRating() {
+        MealerUser user = new MealerUser("id", MealerRole.CHEF, "firstName", "lastName", "email@mealer.com", "100 adr st", "1111111111111111", "a desc", "void");
+
+        HashMap<String, List<String>> ratings = new HashMap<>();
+
+        // Two 1 star reviews
+        List<String> rate1Star = new ArrayList<>();
+        rate1Star.add("userId1");
+        rate1Star.add("userId2");
+        ratings.put("0", rate1Star);
+
+        // One 5 star review
+        List<String> rate5Star = new ArrayList<>();
+        rate5Star.add("userId3");
+        ratings.put("4", rate5Star);
+
+        user.setRatings(ratings);
+
+        Assert.assertEquals(7f / 3, user.averageRating(), 0.1f);
+
+        user.rate(0, "userId3");
+
+        Assert.assertEquals(3f / 3, user.averageRating(), 0.1f);
+    }
+
+    @Test
+    public void rateChangeRatingRepeated() {
+        MealerUser user = new MealerUser("id", MealerRole.CHEF, "firstName", "lastName", "email@mealer.com", "100 adr st", "1111111111111111", "a desc", "void");
+
+        HashMap<String, List<String>> ratings = new HashMap<>();
+
+        // Two 1 star reviews
+        List<String> rate1Star = new ArrayList<>();
+        rate1Star.add("userId1");
+        rate1Star.add("userId2");
+        ratings.put("0", rate1Star);
+
+        // One 5 star review
+        List<String> rate5Star = new ArrayList<>();
+        rate5Star.add("userId3");
+        ratings.put("4", rate5Star);
+
+        user.setRatings(ratings);
+
+        Assert.assertEquals(7f / 3, user.averageRating(), 0.1f);
+
+        user.rate(0, "userId3");
+
+        Assert.assertEquals(3f / 3, user.averageRating(), 0.1f);
+
+        user.rate(2, "userId3");
+
+        Assert.assertEquals(5f / 3, user.averageRating(), 0.1f);
+
+        user.rate(3, "userId3");
+
+        Assert.assertEquals(6f / 3, user.averageRating(), 0.1f);
+
     }
 }

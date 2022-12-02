@@ -2,6 +2,7 @@ package com.SEG2505_Group8.mealer.Database.Models;
 
 import com.SEG2505_Group8.mealer.Database.Serialize.MealerSerializable;
 import com.SEG2505_Group8.mealer.Database.Serialize.MealerSerializableElement;
+import com.SEG2505_Group8.mealer.Database.Utils.RatingUtils;
 import com.google.firebase.firestore.IgnoreExtraProperties;
 
 import java.util.ArrayList;
@@ -110,53 +111,10 @@ public class MealerRecipe implements MealerSerializable {
         if (ratings == null) {
             ratings = new HashMap<>();
         }
-
-        if (!ratings.containsKey(String.valueOf(rating))) {
-            ratings.put(String.valueOf(rating), new ArrayList<>());
-        }
-
-        try {
-            ratings.get("0").remove(userId);
-        } catch (NullPointerException e) {
-            ratings.put("0", new ArrayList<>());
-        }
-
-        try {
-            ratings.get("1").remove(userId);
-        } catch (NullPointerException e) {
-            ratings.put("1", new ArrayList<>());
-        }
-        try {
-            ratings.get("2").remove(userId);
-        } catch (NullPointerException e) {
-            ratings.put("2", new ArrayList<>());
-        }
-        try {
-            ratings.get("3").remove(userId);
-        } catch (NullPointerException e) {
-            ratings.put("3", new ArrayList<>());
-        }
-        try {
-            ratings.get("4").remove(userId);
-        } catch (NullPointerException e) {
-            ratings.put("4", new ArrayList<>());
-        }
-
-        ratings.get(String.valueOf(rating)).add(userId);
+        RatingUtils.rate(ratings, rating, userId);
     }
 
     public float averageRating() {
-
-        if (ratings == null)
-        {
-            return 0;
-        }
-        float sum = 0;
-
-        for (int i = 0; i < 5; i++) {
-            sum += (i + 1) * ratings.getOrDefault(String.valueOf(i), new ArrayList<>()).size();
-        }
-
-        return sum / 5;
+        return RatingUtils.averageRating(ratings);
     }
 }

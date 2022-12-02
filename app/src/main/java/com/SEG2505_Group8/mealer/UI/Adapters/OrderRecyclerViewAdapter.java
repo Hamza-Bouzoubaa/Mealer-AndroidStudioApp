@@ -47,7 +47,7 @@ public class OrderRecyclerViewAdapter extends RecyclerView.Adapter<OrderRecycler
         });
         holder.rejectButton.setOnClickListener(v -> {
 
-            Services.getDatabaseClient().rejectOrder(holder.mItem, isSuccessful -> {
+            Services.getDatabaseClient().rejectOrder(holder.mItem, v.getContext(), isSuccessful -> {
                 if (isSuccessful) {
                     Toast.makeText(v.getContext(), "Order rejected", Toast.LENGTH_SHORT).show();
                     mValues.remove(position);

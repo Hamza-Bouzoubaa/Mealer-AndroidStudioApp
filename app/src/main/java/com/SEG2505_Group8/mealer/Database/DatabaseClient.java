@@ -1,6 +1,7 @@
 package com.SEG2505_Group8.mealer.Database;
 
 import android.app.Activity;
+import android.content.Context;
 
 import com.SEG2505_Group8.mealer.Database.Models.MealerOrder;
 import com.SEG2505_Group8.mealer.Database.Utils.DatabaseFilterCallback;
@@ -331,7 +332,7 @@ public interface DatabaseClient {
      * @param callback
      * @return
      */
-    Future<Boolean> rejectOrder(MealerOrder order, DatabaseSetCallback callback);
+    Future<Boolean> rejectOrder(MealerOrder order, Context context, DatabaseSetCallback callback);
 
     /**
      * Return true if sign in user's info needs to be updated

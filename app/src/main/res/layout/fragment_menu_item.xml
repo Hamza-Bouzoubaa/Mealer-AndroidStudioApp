@@ -21,6 +21,7 @@
         app:layout_constraintBottom_toBottomOf="@id/menu_item_title"
         app:layout_constraintTop_toTopOf="@id/menu_item_title"
         app:layout_constraintEnd_toStartOf="@id/open"
+        android:layout_marginEnd="5dp"
         android:textAlignment="center">
         <com.google.android.material.chip.Chip
             android:id="@+id/menu_item_offered_chip"
