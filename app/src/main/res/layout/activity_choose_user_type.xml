@@ -16,7 +16,7 @@
         android:background="@drawable/bnt_circle"
         android:clickable="true"
         android:focusable="true"
-        android:src="@drawable/chef_hat"
+        android:src="@drawable/chef_hhat"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -38,11 +38,11 @@
 
     <TextView
         android:id="@+id/chefImage"
-        android:layout_width="58dp"
-        android:layout_height="44dp"
+        android:layout_width="106dp"
+        android:layout_height="41dp"
         android:layout_marginStart="15dp"
         android:autoSizeTextType="uniform"
-        android:text="Chef"
+        android:text="@string/chef_choose"
         android:textAlignment="center"
         android:textColor="#000000"
         android:textStyle="italic"
@@ -52,5 +52,5 @@
         app:layout_constraintHorizontal_bias="0.433"
         app:layout_constraintStart_toStartOf="@+id/choose_user_type_chef_button"
         app:layout_constraintTop_toTopOf="@+id/choose_user_type_chef_button"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.891" />
 </androidx.constraintlayout.widget.ConstraintLayout>
