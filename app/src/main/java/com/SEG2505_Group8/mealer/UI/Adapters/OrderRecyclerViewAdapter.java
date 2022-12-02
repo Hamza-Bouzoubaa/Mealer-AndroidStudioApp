@@ -50,11 +50,11 @@ public class OrderRecyclerViewAdapter extends RecyclerView.Adapter<OrderRecycler
         });
 
         if (holder.mItem.getStatus().equals(MealerOrderStatus.REJECTED)) {
-            holder.rejectButton.setText(R.string.delete);
+            holder.rejectButton.setText(R.string.action_delete);
         }
 
         if (holder.mItem.getClientId().equals(FirebaseAuth.getInstance().getUid())) {
-            holder.rejectButton.setText(R.string.cancel);
+            holder.rejectButton.setText(R.string.action_cancel);
         }
 
         holder.rejectButton.setOnClickListener(v -> {

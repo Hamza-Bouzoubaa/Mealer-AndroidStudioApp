@@ -1,34 +1,34 @@
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory app:title="@string/account_header">
+    <PreferenceCategory app:title="@string/account_title">
 
         <Preference
             app:key="view_profile"
-            app:title="@string/view_profile"
+            app:title="@string/action_view_profile"
             app:allowDividerBelow="true"/>
 
         <EditTextPreference
             app:key="first_name"
-            app:title="@string/account_first_name"
+            app:title="@string/form_first_name"
             app:useSimpleSummaryProvider="true"/>
 
         <EditTextPreference
             app:key="last_name"
-            app:title="@string/account_last_name"
+            app:title="@string/form_last_name"
             app:useSimpleSummaryProvider="true" />
 
         <EditTextPreference
             app:key="address"
-            app:title="@string/account_address"
+            app:title="@string/form_address"
             app:useSimpleSummaryProvider="true" />
         <EditTextPreference
             app:key="role"
-            app:title="@string/account_role"
+            app:title="@string/form_role"
             app:useSimpleSummaryProvider="true" />
 
         <Preference
             app:key="sign_out"
-            app:title="@string/account_sign_out"
+            app:title="@string/action_sign_out"
             app:useSimpleSummaryProvider="true"
             app:allowDividerAbove="true"/>
 

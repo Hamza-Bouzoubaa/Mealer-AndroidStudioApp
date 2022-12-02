@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"
         android:textAppearance="?attr/textAppearanceListItem"
-        android:text="Recipe"
+        android:text="@string/recipe"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -27,7 +27,7 @@
             android:id="@+id/menu_item_offered_chip"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Offered"
+            android:text="@string/filter_offered"
             />
     </com.google.android.material.chip.ChipGroup>
 
