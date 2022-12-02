@@ -6,54 +6,62 @@
     android:layout_height="match_parent"
     tools:context=".UI.Activities.MainActivity">
 
+
+
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="292dp"
+        android:layout_height="407dp"
         android:layout_marginBottom="200dp"
         android:contentDescription="@string/mealer_logo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/food" />
+        app:srcCompat="@drawable/mealer" />
+
 
     <TextView
         android:id="@+id/welcomeText"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="15dp"
         android:layout_marginEnd="15dp"
+        android:layout_marginTop="550dp"
         android:layout_marginBottom="15dp"
         android:autoSizeTextType="uniform"
-        android:text="Mealer"
+        android:text="Great food awaits...or potentially cursed..."
         android:textAlignment="center"
         android:textColor="#D96545"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/login"
+        style="@style/CallToAction"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="600dp"
         android:layout_marginEnd="15dp"
+<<<<<<< HEAD
+        android:text="@string/continue_text"
+=======
         android:layout_marginBottom="30dp"
         android:text="@string/action_continue"
         style="@style/CallToAction"
+>>>>>>> a6c5549ca0aa5a9d82ed84a5b7ec76165983e2c4
         app:cornerRadius="@dimen/rounded_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imageView" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
