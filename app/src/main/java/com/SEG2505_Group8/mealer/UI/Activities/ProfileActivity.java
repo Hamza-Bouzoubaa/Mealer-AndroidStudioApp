@@ -30,6 +30,7 @@ public class ProfileActivity extends AppCompatActivity {
     TextView email;
     TextView address;
     TextView description;
+    TextView totalSales;
 
     LinearLayout starLayout;
     ImageView[] stars;
@@ -52,6 +53,7 @@ public class ProfileActivity extends AppCompatActivity {
         email = findViewById(R.id.profile_email);
         address = findViewById(R.id.profile_address);
         description = findViewById(R.id.profile_description);
+        totalSales = findViewById(R.id.profile_total_sales);
 
         starLayout = findViewById(R.id.profile_stars);
 
@@ -83,6 +85,8 @@ public class ProfileActivity extends AppCompatActivity {
             email.setText(user.getEmail());
             address.setText(user.getAddress());
             description.setText(user.getDescription());
+            totalSales.setText(user.getTotalSales() == null ? "0" : user.getTotalSales().toString());
+
 
             starLayout.setVisibility(user.getRole().equals(MealerRole.CHEF) ? View.VISIBLE : View.GONE);
 

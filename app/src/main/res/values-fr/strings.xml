@@ -58,6 +58,7 @@
     <string name="form_price">Prix</string>
     <string name="form_name">Nom</string>
     <string name="form_is_offered">Est proposé</string>
+    <string name="form_total_sales"># Ventes</string>
 
 
     <!-- Form Errors -->

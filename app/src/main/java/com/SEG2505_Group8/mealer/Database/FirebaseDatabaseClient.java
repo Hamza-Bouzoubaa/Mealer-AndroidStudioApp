@@ -135,8 +135,24 @@ public class FirebaseDatabaseClient implements DatabaseClient {
         MealerOrder order = new MealerOrder(UUID.randomUUID().toString(), MealerOrderStatus.WAITING, recipe.getChefId(), clientId, recipe.getId());
 
         updateOrder(order, success -> {
-                callback.onComplete(success ? order : null);
-                future.set(success ? order : null);
+            if (success) {
+                getUser(user -> {
+
+                    if (user.getTotalSales() == null) {
+                        user.setTotalSales(0);
+                    }
+
+                   user.setTotalSales(user.getTotalSales() + 1);
+
+                    updateUser(user, s -> {
+                        callback.onComplete(s ? order : null);
+                        future.set(s ? order : null);
+                    });
+                });
+            } else {
+                callback.onComplete(null);
+                future.set(null);
+            }
         });
 
         return future;
