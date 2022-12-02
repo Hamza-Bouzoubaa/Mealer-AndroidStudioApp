@@ -23,7 +23,7 @@
         android:id="@+id/recipe_course_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/recipe_course_label"
+        android:text="@string/form_course"
         android:layout_marginTop="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.184"
@@ -34,7 +34,7 @@
         android:id="@+id/recipe_categories_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/recipe_categories_label"
+        android:text="@string/form_categories"
         android:layout_marginTop="30dp"
         app:layout_constraintStart_toStartOf="@id/recipe_course_label"
         app:layout_constraintTop_toBottomOf="@id/recipe_course_label" />
@@ -43,7 +43,7 @@
         android:id="@+id/recipe_ingredients_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/recipe_ingredients_label"
+        android:text="@string/form_ingredients"
         android:layout_marginTop="30dp"
         app:layout_constraintStart_toStartOf="@id/recipe_course_label"
         app:layout_constraintTop_toBottomOf="@id/recipe_categories_label" />
@@ -53,7 +53,7 @@
         android:id="@+id/recipe_allergens_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/recipe_allergens_label"
+        android:text="@string/form_allergens"
         android:layout_marginTop="30dp"
         app:layout_constraintStart_toStartOf="@id/recipe_course_label"
         app:layout_constraintTop_toBottomOf="@id/recipe_ingredients_label" />
@@ -63,7 +63,7 @@
         android:id="@+id/recipe_price_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/recipe_price_label"
+        android:text="@string/form_price"
         android:layout_marginTop="30dp"
         app:layout_constraintStart_toStartOf="@id/recipe_course_label"
         app:layout_constraintTop_toBottomOf="@id/recipe_allergens_label" />
@@ -122,7 +122,7 @@
 
     <Button
         android:id="@+id/recipe_save"
-        android:text="@string/save"
+        android:text="@string/action_save"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
@@ -135,7 +135,7 @@
 
     <Button
         android:id="@+id/recipe_delete"
-        android:text="@string/delete"
+        android:text="@string/action_delete"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"

@@ -27,6 +27,7 @@ import com.SEG2505_Group8.mealer.Database.Models.MealerRole;
 import com.SEG2505_Group8.mealer.Database.Models.MealerUser;
 import com.SEG2505_Group8.mealer.R;
 import com.SEG2505_Group8.mealer.Services;
+import com.SEG2505_Group8.mealer.UI.Activities.Utils.StringUtils;
 import com.SEG2505_Group8.mealer.UI.Adapters.ViewPager2Adapter;
 import com.SEG2505_Group8.mealer.UI.Fragments.ComplaintListFragment;
 import com.SEG2505_Group8.mealer.UI.Fragments.MenuFragment;
@@ -236,7 +237,7 @@ public class HomeActivity extends AppCompatActivity {
                         break;
                 }
 
-                role = role.substring(0,1).toUpperCase() + role.substring(1);
+                role = StringUtils.capitalize(role);
             }
 
 

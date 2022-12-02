@@ -1,78 +1,112 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="user_sign_up_form_first_name" translatable="false">Prénom</string>
-    <string name="user_sign_up_form_last_name">Nom</string>
-    <string name="user_sign_up_form_address">Adress</string>
-    <string name="user_sign_up_form_title">Info Utilisateur</string>
-    <string name="user_sign_up_form_email">Courielle</string>
-    <string name="user_sign_up_form_credit_card">Carte de Crédit</string>
-    <string name="user_sign_up_form_description">Description</string>
-    <string name="user_sign_up_form_conditions">Conditions</string>
-    <string name="user_sign_up_form_submit">SOUMETTRE</string>
-    <string name="sign_in_header">Sign In</string>
-    <string name="welcome">Bienvenue</string>
-    <string name="sign_in_email">courielle</string>
-    <string name="sign_in_password">mot de pass</string>
-    <string name="continue_text">Continuer</string>
-    <string name="welcome_text">Premiers pas avec Mealer</string>
-    <string name="or">ou</string>
-    <string name="user_sign_up_form_password">mot de pass</string>
+    <string name="welcome">Bienvenu</string>
+
+    <!-- Titles -->
+    <string name="user_sign_up_form_title">Info Client</string>
     <string name="chef_sign_up_form_title">Info Chef</string>
-    <string name="void_check">Check Void</string>
-    <string name="form_required_field">Cette donnée est nécéssaire.</string>
-    <string name="form_invalid_email">Courielle est invalide.</string>
-    <string name="form_invalid_password">Mot de pass doit être minimum 8 characters.</string>
-    <string name="form_invalid_credit_card">Numéro de carte doit être minimum 16 numéros.</string>
-    <string name="form_invalid_terms_and_conditions">Il faut accepter les termes et conditions.</string>
-    <string name="displayUser">Erreur: affichage de texte</string>
-    <string name="form_wrong_password">Mauvais mot de pass</string>
-    <string name="bottom_navigation_menu_label_complaints">Plaints</string>
-    <string name="bottom_navigation_menu_label_settings">Paramètre</string>
-    <string name="account_header">Compte</string>
-    <string name="account_first_name">Prénom</string>
-    <string name="account_last_name">Nom</string>
-    <string name="account_address">Adress</string>
-    <string name="account_sign_out">Sign Out</string>
-    <string name="account_role">Role</string>
-    <string name="role_chef">cuisinier</string>
-    <string name="role_user">client</string>
-    <string name="role_admin">administrateur</string>
-    <string name="complaint">pleinte</string>
-    <string name="bottom_navigation_menu_label_recommendations">Recommendations</string>
-    <string name="alert_suspension_quit">Fermer</string>
-    <string name="alert_suspension_signout">Deconnecter</string>
-    <string name="alert_suspension_description">Vous avez été suspendu jusqu\'au %s.</string>
-    <string name="alert_suspension_title">Vous avez été suspendu!</string>
-    <string name="hello_blank_fragment">Bonjour</string>
-    <string name="alert_suspension_permanent_description">Vous avez été suspendu!</string>
-    <string name="action_view">Visionez</string>
+    <string name="sign_in_title">S\'identifier</string>
+    <string name="complaint_form_title">Plainte</string>
+    <string name="account_title">Compte</string>
+    <string name="recipe_form_title">Nouvelle Recette</string>
+
+    <!-- Other -->
+    <string name="welcome_text">Premier pas avec Mealer</string>
+    <string name="displayUser">Une erreur s\'est produit</string>
+    <string name="filters">filtre</string>
+    <string name="filter_offered">Proposé</string>
+
+    <!-- Actions -->
+    <string name="action_submit">Soumettre</string>
+    <string name="action_view">Ouvrir</string>
     <string name="action_reject">Rejetez</string>
+    <string name="action_continue">Continuez</string>
+    <string name="action_take_photo">Prendre une photo</string>
+    <string name="action_delete">Supprimer</string>
+    <string name="action_save">Sauvegarder</string>
+    <string name="action_close">Fermer</string>
+    <string name="action_show_resolved">Visionez Resous</string>
+    <string name="action_view_profile">Visionez Profile</string>
+    <string name="action_search_for_food">Cherchez pour une recette</string>
+    <string name="action_cancel">Annuler</string>
+    <string name="action_set_status">Modifier le statut</string>
+    <string name="action_show_chef">Visionnez le chef</string>
+    <string name="action_sign_out">Déconnecter</string>
+    <string name="action_search">Cherchez ici</string>
+    <string name="action_order">Commander</string>
+
+
+    <!-- Logic -->
+    <string name="logic_or">ou</string>
+
+    <!-- Form Strings -->
+    <string name="form_first_name">Prénom</string>
+    <string name="form_last_name">Nom</string>
+    <string name="form_address">Adress</string>
+    <string name="form_role">Role</string>
+    <string name="form_email">Courielle</string>
+    <string name="form_credit_card">Cart de crédit</string>
+    <string name="form_description">Description</string>
+    <string name="form_conditions">Conditions</string>
+    <string name="form_password">Mot de pass</string>
+    <string name="form_void_check">Check void</string>
+    <string name="form_course">Service</string>
+    <string name="form_categories">Catégories</string>
+    <string name="form_ingredients">Ingrédients</string>
+    <string name="form_allergens">Allergèns</string>
+    <string name="form_price">Prix</string>
+    <string name="form_name">Nom</string>
+
+
+    <!-- Form Errors -->
+    <string name="form_required_field">Ce champ est requis.</string>
+    <string name="form_invalid_email">Ce courielle est invalid.</string>
+    <string name="form_invalid_password">Mot de pass doit être un minimum de 8 caractèrs.</string>
+    <string name="form_invalid_credit_card">Numéro de carte de crédit doit être un minimum de 16 chiffres.</string>
+    <string name="form_invalid_terms_and_conditions">les terms and conditions doivent être accepté.</string>
+    <string name="form_wrong_password">Mauvais mot de pass</string>
+
+    <!-- Menu -->
+    <string name="bottom_navigation_menu_label_complaints">Plaints</string>
+    <string name="bottom_navigation_menu_label_settings">Paramètres</string>
+    <string name="bottom_navigation_menu_label_recommendations">Recommendations</string>
     <string name="bottom_navigation_menu_label_menu">Menu</string>
-    <string name="recipe_form_submit">Submit</string>
-    <string name="recipe_form_take_photo">Take Photo</string>
-    <string name="recipe_form_title">New Recipe</string>
-    <string name="recipe_course_label">Course</string>
-    <string name="recipe_categories_label">Catégories</string>
-    <string name="recipe_ingredients_label">Ingrédients :</string>
-    <string name="recipe_allergens_label">Allergens :</string>
-    <string name="recipe_price_label">Prix :</string>
-    <string name="delete">Delete</string>
-    <string name="save">Save</string>
-    <string name="filters">filters:</string>
-    <string name="recipe_form_name">Name</string>
-    <string name="recipe_form_course">Course</string>
-    <string name="recipe_form_ingredients">Ingredients</string>
-    <string name="bottom_navigation_menu_label_order">Orders</string>
-    <string name="close">Close</string>
-    <string name="order">Order</string>
-    <string name="your_order">Your Order:</string>
+    <string name="bottom_navigation_menu_label_order">Commandes</string>
+
+    <!-- Roles -->
+    <string name="role_chef">chef</string>
+    <string name="role_user">client</string>
+    <string name="role_admin">admin</string>
+
+    <!-- Status -->
+    <string name="status_waiting">en attente</string>
+    <string name="status_accepted">accepté</string>
+    <string name="status_rejected">rejeté</string>
+    <string name="status_completed">complété</string>
+
+    <!-- Objects -->
+    <string name="complaint">plainte</string>
+    <string name="order">commande</string>
+    <string name="recipe">recette</string>
+
+    <!-- Alert -->
+    <string name="alert_suspension_title">Vous avez été suspendu!</string>
+    <string name="alert_suspension_description">Vous avez été suspendu jusqu\'au %s.</string>
+    <string name="alert_suspension_signout">Déconnecter</string>
+    <string name="alert_suspension_quit">Fermer</string>
+    <string name="alert_suspension_permanent_description">Vous avez été suspendu indéfiniment.</string>
+
+    <!-- Order -->
+    <string name="your_order">Votre commande:</string>
     <string name="spacer">_________________________</string>
-    <string name="OrderLabel">O: %1$s</string>
-    <string name="order_status_text">Order status: %1$s</string>
+    <string name="order_label">C: %1$s</string>
+    <string name="order_status_text">Statut: %1$s</string>
     <string name="order_status_progress_label">Avancement de votre commande</string>
-    <string name="show_resolved">Show Resolved</string>
-    <string name="set_status">Set status:</string>
-    <string name="order_status_write_complaint">Write Complaint</string>
-    <string name="complaint_form_description">Description</string>
-    <string name="cancel">Cancel</string>
+    <string name="order_status_write_complaint">Poser une plainte</string>
+
+    <!-- Stars -->
+    <string name="star_rating_1">1 étoile</string>
+    <string name="star_rating_2">2 étoiles</string>
+    <string name="star_rating_3">3 étoiles</string>
+    <string name="star_rating_4">4 étoiles</string>
+    <string name="star_rating_5">5 étoiles</string>
 </resources>

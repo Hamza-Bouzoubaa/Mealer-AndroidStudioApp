@@ -4,26 +4,34 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.media.Image;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.SEG2505_Group8.mealer.Database.Models.MealerRole;
+import com.SEG2505_Group8.mealer.Database.Models.MealerRoleUtils;
 import com.SEG2505_Group8.mealer.Database.Models.MealerUser;
 import com.SEG2505_Group8.mealer.Database.Utils.DatabaseListener;
 import com.SEG2505_Group8.mealer.R;
 import com.SEG2505_Group8.mealer.Services;
+import com.SEG2505_Group8.mealer.UI.Activities.Utils.StringUtils;
 
 public class ProfileActivity extends AppCompatActivity {
 
     String userId;
     DatabaseListener listener;
 
+    TextView title;
     TextView firstName;
     TextView lastName;
     TextView email;
     TextView address;
     TextView description;
+
+    LinearLayout starLayout;
     ImageView[] stars;
 
     @Override
@@ -37,11 +45,15 @@ public class ProfileActivity extends AppCompatActivity {
             finish();
         }
 
+        title = findViewById(R.id.profile_title);
+
         firstName = findViewById(R.id.profile_first_name);
         lastName = findViewById(R.id.profile_last_name);
         email = findViewById(R.id.profile_email);
         address = findViewById(R.id.profile_address);
         description = findViewById(R.id.profile_description);
+
+        starLayout = findViewById(R.id.profile_stars);
 
         stars = new ImageView[5];
         stars[0] = findViewById(R.id.profile_1_star);
@@ -65,16 +77,21 @@ public class ProfileActivity extends AppCompatActivity {
         }
 
         listener = Services.getDatabaseClient().listenForModel(ProfileActivity.this, "users", userId, MealerUser.class, user -> {
+            title.setText(StringUtils.capitalize(MealerRoleUtils.getPrettyRole(user.getRole(), this)));
             firstName.setText(user.getFirstName());
             lastName.setText(user.getLastName());
             email.setText(user.getEmail());
             address.setText(user.getAddress());
             description.setText(user.getDescription());
 
-            float r = user.averageRating();
+            starLayout.setVisibility(user.getRole().equals(MealerRole.CHEF) ? View.VISIBLE : View.GONE);
 
-            for (int i = 0; i < stars.length; i++) {
-                stars[i].setImageResource(i+1 <= r ? R.drawable.ic_baseline_star_24 : R.drawable.ic_baseline_star_border_24);
+            if (user.getRole().equals(MealerRole.CHEF)) {
+                float r = user.averageRating();
+
+                for (int i = 0; i < stars.length; i++) {
+                    stars[i].setImageResource(i+1 <= r ? R.drawable.ic_baseline_star_24 : R.drawable.ic_baseline_star_border_24);
+                }
             }
         });
     }

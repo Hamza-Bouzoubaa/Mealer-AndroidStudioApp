@@ -1,5 +1,9 @@
 package com.SEG2505_Group8.mealer.Database.Models;
 
+import android.content.Context;
+
+import com.SEG2505_Group8.mealer.R;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,18 +26,18 @@ public class MealerOrderStatusUtils {
         return 2;
     }
 
-    public static String toString(MealerOrderStatus status) {
+    public static String getPrettyStatus(MealerOrderStatus status, Context context) {
         switch (status) {
             case WAITING:
-                return "WAITING";
+                return context.getString(R.string.status_waiting);
             case ACCEPTED:
-                return "ACCEPTED";
-            case REJECTED:
-                return "REJECTED";
+                return context.getString(R.string.status_accepted);
             case COMPLETED:
-                return "COMPLETED";
+                return context.getString(R.string.status_completed);
+            case REJECTED:
+                return context.getString(R.string.status_rejected);
             default:
-                throw new RuntimeException("Unknown status: " + status);
+                return "Unknown Status";
         }
     }
 
@@ -42,8 +46,8 @@ public class MealerOrderStatusUtils {
     public static List<String> getHiddenOrderStatus() {
         if (hiddenOrderStatus == null) {
             hiddenOrderStatus = new ArrayList<>();
-            hiddenOrderStatus.add(toString(MealerOrderStatus.COMPLETED));
-            hiddenOrderStatus.add(toString(MealerOrderStatus.REJECTED));
+            hiddenOrderStatus.add(MealerOrderStatus.COMPLETED.toString());
+            hiddenOrderStatus.add(MealerOrderStatus.REJECTED.toString());
         }
 
         return hiddenOrderStatus;

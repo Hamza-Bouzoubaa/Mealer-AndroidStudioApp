@@ -4,9 +4,6 @@ package com.SEG2505_Group8.mealer.UI.Activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import com.SEG2505_Group8.mealer.Database.FirebaseDatabaseClient;
-import com.SEG2505_Group8.mealer.Database.MealerMessagingService;
-import com.SEG2505_Group8.mealer.Database.Models.MealerComplaint;
 import com.SEG2505_Group8.mealer.Database.Models.MealerOrder;
 import com.SEG2505_Group8.mealer.Database.Models.MealerOrderStatus;
 import com.SEG2505_Group8.mealer.Database.Models.MealerOrderStatusUtils;
@@ -150,7 +147,7 @@ public class OrderPageActivity extends AppCompatActivity {
             this.order = order;
 
             progress.setProgress(order.getStatusStep());
-            status.setText(getString(R.string.order_status_text, order.getStatus()));
+            status.setText(getString(R.string.order_status_text, MealerOrderStatusUtils.getPrettyStatus(order.getStatus(), this)));
 
             if (order.getRecipeId() != null) {
                 Services.getDatabaseClient().getRecipe(order.getRecipeId(), recipe -> {
