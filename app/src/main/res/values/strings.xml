@@ -58,6 +58,7 @@
     <string name="form_allergens">Allergens</string>
     <string name="form_price">Price</string>
     <string name="form_name">Name</string>
+    <string name="form_is_offered">Is offered</string>
 
 
     <!-- Form Errors -->
