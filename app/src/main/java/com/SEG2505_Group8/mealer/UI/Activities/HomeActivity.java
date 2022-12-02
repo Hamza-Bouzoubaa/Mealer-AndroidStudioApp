@@ -188,7 +188,7 @@ public class HomeActivity extends AppCompatActivity {
                 }
             }
 
-            if (user.getRole().equals(MealerRole.USER)) {
+            if (user.getRole().equals(MealerRole.USER) || user.getRole().equals(MealerRole.ADMIN)) {
                 findViewById(R.id.home_bottom_navigation_fab).setVisibility(View.GONE);
                 CoordinatorLayout coordinatorLayout = findViewById(R.id.coordinator);
                 coordinatorLayout.layout(0,0,0,0);
