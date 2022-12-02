@@ -27,24 +27,12 @@ public class DatabaseListener {
     }
 
     /**
-     * Create a database listener from multiple firebase listener registration
-     * @param registrations
-     */
-    public DatabaseListener(List<ListenerRegistration> registrations) {
-        listenerRegistrations.addAll(registrations);
-    }
-
-    /**
      * Remove the listener
      */
     public void remove() {
         for (ListenerRegistration r : listenerRegistrations) {
             r.remove();
         }
-    }
-
-    public void addRegistration(ListenerRegistration registration) {
-        listenerRegistrations.add(registration);
     }
 
     public void addRegistration(DatabaseListener listener) {

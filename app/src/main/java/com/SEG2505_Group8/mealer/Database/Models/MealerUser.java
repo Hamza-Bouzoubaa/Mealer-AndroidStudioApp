@@ -103,7 +103,7 @@ public class MealerUser implements MealerSerializable {
      * If USER, then CHEFs can review.
      */
     @MealerSerializableElement(key = "ratings")
-    HashMap<String, List<String>> ratings;
+    Map<String, List<String>> ratings;
 
     /**
      * Total number of sales.
@@ -189,7 +189,7 @@ public class MealerUser implements MealerSerializable {
         return isSuspended;
     }
 
-    private static HashMap<MealerRole, List<Integer>> availableViews = new HashMap<MealerRole, List<Integer>>() {{
+    private static Map<MealerRole, List<Integer>> availableViews = new HashMap<MealerRole, List<Integer>>() {{
         List<Integer> adminViews = new ArrayList<>();
         adminViews.add(R.id.bottom_navigation_menu_page_recommendations);
         adminViews.add(R.id.bottom_navigation_menu_page_complaints);

@@ -58,11 +58,6 @@ public class FirebaseDatabaseClient implements DatabaseClient {
     }
 
     @Override
-    public Future<List<MealerUser>> getUsers(DatabaseFilterCallback filter) {
-        return getModels(MealerUser.class, userCollectionId, maxiumGetModels, reference -> reference, null);
-    }
-
-    @Override
     public Future<MealerMenu> getUserMenu(String id, DatabaseCompletionCallback<MealerMenu> callback) throws NullPointerException {
 
         if (id == null || id.isEmpty()) {
@@ -85,13 +80,6 @@ public class FirebaseDatabaseClient implements DatabaseClient {
     }
 
     @Override
-    public Future<List<MealerMenu>> getMenus(DatabaseFilterCallback filter) {
-        return getModels(MealerMenu.class, menuCollectionId, maxiumGetModels, reference -> {
-            return reference;
-        }, null);
-    }
-
-    @Override
     public Future<MealerOrder> getOrder(String id, DatabaseCompletionCallback<MealerOrder> callback) {
         return getModel(orderCollectionId, id, MealerOrder.class, callback);
     }
@@ -101,24 +89,10 @@ public class FirebaseDatabaseClient implements DatabaseClient {
         return getModel(menuCollectionId, id, MealerMenu.class, callback);
     }
 
-    @Override
-    public Future<List<MealerRecipe>> getRecipes(DatabaseFilterCallback filter) {
-        return getModels(MealerRecipe.class, recipeCollectionId, maxiumGetModels, filter, null);
-    }
 
     @Override
     public Future<MealerRecipe> getRecipe(String id, DatabaseCompletionCallback<MealerRecipe> callback) {
         return getModel(recipeCollectionId, id, MealerRecipe.class, callback);
-    }
-
-    @Override
-    public Future<List<MealerRecipe>> getRecipes(DatabaseFilterCallback filter, DatabaseCompletionCallback<List<MealerRecipe>> callback) {
-        return getModels(MealerRecipe.class, complaintCollectionId, maxiumGetModels, filter, callback);
-    }
-
-    @Override
-    public Future<List<MealerComplaint>> getComplaints(DatabaseFilterCallback filter, DatabaseCompletionCallback<List<MealerComplaint>> callback) {
-        return getModels(MealerComplaint.class, complaintCollectionId, maxiumGetModels, filter, callback);
     }
 
     @Override
@@ -158,7 +132,7 @@ public class FirebaseDatabaseClient implements DatabaseClient {
 
         SettableFuture<MealerOrder> future = SettableFuture.create();
 
-        MealerOrder order = new MealerOrder(UUID.randomUUID().toString(), MealerOrderStatus.WAITING, recipe.getChefId(), clientId, recipe.getId(), DateUtils.toString(new Date()));
+        MealerOrder order = new MealerOrder(UUID.randomUUID().toString(), MealerOrderStatus.WAITING, recipe.getChefId(), clientId, recipe.getId());
 
         updateOrder(order, success -> {
                 callback.onComplete(success ? order : null);
@@ -208,19 +182,6 @@ public class FirebaseDatabaseClient implements DatabaseClient {
             messager.notifyClientOrder(order.getId(), u.getMessageToken());
             saveModel(orderCollectionId, order.getId(), order, callback);
         });
-        return future;
-    }
-
-    @Override
-    public Future<Boolean> userInfoRequired(DatabaseCompletionCallback<Boolean> callback) {
-
-        //TODO: Implement logic for user info missing fields. We currently only check if document exists.
-        SettableFuture<Boolean> future = SettableFuture.create();
-
-        // Default to true until implementation is written
-        callback.onComplete(true);
-        future.set(true);
-
         return future;
     }
 

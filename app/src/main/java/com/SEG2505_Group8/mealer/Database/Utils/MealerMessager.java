@@ -23,7 +23,6 @@ import java.util.Map;
  */
 public class MealerMessager {
 
-    private static final String senderId = "152060772205";
     private static final String[] SCOPES = { "https://www.googleapis.com/auth/firebase.messaging" };
 
     private final Context context;
@@ -39,7 +38,7 @@ public class MealerMessager {
         sendMessage(clientMessagingToken, "Order Status Updated", "Your order has been updated", data);
     }
 
-    public void sendMessage(final String recipient, final String title, final String body, final Map<String, String> dataMap)
+    private void sendMessage(final String recipient, final String title, final String body, final Map<String, String> dataMap)
     {
         Map<String, Object> notificationMap = new HashMap<>();
         notificationMap.put("body", body);

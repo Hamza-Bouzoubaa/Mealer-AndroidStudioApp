@@ -76,21 +76,6 @@ public interface DatabaseClient {
     }
 
     /**
-     * Get {@link MealerUser}s with filter
-     */
-    Future<List<MealerUser>> getUsers(DatabaseFilterCallback filter);
-
-    /**
-     * Get {@link MealerMenu} of user with id.
-     *
-     * @param id
-     * @return
-     */
-    default Future<MealerMenu> getUserMenu(String id) {
-        return getUserMenu(id, null);
-    }
-
-    /**
      * Get {@link MealerMenu} of user with id.
      * Calls callback on completion
      *
@@ -102,36 +87,12 @@ public interface DatabaseClient {
 
     /**
      * Get {@link MealerMenu} of logged in user.
-     *
-     * @return
-     */
-    default Future<MealerMenu> getUserMenu() {
-        return getUserMenu(null, null);
-    }
-
-    /**
-     * Get {@link MealerMenu} of logged in user.
      * Calls callback on completion
      *
      * @return
      */
     default Future<MealerMenu> getUserMenu(DatabaseCompletionCallback<MealerMenu> callback) {
         return getUserMenu(null, callback);
-    }
-
-    /**
-     * Get {@link MealerMenu}s with filter
-     */
-    Future<List<MealerMenu>> getMenus(DatabaseFilterCallback filter);
-
-    /**
-     * Get {@link MealerMenu} with Document Id.
-     *
-     * @param id
-     * @return
-     */
-    default Future<MealerMenu> getMenu(String id) {
-        return getMenu(id, null);
     }
 
     /**
@@ -151,20 +112,6 @@ public interface DatabaseClient {
      */
     Future<MealerMenu> getMenu(String id, DatabaseCompletionCallback<MealerMenu> callback);
 
-    /**
-     * Get {@link MealerRecipe}s with filter
-     */
-    Future<List<MealerRecipe>> getRecipes(DatabaseFilterCallback filter);
-
-    /**
-     * Get {@link MealerRecipe} with document Id.
-     *
-     * @param id
-     * @return
-     */
-    default Future<MealerRecipe> getRecipe(String id) {
-        return getRecipe(id, null);
-    }
 
     /**
      * Get a {@link MealerRecipe} with id.
@@ -174,23 +121,6 @@ public interface DatabaseClient {
      * @return
      */
     Future<MealerRecipe> getRecipe(String id, DatabaseCompletionCallback<MealerRecipe> callback);
-
-    /**
-     * Page trough {@link MealerRecipe}.
-     * Calls callback on completion
-     * @param callback
-     * @return
-     */
-    Future<List<MealerRecipe>> getRecipes(DatabaseFilterCallback filter, DatabaseCompletionCallback<List<MealerRecipe>> callback);
-
-
-    /**
-     * Page trough {@link MealerComplaint}.
-     * Calls callback on completion
-     * @param callback
-     * @return
-     */
-    Future<List<MealerComplaint>> getComplaints(DatabaseFilterCallback filter, DatabaseCompletionCallback<List<MealerComplaint>> callback);
 
     /**
      * Search database for recipes matching filter
@@ -206,15 +136,6 @@ public interface DatabaseClient {
     Future<List<MealerRecipe>> searchRecipes(int limit, DatabaseFilterCallback filter, DatabaseCompletionCallback<List<MealerRecipe>> callback);
 
     /**
-     * Update {@link MealerRecipe} stored in database
-     * @param recipe
-     * @return
-     */
-    default Future<Boolean> updateRecipe(MealerRecipe recipe) {
-        return updateRecipe(recipe, null);
-    }
-
-    /**
      * Update a {@link MealerRecipe} stored in Database.
      * Executes callback on completion.
      * @param recipe new version of recipe
@@ -222,6 +143,23 @@ public interface DatabaseClient {
      * @return
      */
     Future<Boolean> updateRecipe(MealerRecipe recipe, DatabaseSetCallback callback);
+
+    /**
+     * Update a complaint in the database. Executes callback on completion.
+     * @param complaint
+     * @param callback
+     * @return
+     */
+    Future<Boolean> updateComplaint(MealerComplaint complaint, DatabaseSetCallback callback);
+
+    /**
+     * Update a complaint in the database.
+     * @param complaint
+     * @return
+     */
+    default Future<Boolean> updateComplaint(MealerComplaint complaint) {
+        return updateComplaint(complaint, null);
+    }
 
     /**
      * Update a {@link MealerMenu} stored in Database.
@@ -284,16 +222,6 @@ public interface DatabaseClient {
 
     /**
      * Delete a {@link MealerRecipe} stored in Database.
-     *
-     * @param id
-     * @return
-     */
-    default Future<Boolean> deleteRecipe(String id) {
-        return deleteRecipe(id, null);
-    }
-
-    /**
-     * Delete a {@link MealerRecipe} stored in Database.
      * Executes callback on completion.
      *
      * @param id
@@ -311,18 +239,6 @@ public interface DatabaseClient {
      * @return
      */
     Future<Boolean> deleteOrder(String id, DatabaseSetCallback callback);
-
-
-    /**
-     * Delete a {@link MealerComplaint} stored in Database.
-     * Executes callback on completion.
-     *
-     * @param id
-     * @return
-     */
-    default Future<Boolean> deleteComplaint(String id) {
-        return deleteComplaint(id, null);
-    }
 
     /**
      * Delete a {@link MealerComplaint} stored in Database.
@@ -344,34 +260,6 @@ public interface DatabaseClient {
      * @return
      */
     Future<Boolean> rejectOrder(MealerOrder order, Context context, DatabaseSetCallback callback);
-
-    /**
-     * Return true if sign in user's info needs to be updated
-     *
-     * @return
-     */
-    default Future<Boolean> userInfoRequired() {
-        return userInfoRequired(null);
-    }
-
-    /**
-     * Return true if sign in user's info needs to be updated
-     * Executes callback on completion.
-     *
-     * @return
-     */
-    Future<Boolean> userInfoRequired(DatabaseCompletionCallback<Boolean> callback);
-
-    /**
-     * Listen for a user's recipes
-     * @param activity
-     * @param userId
-     * @param callback
-     * @return
-     */
-    default DatabaseListener listenForUserRecipes(Activity activity, String userId, DatabaseCompletionCallback<List<MealerRecipe>> callback) {
-        return listenForUserRecipes(activity, userId, false, callback);
-    }
 
     /**
      * Listen for a user's recipes.
@@ -420,22 +308,5 @@ public interface DatabaseClient {
      */
     default <T extends MealerSerializable> DatabaseListener listenForModels(Activity activity, String collectionId, Class<T> clazz, DatabaseCompletionCallback<List<T>> callback){
         return listenForModels(activity, collectionId, clazz, object -> object.limit(100), callback);
-    }
-
-    /**
-     * Update a complaint in the database. Executes callback on completion.
-     * @param complaint
-     * @param callback
-     * @return
-     */
-    Future<Boolean> updateComplaint(MealerComplaint complaint, DatabaseSetCallback callback);
-
-    /**
-     * Update a complaint in the database.
-     * @param complaint
-     * @return
-     */
-    default Future<Boolean> updateComplaint(MealerComplaint complaint) {
-        return updateComplaint(complaint, null);
     }
 }

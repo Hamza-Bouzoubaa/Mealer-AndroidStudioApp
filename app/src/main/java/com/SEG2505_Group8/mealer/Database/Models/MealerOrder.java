@@ -40,12 +40,6 @@ public class MealerOrder implements MealerSerializable {
     @MealerSerializableElement(key = "recipeId")
     String recipeId;
 
-    /**
-     * Timestamp for order creation
-     */
-    @MealerSerializableElement(key = "timestamp")
-    String timestamp;
-
     @Override
     public String getId() {
         return id;
