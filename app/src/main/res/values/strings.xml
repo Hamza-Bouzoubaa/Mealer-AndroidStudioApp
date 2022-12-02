@@ -12,7 +12,7 @@
     <string name="recipe_form_title">New Recipe</string>
 
     <!-- Other -->
-    <string name="welcome_text">First steps with Mealer</string>
+    <string name="welcome_text">Great food awaits… or potentially cursed…</string>
     <string name="displayUser">Something went wrong displaying this text</string>
     <string name="filters">filters</string>
     <string name="filter_offered">Offered</string>
