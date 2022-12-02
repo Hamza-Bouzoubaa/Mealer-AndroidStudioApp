@@ -191,9 +191,7 @@ public class HomeActivity extends AppCompatActivity {
             if (user.getRole().equals(MealerRole.USER)) {
                 findViewById(R.id.home_bottom_navigation_fab).setVisibility(View.GONE);
                 CoordinatorLayout coordinatorLayout = findViewById(R.id.coordinator);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                    coordinatorLayout.layout(0,0,0,0);
-                }
+                coordinatorLayout.layout(0,0,0,0);
             }
 
 
