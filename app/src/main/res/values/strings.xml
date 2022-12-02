@@ -18,6 +18,7 @@
     <string name="filter_offered">Offered</string>
 
     <string name="chef_choose">Chef</string>
+    <string name="user_choose">User</string>
 
     <!-- Actions -->
     <string name="action_submit">SUBMIT</string>

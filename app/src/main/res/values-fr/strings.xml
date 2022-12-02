@@ -16,6 +16,7 @@
     <string name="filter_offered">Proposé</string>
 
     <string name="chef_choose">Chef</string>
+    <string name="user_choose">Client</string>
 
     <!-- Actions -->
     <string name="action_submit">Soumettre</string>
