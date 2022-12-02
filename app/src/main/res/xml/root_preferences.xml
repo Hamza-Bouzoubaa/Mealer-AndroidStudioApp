@@ -21,16 +21,18 @@
             app:key="address"
             app:title="@string/form_address"
             app:useSimpleSummaryProvider="true" />
+
         <EditTextPreference
             app:key="role"
             app:title="@string/form_role"
-            app:useSimpleSummaryProvider="true" />
+            app:enabled="false"
+            app:shouldDisableView="false"
+            app:useSimpleSummaryProvider="true"/>
 
         <Preference
             app:key="sign_out"
             app:title="@string/action_sign_out"
-            app:useSimpleSummaryProvider="true"
-            app:allowDividerAbove="true"/>
+            app:useSimpleSummaryProvider="true"/>
 
     </PreferenceCategory>
 
