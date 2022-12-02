@@ -15,6 +15,7 @@ import com.SEG2505_Group8.mealer.Database.Models.MealerComplaint;
 import com.SEG2505_Group8.mealer.Database.Models.MealerOrder;
 import com.SEG2505_Group8.mealer.Database.Models.MealerOrderStatus;
 import com.SEG2505_Group8.mealer.Database.Models.MealerOrderStatusUtils;
+import com.SEG2505_Group8.mealer.Database.Models.MealerRole;
 import com.SEG2505_Group8.mealer.Database.Utils.DatabaseListener;
 import com.SEG2505_Group8.mealer.R;
 import com.SEG2505_Group8.mealer.Services;
@@ -23,6 +24,7 @@ import com.SEG2505_Group8.mealer.UI.Adapters.OrderRecyclerViewAdapter;
 import com.SEG2505_Group8.mealer.UI.Adapters.RecipeRecyclerViewAdapter;
 import com.google.android.material.chip.Chip;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.Query;
 
 /**
  * A fragment representing a list of Items.
@@ -110,15 +112,20 @@ public class OrderListFragment extends Fragment {
             listener.remove();
         }
 
-        listener = Services.getDatabaseClient().listenForModels(getActivity(), "orders", MealerOrder.class, reference -> {
-            if (showResolved) {
-                return reference.limit(100);
-            } else {
-                return reference.whereNotIn("status", MealerOrderStatusUtils.getHiddenOrderStatus());
-            }
-        }, orders -> {
-            // Give updated orders to adapter
-            ((RecyclerView)orderView).setAdapter(new OrderRecyclerViewAdapter(orders));
+        Services.getDatabaseClient().getUser(u -> {
+            listener = Services.getDatabaseClient().listenForModels(getActivity(), "orders", MealerOrder.class, reference -> {
+
+                Query q = reference.whereEqualTo(u.getRole().equals(MealerRole.CHEF) ? "chefId" : "clientId", u.getId());
+
+                if (!showResolved) {
+                   q = q.whereNotIn("status", MealerOrderStatusUtils.getHiddenOrderStatus());
+                }
+
+                return q.limit(100);
+            }, orders -> {
+                // Give updated orders to adapter
+                ((RecyclerView)orderView).setAdapter(new OrderRecyclerViewAdapter(orders));
+            });
         });
     }
 }
