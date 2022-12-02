@@ -303,6 +303,17 @@ public interface DatabaseClient {
     Future<Boolean> deleteRecipe(String id, DatabaseSetCallback callback);
 
     /**
+     * Delete a {@link MealerOrder} stored in Database.
+     * Executes callback on completion.
+     *
+     * @param id
+     * @param callback
+     * @return
+     */
+    Future<Boolean> deleteOrder(String id, DatabaseSetCallback callback);
+
+
+    /**
      * Delete a {@link MealerComplaint} stored in Database.
      * Executes callback on completion.
      *

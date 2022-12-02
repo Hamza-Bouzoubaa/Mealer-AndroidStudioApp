@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -182,6 +183,10 @@ public class HomeActivity extends AppCompatActivity {
                         adapter.add(orderListFragment);
                         break;
                 }
+            }
+
+            if (user.getRole().equals(MealerRole.USER)) {
+                findViewById(R.id.home_bottom_navigation_fab).setVisibility(View.GONE);
             }
 
 

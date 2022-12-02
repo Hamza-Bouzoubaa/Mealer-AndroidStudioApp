@@ -10,9 +10,12 @@ import android.widget.Toast;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.SEG2505_Group8.mealer.Database.Models.MealerOrder;
+import com.SEG2505_Group8.mealer.Database.Models.MealerOrderStatus;
+import com.SEG2505_Group8.mealer.R;
 import com.SEG2505_Group8.mealer.Services;
 import com.SEG2505_Group8.mealer.UI.Activities.OrderPageActivity;
 import com.SEG2505_Group8.mealer.databinding.FragmentOrderItemBinding;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
 
@@ -45,16 +48,36 @@ public class OrderRecyclerViewAdapter extends RecyclerView.Adapter<OrderRecycler
             i.putExtra("orderId", holder.mItem.getId());
             view.getContext().startActivity(i);
         });
+
+        if (holder.mItem.getStatus().equals(MealerOrderStatus.REJECTED)) {
+            holder.rejectButton.setText(R.string.delete);
+        }
+
+        if (holder.mItem.getClientId().equals(FirebaseAuth.getInstance().getUid())) {
+            holder.rejectButton.setText(R.string.cancel);
+        }
+
         holder.rejectButton.setOnClickListener(v -> {
 
-            Services.getDatabaseClient().rejectOrder(holder.mItem, v.getContext(), isSuccessful -> {
-                if (isSuccessful) {
-                    Toast.makeText(v.getContext(), "Order rejected", Toast.LENGTH_SHORT).show();
-                    mValues.remove(position);
-                    notifyItemRemoved(position);
-                    notifyItemChanged(position, mValues.size());
-                }
-            });
+            if (holder.mItem.getStatus().equals(MealerOrderStatus.REJECTED)) {
+                Services.getDatabaseClient().deleteOrder(holder.mItem.getId(), isSuccessful -> {
+                    if (isSuccessful) {
+                        Toast.makeText(v.getContext(), "Order deleted", Toast.LENGTH_SHORT).show();
+                        mValues.remove(position);
+                        notifyItemRemoved(position);
+                        notifyItemChanged(position, mValues.size());
+                    }
+                });
+            } else {
+                Services.getDatabaseClient().rejectOrder(holder.mItem, v.getContext(), isSuccessful -> {
+                    if (isSuccessful) {
+                        Toast.makeText(v.getContext(), "Order rejected", Toast.LENGTH_SHORT).show();
+                        mValues.remove(position);
+                        notifyItemRemoved(position);
+                        notifyItemChanged(position, mValues.size());
+                    }
+                });
+            }
         });
     }
 

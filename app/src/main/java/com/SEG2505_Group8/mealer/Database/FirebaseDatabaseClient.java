@@ -174,6 +174,11 @@ public class FirebaseDatabaseClient implements DatabaseClient {
     }
 
     @Override
+    public Future<Boolean> deleteOrder(String id, DatabaseSetCallback callback) {
+        return deleteModel(orderCollectionId, id, callback);
+    }
+
+    @Override
     public Future<Boolean> deleteComplaint(String id, DatabaseSetCallback callback) {
         return deleteModel(complaintCollectionId, id, callback);
     }

@@ -96,4 +96,5 @@
 
     <string name="search_for_food">Search food or restaurants</string>
     <string name="chef_profile">Chef profile</string>
+    <string name="cancel">Cancel</string>
 </resources>
