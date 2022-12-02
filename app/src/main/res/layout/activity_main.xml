@@ -50,13 +50,8 @@
         android:layout_marginStart="15dp"
         android:layout_marginTop="600dp"
         android:layout_marginEnd="15dp"
-<<<<<<< HEAD
-        android:text="@string/continue_text"
-=======
-        android:layout_marginBottom="30dp"
         android:text="@string/action_continue"
-        style="@style/CallToAction"
->>>>>>> a6c5549ca0aa5a9d82ed84a5b7ec76165983e2c4
+        android:layout_marginBottom="30dp"
         app:cornerRadius="@dimen/rounded_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
