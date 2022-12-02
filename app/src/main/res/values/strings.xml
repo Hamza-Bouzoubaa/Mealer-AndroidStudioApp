@@ -17,6 +17,8 @@
     <string name="filters">filters</string>
     <string name="filter_offered">Offered</string>
 
+    <string name="chef_choose">Chef</string>
+
     <!-- Actions -->
     <string name="action_submit">SUBMIT</string>
     <string name="action_view">View</string>

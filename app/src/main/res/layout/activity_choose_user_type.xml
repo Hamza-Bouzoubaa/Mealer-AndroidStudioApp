@@ -38,11 +38,11 @@
 
     <TextView
         android:id="@+id/chefImage"
-        android:layout_width="58dp"
-        android:layout_height="44dp"
+        android:layout_width="106dp"
+        android:layout_height="41dp"
         android:layout_marginStart="15dp"
         android:autoSizeTextType="uniform"
-        android:text="Chef"
+        android:text="@string/chef_choose"
         android:textAlignment="center"
         android:textColor="#000000"
         android:textStyle="italic"
