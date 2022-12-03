@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/primary"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="634dp"
+        android:layout_height="906dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="132dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/foods" />
     <TextView
         android:id="@+id/sign_in_header"
         android:layout_width="wrap_content"
@@ -13,6 +24,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:textColor="#000000"
         android:text="@string/sign_in_title" />
 
     <EditText
@@ -27,6 +39,7 @@
         app:layout_constraintTop_toBottomOf="@id/sign_in_header"
         android:inputType="textEmailAddress"
         android:imeOptions="actionGo"
+
         android:hint="@string/form_email" />
 
     <Button
@@ -45,7 +58,7 @@
         android:layout_width="0dp"
         android:layout_height="2dp"
         android:layout_marginStart="2dp"
-        android:background="#90909090"
+        android:background="#000000"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="@id/seperator_text"
         app:layout_constraintEnd_toEndOf="@id/sign_in_email_field"
@@ -54,10 +67,11 @@
 
     <TextView
         android:id="@+id/seperator_text"
-        android:layout_width="20dp"
+        android:layout_width="30dp"
         android:layout_height="20dp"
         android:layout_marginTop="20dp"
         android:autoSizeTextType="uniform"
+        android:textColor="#000000"
         android:text="@string/logic_or"
         android:textAlignment="center"
         app:layout_constraintBottom_toTopOf="@id/placeholderButton"
@@ -69,7 +83,7 @@
         android:layout_width="0dp"
         android:layout_height="2dp"
         android:layout_marginEnd="2dp"
-        android:background="#90909090"
+        android:background="#000000"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="@id/seperator_text"
         app:layout_constraintEnd_toStartOf="@id/seperator_text"
@@ -101,6 +115,8 @@
         app:layout_constraintEnd_toEndOf="@id/sign_in_email_field"
         app:layout_constraintStart_toStartOf="@id/sign_in_email_field"
         app:layout_constraintTop_toBottomOf="@id/placeholderButton" />
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
