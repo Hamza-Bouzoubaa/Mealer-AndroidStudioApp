@@ -20,7 +20,7 @@
         android:padding="4dp"
         app:queryHint="@string/action_search"
         app:iconifiedByDefault="false"
-        android:background="@color/primary"/>
+        android:background="@drawable/rect"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recommendation_list"
