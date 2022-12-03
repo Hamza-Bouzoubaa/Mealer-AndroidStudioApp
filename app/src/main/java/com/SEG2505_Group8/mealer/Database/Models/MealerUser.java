@@ -191,7 +191,6 @@ public class MealerUser implements MealerSerializable {
 
     private static Map<MealerRole, List<Integer>> availableViews = new HashMap<MealerRole, List<Integer>>() {{
         List<Integer> adminViews = new ArrayList<>();
-        adminViews.add(R.id.bottom_navigation_menu_page_recommendations);
         adminViews.add(R.id.bottom_navigation_menu_page_complaints);
         adminViews.add(R.id.bottom_navigation_menu_page_settings);
 

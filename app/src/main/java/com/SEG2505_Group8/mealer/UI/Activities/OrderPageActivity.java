@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -167,7 +168,10 @@ public class OrderPageActivity extends AppCompatActivity {
 
             if (order.getClientId() != null && FirebaseAuth.getInstance().getUid() != null) {
                 complaintButton.setVisibility(FirebaseAuth.getInstance().getUid().equals(order.getClientId()) ? View.VISIBLE : View.GONE);
+                LinearLayout linear = findViewById(R.id.order_status_stars);
+                linear.setVisibility(FirebaseAuth.getInstance().getUid().equals(order.getClientId()) ? View.VISIBLE : View.GONE);
             }
+
         });
     }
 
