@@ -60,69 +60,17 @@ public class RecipeFormActivity extends AppCompatActivity {
         category = findViewById(R.id.recipe_form_categories);
 
         category.setOnEditorActionListener((v, actionId, event) -> {
-
-            // If triggered by an enter key, this is the event; otherwise, this is null.
-            if (event != null) {
-                // if shift key is down, then we want to insert the '\n' char in the TextView;
-                // otherwise, the default action is to send the message.
-                if (!event.isShiftPressed()) {
-                    if (!category.getText().toString().equals("")) {
-                        Chip chip = new Chip(this);
-
-                        chip.setOnClickListener(c -> {
-                            categories.removeView(c);
-                        });
-
-                        chip.setText(category.getText().toString());
-                        chip.setCloseIconVisible(true);
-
-                        categories.addView(chip);
-                        category.setText("");
-                        category.setError(null);
-                    }
-                    return true;
-                }
-
-                if (!category.getText().toString().equals("")) {
-                    Chip chip = new Chip(this);
-
-                    chip.setOnClickListener(c -> {
-                        categories.removeView(c);
-                    });
-
-                    chip.setText(category.getText().toString());
-                    chip.setCloseIconVisible(true);
-
-                    categories.addView(chip);
-                    category.setText("");
-                    category.setError(null);
-                }
-
+            if (actionId == EditorInfo.IME_ACTION_NEXT || actionId == EditorInfo.IME_ACTION_UNSPECIFIED) {
+                pressSubmit(category, categories);
                 return true;
             }
-
             return false;
         });
 
         ingredient = findViewById(R.id.recipe_form_ingredients);
         ingredient.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_NEXT || actionId == EditorInfo.IME_ACTION_UNSPECIFIED) {
-
-                if (!ingredient.getText().toString().equals("")) {
-                    Chip chip = new Chip(this);
-
-                    chip.setOnClickListener(c -> {
-                        ingredients.removeView(c);
-                    });
-
-                    chip.setText(ingredient.getText().toString());
-                    chip.setCloseIconVisible(true);
-
-                    ingredients.addView(chip);
-                    ingredient.setText("");
-                    ingredient.setError(null);
-                }
-
+                pressSubmit(ingredient, ingredients);
                 return true;
             }
             return false;
@@ -131,22 +79,7 @@ public class RecipeFormActivity extends AppCompatActivity {
         allergen = findViewById(R.id.recipe_form_allergens);
         allergen.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_NEXT || actionId == EditorInfo.IME_ACTION_UNSPECIFIED) {
-
-                if (!allergen.getText().toString().equals("")) {
-                    Chip chip = new Chip(this);
-
-                    chip.setOnClickListener(c -> {
-                        allergens.removeView(c);
-                    });
-
-                    chip.setText(allergen.getText().toString());
-                    chip.setCloseIconVisible(true);
-
-                    allergens.addView(chip);
-                    allergen.setText("");
-                    allergen.setError(null);
-                }
-
+                pressSubmit(allergen, allergens);
                 return true;
             }
             return false;
@@ -158,6 +91,22 @@ public class RecipeFormActivity extends AppCompatActivity {
         categories = findViewById(R.id.recipe_form_category_chips);
         ingredients = findViewById(R.id.recipe_form_ingredient_chips);
         allergens = findViewById(R.id.recipe_form_allergen_chips);
+
+        Button sCategory = findViewById(R.id.recipe_form_submit_category);
+        Button sAllergen = findViewById(R.id.recipe_form_submit_allergen);
+        Button sIngredient = findViewById(R.id.recipe_form_submit_ingredient);
+
+        sCategory.setOnClickListener(v -> {
+            pressSubmit(category, categories);
+        });
+
+        sAllergen.setOnClickListener(v -> {
+            pressSubmit(allergen, allergens);
+        });
+
+        sIngredient.setOnClickListener(v -> {
+            pressSubmit(ingredient, ingredients);
+        });
 
         submitButton = findViewById(R.id.recipe_form_submit_button);
         submitButton.setOnClickListener(view -> {
@@ -189,5 +138,22 @@ public class RecipeFormActivity extends AppCompatActivity {
     private boolean validateFields() {
         // TODO: Price must be numeric
         return validator.required(name) && validator.required(course) && validator.required(categories, category) && validator.required(ingredients, ingredient) && validator.required(price) && validator.requireFloat(price) && validator.required(description);
+    }
+
+    private void pressSubmit(EditText edit, ChipGroup group) {
+        if (!edit.getText().toString().equals("")) {
+            Chip chip = new Chip(this);
+
+            chip.setOnClickListener(c -> {
+                group.removeView(c);
+            });
+
+            chip.setText(edit.getText().toString());
+            chip.setCloseIconVisible(true);
+
+            group.addView(chip);
+            edit.setText("");
+            edit.setError(null);
+        }
     }
 }
