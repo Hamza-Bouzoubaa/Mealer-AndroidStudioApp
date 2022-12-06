@@ -13,7 +13,9 @@ import com.SEG2505_Group8.mealer.Database.Models.MealerMenu;
 import com.SEG2505_Group8.mealer.Database.Models.MealerRecipe;
 import com.SEG2505_Group8.mealer.Database.Models.MealerUser;
 import com.SEG2505_Group8.mealer.Database.Serialize.MealerSerializable;
+import com.google.common.util.concurrent.SettableFuture;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Future;
 
@@ -130,7 +132,30 @@ public interface DatabaseClient {
      * @return
      */
     default Future<List<MealerRecipe>> searchRecipesByName(String name, int limit, DatabaseCompletionCallback<List<MealerRecipe>> callback) {
-        return searchRecipes(limit, reference -> reference.whereEqualTo("isOffered", true).whereGreaterThanOrEqualTo("name", name).whereLessThanOrEqualTo("name", name + '\uF7FF'), callback);
+
+        SettableFuture<List<MealerRecipe>> future = SettableFuture.create();
+        searchRecipes(limit, reference -> reference.whereEqualTo("isOffered", true).whereGreaterThanOrEqualTo("name", name).whereLessThanOrEqualTo("name", name + '\uF7FF'), recipes -> {
+            int size = recipes.size();
+
+            List<MealerRecipe> validRecipes = new ArrayList<>();
+            List<Void> suspended = new ArrayList<>();
+
+            for (MealerRecipe recipe : recipes) {
+                 getUser(recipe.getChefId(), user -> {
+                    if (!user.getIsSuspended()) {
+                        validRecipes.add(recipe);
+                    } else {
+                        suspended.add(null);
+                    }
+
+                    if (validRecipes.size() + suspended.size() >= size) {
+                        future.set(validRecipes);
+                    }
+                });
+            }
+        });
+
+        return future;
     }
 
     Future<List<MealerRecipe>> searchRecipes(int limit, DatabaseFilterCallback filter, DatabaseCompletionCallback<List<MealerRecipe>> callback);
@@ -213,8 +238,6 @@ public interface DatabaseClient {
 
     /**
      * Create a {@link MealerOrder} for a specific {@link MealerRecipe}
-     * @param menuId
-     * @param recipeId
      * @param callback
      * @return
      */

@@ -50,8 +50,15 @@ public class FirebaseDatabaseClient implements DatabaseClient {
 
     @Override
     public <T extends MealerUser> Future<T> getUser(String id, Class<T> clazz, DatabaseCompletionCallback<T> callback) throws NullPointerException {
-        if (id == null || id.isEmpty()) {
-            id = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
+
+        try {
+            if (id == null || id.isEmpty()) {
+                id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            }
+        } catch (NullPointerException e) {
+            SettableFuture<T> f = SettableFuture.create();
+            f.set(null);
+            return f;
         }
 
         return getModel(userCollectionId, id, clazz, callback);
