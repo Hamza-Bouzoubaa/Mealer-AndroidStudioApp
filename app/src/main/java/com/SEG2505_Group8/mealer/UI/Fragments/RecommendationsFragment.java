@@ -114,7 +114,10 @@ public class RecommendationsFragment extends Fragment {
 
         // Listen for orders from Database
         listener = Services.getDatabaseClient().listenForModels(getActivity(), "recipes", MealerRecipe.class, reference -> reference.whereEqualTo("isOffered", true).limit(10), recipes -> {
-            results.setAdapter(new RecommendationRecyclerViewAdapter(recipes));
+
+            Services.getDatabaseClient().searchRecipesByName("", 10, r -> {
+                results.setAdapter(new RecommendationRecyclerViewAdapter(r));
+            });
         });
     }
 }

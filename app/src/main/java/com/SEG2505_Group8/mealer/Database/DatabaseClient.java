@@ -149,6 +149,7 @@ public interface DatabaseClient {
                     }
 
                     if (validRecipes.size() + suspended.size() >= size) {
+                        callback.onComplete(validRecipes);
                         future.set(validRecipes);
                     }
                 });
